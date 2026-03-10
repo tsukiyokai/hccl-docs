@@ -1,6 +1,7 @@
 # 编程模型设计原理-概念原理和术语-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_00015
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00015.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00015.html
 ---
 
 # 编程模型设计原理

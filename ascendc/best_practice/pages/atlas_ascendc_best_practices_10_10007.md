@@ -1,6 +1,7 @@
 # Matmul高阶API使能MTE2 Preload-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10007
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10007.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10007.html
 ---
 
 # Matmul高阶API使能MTE2 Preload
@@ -15,10 +16,10 @@
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 128, 512 | float16 | ND |
-| b | 512, 24576 | float16 | ND |
+| 输入 | Shape      | Data type | Format |
+| ---- | ---------- | --------- | ------ |
+| a    | 128, 512   | float16   | ND     |
+| b    | 512, 24576 | float16   | ND     |
 
 当前案例使用的AI处理器共24个核，算子中使能高阶API Matmul的纯Cube模式。使用MDL模板，Tiling参数如下：
 
@@ -41,7 +42,7 @@
 使能MTE2 Preload功能：在创建Matmul对象时，开启doMTE2Preload开关。使能MTE2 Preload的完整样例请参考M/N方向预加载Matmul算子样例。具体步骤如下：
 
 1. 配置MDL模板参数，将其中的doMTE2Preload参数设置为2，使能N方向Preload功能。12// preloadMode = 2staticconstexprMatmulConfigMM_CFG=GetMDLConfig(false,false,preloadMode);
-1. 基于自定义MatmulConfig模板参数，创建Matmul对象。1234AscendC::Matmul<AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,aType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,bType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,cType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,biasType>,MM_CFG>matmulObj;
+1. 基于自定义MatmulConfig模板参数，创建Matmul对象。1234AscendC:Matmul<AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,aType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,bType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,cType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,biasType>,MM_CFG>matmulObj;
 
 #### 验证优化方案性能收益
 

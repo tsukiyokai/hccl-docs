@@ -1,6 +1,7 @@
 # Matmul高阶API使能Tiling全量常量化-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10011
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10011.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10011.html
 ---
 
 # Matmul高阶API使能Tiling全量常量化
@@ -10,14 +11,14 @@
 本案例呈现了在使用Matmul高阶API进行矩阵乘法计算时，使能Matmul Tiling全量常量化对算子性能的提升效果。Matmul API在初始化和迭代过程中有大量Scalar计算，Matmul初始化时的Scalar计算影响指令头开销，Matmul迭代间的Scalar计算可能阻塞MTE2流水。在调用Matmul API实现矩阵乘法时，使用MatmulApiStaticTiling参数替代TCubeTiling变量参数，将Scalar计算提前到编译期进行，以减少运行时的Scalar计算开销，实现算子性能的提升。
 
 - Matmul Tiling常量化的适用场景：Matmul初始化时的Scalar计算较多，影响指令头开销。Matmul迭代之间的Scalar计算较多，阻塞MTE2流水。
-- Matmul Tiling常量化需要在编译期确定部分Tiling参数，根据确定参数的不同，分为全量常量化和部分常量化两种场景，使用Matmul Tiling常量化需要满足两种场景中任一场景的条件：全量常量化：能够确定常量singleCore Shape（singleCoreM/singleCoreN/singleCoreK）和常量base Shape（basicM/basicN/basicK，也称baseM/baseN/baseK）。部分常量化：能够确定常量base Shape（basicM/basicN/basicK，也称baseM/baseN/baseK）。其中，全量常量化场景比部分常量化场景可以减少更多的Scalar计算开销。
+- Matmul Tiling常量化需要在编译期确定部分Tiling参数，根据确定参数的不同，分为全量常量化和部分常量化两种场景，使用Matmul Tiling常量化需要满足两种场景中任一场景的条件：全量常量化：能够确定常量singleCore Shape(singleCoreM/singleCoreN/singleCoreK)和常量base Shape（basicM/basicN/basicK，也称baseM/baseN/baseK）。部分常量化：能够确定常量base Shape（basicM/basicN/basicK，也称baseM/baseN/baseK）。其中，全量常量化场景比部分常量化场景可以减少更多的Scalar计算开销。
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 128, 64 | float16 | ND |
-| b | 64, 30720 | float16 | ND |
+| 输入 | Shape     | Data type | Format |
+| ---- | --------- | --------- | ------ |
+| a    | 128, 64   | float16   | ND     |
+| b    | 64, 30720 | float16   | ND     |
 
 当前案例使用的AI处理器共24个核，每个核中包含1个AIC核和2个AIV核。
 
@@ -50,8 +51,8 @@ Tiling参数如下：
 
 Matmul API使能Tiling全量常量化的完整样例请参考Matmul Tiling常量化的算子样例。使能Tiling全量常量化功能的步骤如下：
 
-1. 调用获取MatmulConfig模板的接口GetMMConfig时，使用常数值设置MatmulShapeParams，得到带有常量化参数的自定义MatmulConfig模板CUSTOM_CFG。12345678910111213constexprint32_tMAX_M=10000;// custom matmul kernel support max value of M Dim shapeconstexprint32_tMAX_N=10000;// custom matmul kernel support max value of N Dim shapeconstexprint32_tMAX_K=10000;// custom matmul kernel support max value of K Dim shapeconstexprint32_tBASE_M=128;// BASE_M * BASE_K * sizeof(typeA) <=L0A sizeconstexprint32_tBASE_N=256;// BASE_N * BASE_K * sizeof(typeB) <=L0B sizeconstexprint32_tBASE_K=64;// BASE_M * BASE_N * sizeof(typeC) <=L0C sizeconstexprMatmulShapeParamsshapeParams={MAX_M,MAX_N,MAX_K,BASE_M,BASE_N,BASE_K};constexprMatmulConfigCUSTOM_CFG=GetMMConfig<MatmulConfigMode::CONFIG_MDL>(shapeParams);
-1. 创建Matmul对象。首先调用GetMatmulApiTiling接口，将Tiling信息常量化，得到常量化模板参数CONSTANT_CFG，包括常量化的Matmul Tiling信息和MatmulConfig模板。创建Matmul对象时，使用常量化模板参数CONSTANT_CFG。123456usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,aType>;usingB_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,bType>;usingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,cType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,biasType>;constexprstaticautoCONSTANT_CFG=AscendC::GetMatmulApiTiling<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE>(CUSTOM_CFG);AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CONSTANT_CFG>matmulObj;
+1. 调用获取MatmulConfig模板的接口GetMMConfig时，使用常数值设置MatmulShapeParams，得到带有常量化参数的自定义MatmulConfig模板CUSTOM_CFG。12345678910111213constexprint32_tMAX_M=10000;// custom matmul kernel support max value of M Dim shapeconstexprint32_tMAX_N=10000;// custom matmul kernel support max value of N Dim shapeconstexprint32_tMAX_K=10000;// custom matmul kernel support max value of K Dim shapeconstexprint32_tBASE_M=128;// BASE_M * BASE_K * sizeof(typeA) <=L0A sizeconstexprint32_tBASE_N=256;// BASE_N * BASE_K * sizeof(typeB) <=L0B sizeconstexprint32_tBASE_K=64;// BASE_M * BASE_N * sizeof(typeC) <=L0C sizeconstexprMatmulShapeParamsshapeParams={MAX_M,MAX_N,MAX_K,BASE_M,BASE_N,BASE_K};constexprMatmulConfigCUSTOM_CFG=GetMMConfig<MatmulConfigMode:CONFIG_MDL>(shapeParams);
+1. 创建Matmul对象。首先调用GetMatmulApiTiling接口，将Tiling信息常量化，得到常量化模板参数CONSTANT_CFG，包括常量化的Matmul Tiling信息和MatmulConfig模板。创建Matmul对象时，使用常量化模板参数CONSTANT_CFG。123456usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,aType>;usingB_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,bType>;usingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,cType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,biasType>;constexprstaticautoCONSTANT_CFG=AscendC:GetMatmulApiTiling<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE>(CUSTOM_CFG);AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CONSTANT_CFG>matmulObj;
 1. 初始化操作。全量常量化时，可以在REGIST_MATMUL_OBJ接口的入参传递Tiling参数的位置，使用空指针替代。部分常量化时，在Kernel侧使用REGIST_MATMUL_OBJ接口初始化Matmul对象时，仍需要使用Tiling。12345// 全量常量化场景，初始化操作示例REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),matmulObj,(TCubeTiling*)nullptr);// 部分常量化场景，初始化操作示例REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),matmulObj,&tiling);
 
 #### 验证优化方案性能收益

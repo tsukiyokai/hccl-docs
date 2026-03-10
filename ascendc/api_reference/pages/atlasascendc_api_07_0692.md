@@ -1,6 +1,7 @@
 # GetTiling-Matmul Tiling类-Matmul Tiling侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0692
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0692.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0692.html
 ---
 
 # GetTiling
@@ -11,17 +12,17 @@
 
 #### 函数原型
 
-| 1 | int64_tGetTiling(optiling::TCubeTiling&tiling) |
-| --- | --- |
+| 1   | int64_tGetTiling(optiling:TCubeTiling&tiling) |
+| --- | --------------------------------------------- |
 
-| 1 | int64_tGetTiling(AscendC::tiling::TCubeTiling&tiling) |
-| --- | --- |
+| 1   | int64_tGetTiling(AscendC:tiling:TCubeTiling&tiling) |
+| --- | --------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| tiling | 输出 | Tiling结构体存储最终的tiling结果。TCubeTiling结构介绍请参考表1。optiling::TCubeTiling：带有optiling命名空间的TCubeTiling结构体，该结构体为Host侧定义的Matmul TilingData。AscendC::tiling::TCubeTiling：带有AscendC::tiling命名空间的TCubeTiling结构体，Kernel侧定义的Matmul TilingData，与使用标准C++语法定义TilingData结构体的开发方式配合使用，具体请参考使用标准C++语法定义Tiling结构体。 |
+| 参数名 | 输入/输出 | 描述                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tiling | 输出      | Tiling结构体存储最终的tiling结果。TCubeTiling结构介绍请参考表1。optiling:TCubeTiling：带有optiling命名空间的TCubeTiling结构体，该结构体为Host侧定义的Matmul TilingData。AscendC:tiling:TCubeTiling：带有AscendC:tiling命名空间的TCubeTiling结构体，Kernel侧定义的Matmul TilingData，与使用标准C++语法定义TilingData结构体的开发方式配合使用，具体请参考使用标准C++语法定义Tiling结构体。 |
 
 #### 返回值说明
 
@@ -33,5 +34,5 @@
 
 #### 调用示例
 
-| 123456789101112 | autoascendcPlatform=platform_ascendc::PlatformAscendC(context->GetPlatformInfo());matmul_tiling::MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);tiling.SetBType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);tiling.SetCType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);tiling.SetBiasType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);tiling.SetShape(1024,1024,1024);tiling.SetOrgShape(1024,1024,1024);tiling.SetBias(true);tiling.SetBufferSpace(-1,-1,-1);optiling::TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);// 获取Tiling参数 |
-| --- | --- |
+| 123456789101112 | autoascendcPlatform=platform_ascendc:PlatformAscendC(context->GetPlatformInfo());matmul_tiling:MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);tiling.SetBType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);tiling.SetCType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);tiling.SetBiasType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);tiling.SetShape(1024,1024,1024);tiling.SetOrgShape(1024,1024,1024);tiling.SetBias(true);tiling.SetBufferSpace(-1,-1,-1);optiling:TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);// 获取Tiling参数 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,20 +1,21 @@
 # Sum-Sum接口-归约操作-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0825
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0825.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0825.html
 ---
 
 # Sum
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -26,7 +27,7 @@
 
 ![](../images/atlasascendc_api_07_0826_img_001.png)
 
-为计算如上过程，引入一些必备概念：行数称之为外轴长度（outter），每行实际的元素个数称之为内轴的实际元素个数（n），存储n个元素所需的字节长度向上补齐到32整数倍后转换的元素个数称之为补齐后的内轴元素个数(inner)。本接口要求输入的内轴长度为32字节的整数倍，所以当n占据的字节长度不是32的整数倍时，需要开发者将其向上补齐到32的整数倍。比如，如下的样例中，元素类型为half，每行的实际元素个数n为3，占据字节长度为6字节，不是32字节的整数倍，向上补齐后得到32字节，转换为元素个数为16。故outter = 2，n =3，inner=16。图中的padding代表补齐操作。n和inner的关系如下：inner = (n *sizeof(T) + 32 - 1) / 32 * 32 / sizeof(T)。
+为计算如上过程，引入一些必备概念：行数称之为外轴长度(outter)，每行实际的元素个数称之为内轴的实际元素个数(n)，存储n个元素所需的字节长度向上补齐到32整数倍后转换的元素个数称之为补齐后的内轴元素个数(inner)。本接口要求输入的内轴长度为32字节的整数倍，所以当n占据的字节长度不是32的整数倍时，需要开发者将其向上补齐到32的整数倍。比如，如下的样例中，元素类型为half，每行的实际元素个数n为3，占据字节长度为6字节，不是32字节的整数倍，向上补齐后得到32字节，转换为元素个数为16。故outter = 2，n =3，inner=16。图中的padding代表补齐操作。n和inner的关系如下：inner = (n *sizeof(T) + 32 - 1) / 32 * 32 / sizeof(T)。
 
 ![](../images/atlasascendc_api_07_0826_img_002.png)
 
@@ -45,20 +46,20 @@
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas 推理系列产品AI Core，支持的数据类型为：half、float。 |
-| reduceDim | 用于指定按数据的哪一维度进行求和。本接口按最后一个维度实现，不支持reduceDim参数，传入默认值-1即可。 |
-| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。 |
-| isBasicBlock | 预留参数，暂不支持。 |
+| 参数名        | 描述                                                                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T             | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas推理系列产品AI Core，支持的数据类型为：half、float。 |
+| reduceDim     | 用于指定按数据的哪一维度进行求和。本接口按最后一个维度实现，不支持reduceDim参数，传入默认值-1即可。                                                                                                                                 |
+| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。                                                                                                                                                                             |
+| isBasicBlock  | 预留参数，暂不支持。                                                                                                                                                                                                                |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dstTensor | 输出 | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。输出值需要outter * sizeof(T)大小的空间进行保存。开发者要根据该大小和框架的对齐要求来为dstTensor分配实际内存空间。说明：注意：遵循框架对内存开辟的要求（开辟内存的大小满足32Byte对齐），即outter * sizeof(T)不是32Byte对齐时，需要向上进行32Byte对齐。为了对齐而多开辟的内存空间不填值，为一些随机值。 |
-| srcTensor | 输入 | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。 |
-| sharedTmpBuffer | 输入 | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Sum内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetSumMaxMinTmpSize。 |
-| sumParams | 输入 | srcTensor的shape信息。SumParams类型，具体定义如下：12345structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数};sumParams.inner*sizeof(T)必须是32字节的整数倍。sumParams.inner是sumParams.n字节数转换后进而进行32的整数倍向上补齐的值，inner = (n *sizeof(T) + 32 - 1) / 32 * 32 / sizeof(T)，因此sumParams.n的大小应该满足：1 <= sumParams.n <= sumParams.inner。 | 12345 | structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数}; |
-| 12345 | structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数}; |
+| 参数名          | 输入/输出                                                                                                                                                                                     | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |       |                                                                                                                                                                                               |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dstTensor       | 输出                                                                                                                                                                                          | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。输出值需要outter * sizeof(T)大小的空间进行保存。开发者要根据该大小和框架的对齐要求来为dstTensor分配实际内存空间。说明：注意：遵循框架对内存开辟的要求（开辟内存的大小满足32Byte对齐），即outter * sizeof(T)不是32Byte对齐时，需要向上进行32Byte对齐。为了对齐而多开辟的内存空间不填值，为一些随机值。                                                                                                                             |       |                                                                                                                                                                                               |
+| srcTensor       | 输入                                                                                                                                                                                          | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。                                                                                                                                                                                                                                                                                                                                                                                        |       |                                                                                                                                                                                               |
+| sharedTmpBuffer | 输入                                                                                                                                                                                          | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Sum内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetSumMaxMinTmpSize。                                                                                                                                                                                                                                                                                                                        |       |                                                                                                                                                                                               |
+| sumParams       | 输入                                                                                                                                                                                          | srcTensor的shape信息。SumParams类型，具体定义如下：12345structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数};sumParams.inner*sizeof(T)必须是32字节的整数倍。sumParams.inner是sumParams.n字节数转换后进而进行32的整数倍向上补齐的值，inner = (n *sizeof(T) + 32 - 1) / 32 * 32 / sizeof(T)，因此sumParams.n的大小应该满足：1 <= sumParams.n <= sumParams.inner。 | 12345 | structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数}; |
+| 12345           | structSumParams{uint32_toutter=1;// 表示输入数据的外轴长度uint32_tinner;// 表示输入数据内轴的补齐后元素个数，inner*sizeof(T)必须是32字节的整数倍uint32_tn;// 表示输入数据内轴的实际元素个数}; |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |       |                                                                                                                                                                                               |
 
 #### 返回值说明
 
@@ -78,8 +79,8 @@
 
 完整的算子样例请参考Sum算子样例。
 
-| 1234567 | AscendC::SumParamsparams;params.inner=inner;params.outter=outter;params.n=n;Tscalar(0);AscendC::Duplicate<T>(yLocal,scalar,out_inner);AscendC::Sum(yLocal,xLocal,sharedTmpBuffer,params); |
-| --- | --- |
+| 1234567 | AscendC:SumParamsparams;params.inner=inner;params.outter=outter;params.n=n;Tscalar(0);AscendC:Duplicate<T>(yLocal,scalar,out_inner);AscendC:Sum(yLocal,xLocal,sharedTmpBuffer,params); |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 | 123 | 输入数据srcLocal:[[1230000000000000],[4560000000000000]]输出数据dstLocal:[61500000000000000] |
-| --- | --- |
+| --- | -------------------------------------------------------------------------------------------- |

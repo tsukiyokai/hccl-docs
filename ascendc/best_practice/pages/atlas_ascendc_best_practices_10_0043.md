@@ -1,6 +1,7 @@
 # MC²算子性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_0043
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0043.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0043.html
 ---
 
 # MC²算子性能调优案例
@@ -26,7 +27,7 @@ MC2算子性能收益公式为：
 
 融合前算子串行耗时 = 融合前计算算子耗时 + 融合前通信算子耗时
 
-MC2算子收益 = (融合前算子串行耗时 - 融合后MC2算子耗时) / 融合前算子串行耗时
+MC2算子收益 = （融合前算子串行耗时 - 融合后MC2算子耗时） / 融合前算子串行耗时
 
 融合后MC2算子的执行耗时，受以下因素制约，从而影响算子性能收益。
 
@@ -37,7 +38,7 @@ MC2算子收益 = (融合前算子串行耗时 - 融合后MC2算子耗时) / 融
 
 #### 设计优化方案
 
-以Atlas A2 训练系列产品/Atlas A2 推理系列产品，输入数据格式为ND、数据类型为half的MatmulAllReduce算子为例，该算子中计算执行在前，通信任务执行在后。假定Matmul计算中左矩阵的形状为[M, K]，右矩阵的形状为[K, N]，算子中的通信对象为Matmul的输出矩阵，则通信任务的输入shape为[M, N]。因为K轴只在Matmul计算中存在，当K轴较大时，计算量大，计算执行时间大于通信执行时间，此时计算为算子的瓶颈（bound）；反之，当K轴较小时，计算量小，计算执行时间小于通信执行时间，此时通信为算子的瓶颈。在制定数据切分策略前，对原始矩阵分别执行计算和通信任务，根据两个任务的执行时间判定bound场景。
+以Atlas A2 训练系列产品/Atlas A2 推理系列产品，输入数据格式为ND、数据类型为half的MatmulAllReduce算子为例，该算子中计算执行在前，通信任务执行在后。假定Matmul计算中左矩阵的形状为[M, K]，右矩阵的形状为[K, N]，算子中的通信对象为Matmul的输出矩阵，则通信任务的输入shape为[M, N]。因为K轴只在Matmul计算中存在，当K轴较大时，计算量大，计算执行时间大于通信执行时间，此时计算为算子的瓶颈(bound)；反之，当K轴较小时，计算量小，计算执行时间小于通信执行时间，此时通信为算子的瓶颈。在制定数据切分策略前，对原始矩阵分别执行计算和通信任务，根据两个任务的执行时间判定bound场景。
 
 该算子的数据切分策略应满足如下要求：
 

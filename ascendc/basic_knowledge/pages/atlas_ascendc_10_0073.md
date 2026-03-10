@@ -1,6 +1,7 @@
 # CPU域孪生调试-功能调试-调试调优-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_0073
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0073.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0073.html
 ---
 
 # CPU域孪生调试
@@ -19,7 +20,7 @@
 
 - Atlas A3 训练系列产品/Atlas A3 推理系列产品
 - Atlas A2 训练系列产品/Atlas A2 推理系列产品
-- Atlas 推理系列产品
+- Atlas推理系列产品
 
 如果通过<<<>>>调用核函数，则需要使用单独的调测接口进行内存分配等操作，并对CPU域和NPU域的代码进行宏隔离。
 
@@ -38,7 +39,7 @@
 
 #### gdb调试
 
-可使用gdb单步调试算子计算精度。由于cpu调测已转为多进程调试，每个核都会拉起独立的子进程，故gdb需要转换成子进程调试的方式。针对Atlas 推理系列产品、Atlas 训练系列产品，每个核会拉起1个子进程。针对Atlas A2 训练系列产品/Atlas A2 推理系列产品，每个核会拉起3个子进程，1个Cube，2个Vector。
+可使用gdb单步调试算子计算精度。由于cpu调测已转为多进程调试，每个核都会拉起独立的子进程，故gdb需要转换成子进程调试的方式。针对Atlas推理系列产品、Atlas训练系列产品，每个核会拉起1个子进程。针对Atlas A2 训练系列产品/Atlas A2 推理系列产品，每个核会拉起3个子进程，1个Cube，2个Vector。
 
 - 调试单独一个子进程启动gdb，示例中的add_custom_cpu为CPU域的算子可执行文件，参考修改并执行一键式编译运行脚本，将一键式编译运行脚本中的run-mode设置成cpu，即可编译生成CPU域的算子可执行文件。gdb启动后，首先设置跟踪子进程，之后再打断点，就会停留在子进程中，但是这种方式只会停留在遇到断点的第一个子进程中，其余子进程和主进程会继续执行直到退出。涉及到核间同步的算子无法使用这种方法进行调试。gdb --args add_custom_cpu  // 启动gdb，add_custom_cpu为算子可执行文件
 (gdb) set follow-fork-mode child
@@ -48,5 +49,5 @@
 
 #### 使用printf打印命令打印
 
-| 12 | printf("xLocal size: %d\n",xLocal.GetSize());printf("tileLength: %d\n",tileLength); |
-| --- | --- |
+| 12  | printf("xLocal size: %d\n",xLocal.GetSize());printf("tileLength: %d\n",tileLength); |
+| --- | ----------------------------------------------------------------------------------- |

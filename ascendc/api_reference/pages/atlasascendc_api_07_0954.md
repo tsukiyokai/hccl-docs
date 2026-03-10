@@ -1,6 +1,7 @@
 # MC2-OpDef-原型注册与管理-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0954
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0954.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0954.html
 ---
 
 # MC2
@@ -11,8 +12,8 @@
 
 #### 函数原型
 
-| 1 | OpMC2Def&MC2(void) |
-| --- | --- |
+| 1   | OpMC2Def&MC2(void) |
+| --- | ------------------ |
 
 #### 参数说明
 

@@ -1,15 +1,16 @@
 # 使能DoubleBuffer-流水编排-SIMD算子性能优化-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_0033
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0033.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0033.html
 ---
 
 # 使能DoubleBuffer
 
 【优先级】中
 
-【描述】执行于AI Core上的指令队列主要包括如下几类，Vector指令队列（V）、Cube指令队列（M）、Scalar指令队列（S）和搬运指令队列（MTE1/MTE2/MTE3）。不同指令队列间的相互独立性和可并行执行特性，是DoubleBuffer优化机制的基石。
+【描述】执行于AI Core上的指令队列主要包括如下几类，Vector指令队列(V)、Cube指令队列(M)、Scalar指令队列(S)和搬运指令队列(MTE1/MTE2/MTE3)。不同指令队列间的相互独立性和可并行执行特性，是DoubleBuffer优化机制的基石。
 
-以纯Vector计算为例，矢量计算前后的CopyIn、CopyOut过程使用搬运指令队列（MTE2/MTE3），Compute过程使用Vector指令队列（V），不同指令队列可并行执行，意味着CopyIn、CopyOut过程和Compute过程是可以并行的。如图1所示，考虑一个完整的数据搬运和计算过程，CopyIn过程将数据从Global Memory搬运到Local Memory，Vector计算单元完成Compute计算后，经过CopyOut过程将计算结果搬回Global Memory。
+以纯Vector计算为例，矢量计算前后的CopyIn、CopyOut过程使用搬运指令队列(MTE2/MTE3)，Compute过程使用Vector指令队列(V)，不同指令队列可并行执行，意味着CopyIn、CopyOut过程和Compute过程是可以并行的。如图1所示，考虑一个完整的数据搬运和计算过程，CopyIn过程将数据从Global Memory搬运到Local Memory，Vector计算单元完成Compute计算后，经过CopyOut过程将计算结果搬回Global Memory。
 
 ![](../images/atlas_ascendc_best_practices_10_0033_img_001.png)
 
@@ -21,8 +22,8 @@
 
 总体来说，DoubleBuffer是基于MTE指令队列与Vector指令队列的独立性和可并行性，通过将数据搬运与Vector计算并行执行以隐藏大部分的数据搬运时间，并降低Vector指令的等待时间，最终提高Vector单元的利用效率。通过为队列申请内存时设置内存块的个数为2，使能DoubleBuffer，实现数据并行，简单代码示例如下：
 
-| 1 | pipe.InitBuffer(inQueueX,2,256); |
-| --- | --- |
+| 1   | pipe.InitBuffer(inQueueX,2,256); |
+| --- | -------------------------------- |
 
 ![](../images/atlas_ascendc_best_practices_10_0033_img_003.png)
 
@@ -40,9 +41,9 @@
 【反例】
 
 | 1234567891011121314151617181920 | __aicore__inlinevoidInit(__gm__uint8_t*src0Gm,__gm__uint8_t*src1Gm,__gm__uint8_t*dstGm){src0Global.SetGlobalBuffer((__gm__half*)src0Gm);src1Global.SetGlobalBuffer((__gm__half*)src1Gm);dstGlobal.SetGlobalBuffer((__gm__half*)dstGm);// 不使能DoubleBuffer,占用的物理空间是1 * sizeSrc0 * sizeof(half)// 3个InitBuffer执行后总空间为1 * (sizeSrc0 * sizeof(half) + sizeSrc1 * sizeof(half) + sizeDst0 * sizeof(half))pipe.InitBuffer(inQueueSrc0,1,sizeSrc0*sizeof(half));pipe.InitBuffer(inQueueSrc1,1,sizeSrc1*sizeof(half));pipe.InitBuffer(outQueueDst,1,sizeDst0*sizeof(half));}__aicore__inlinevoidProcess(){// 需要round*2次循环才能处理完数据for(uint32_tindex=0;index<round*2;++index){CopyIn(index);Compute();CopyOut(index);}} |
-| --- | --- |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 【正例】
 
 | 1234567891011121314151617181920 | __aicore__inlinevoidInit(__gm__uint8_t*src0Gm,__gm__uint8_t*src1Gm,__gm__uint8_t*dstGm){src0Global.SetGlobalBuffer((__gm__half*)src0Gm);src1Global.SetGlobalBuffer((__gm__half*)src1Gm);dstGlobal.SetGlobalBuffer((__gm__half*)dstGm);// InitBuffer中使用2表示使能DoubleBuffer,占用的物理空间是2 * sizeSrc0 * sizeof(half)// 3个InitBuffer执行后总空间为2 * (sizeSrc0 * sizeof(half) + sizeSrc1 * sizeof(half) + sizeDst0 * sizeof(half))pipe.InitBuffer(inQueueSrc0,2,sizeSrc0*sizeof(half));pipe.InitBuffer(inQueueSrc1,2,sizeSrc1*sizeof(half));pipe.InitBuffer(outQueueDst,2,sizeDst0*sizeof(half));}__aicore__inlinevoidProcess(){// 开启DoubleBuffer的前提是循环次数 >= 2for(uint32_tindex=0;index<round;++index){CopyIn(index);Compute();CopyOut(index);}} |
-| --- | --- |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

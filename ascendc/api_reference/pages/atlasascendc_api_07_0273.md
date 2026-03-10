@@ -1,20 +1,21 @@
 # CrossCoreSetFlag(ISASI)-核间同步-同步控制-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0273
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0273.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0273.html
 ---
 
 # CrossCoreSetFlag(ISASI)
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -26,25 +27,25 @@
 
 - 模式0：AI Core核间的同步控制。对于AIC场景，同步所有的AIC核，直到所有的AIC核都执行到CrossCoreSetFlag时，CrossCoreWaitFlag后续的指令才会执行；对于AIV场景，同步所有的AIV核，直到所有的AIV核都执行到CrossCoreSetFlag时，CrossCoreWaitFlag后续的指令才会执行。
 - 模式1：AI Core内部，AIV核之间的同步控制。如果两个AIV核都运行了CrossCoreSetFlag，CrossCoreWaitFlag后续的指令才会执行。
-- 模式2：AI Core内部，AIC与AIV之间的同步控制。在AIC核执行CrossCoreSetFlag之后， 两个AIV上CrossCoreWaitFlag后续的指令才会继续执行；两个AIV都执行CrossCoreSetFlag后，AIC上CrossCoreWaitFlag后续的指令才能执行。
+- 模式2：AI Core内部，AIC与AIV之间的同步控制。在AIC核执行CrossCoreSetFlag之后，两个AIV上CrossCoreWaitFlag后续的指令才会继续执行；两个AIV都执行CrossCoreSetFlag后，AIC上CrossCoreWaitFlag后续的指令才能执行。
 
 ![](../images/atlasascendc_api_07_0273_img_001.png)
 
 #### 函数原型
 
-| 12 | template<uint8_tmodeId,pipe_tpipe>__aicore__inlinevoidCrossCoreSetFlag(uint16_tflagId) |
-| --- | --- |
+| 12  | template<uint8_tmodeId,pipe_tpipe>__aicore__inlinevoidCrossCoreSetFlag(uint16_tflagId) |
+| --- | -------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| modeId | 核间同步的模式，取值如下：模式0：AI Core核间的同步控制。模式1：AI Core内部，Vector核（AIV）之间的同步控制。模式2：AI Core内部，Cube核（AIC）与Vector核（AIV）之间的同步控制。 |
-| pipe | 设置这条指令所在的流水类型，流水类型可参考硬件流水类型。 |
+| 参数名 | 描述                                                                                                                                                                    |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| modeId | 核间同步的模式，取值如下：模式0：AI Core核间的同步控制。模式1：AI Core内部，Vector核(AIV)之间的同步控制。模式2：AI Core内部，Cube核(AIC)与Vector核(AIV)之间的同步控制。 |
+| pipe   | 设置这条指令所在的流水类型，流水类型可参考硬件流水类型。                                                                                                                |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| flagId | 输入 | 核间同步的标记。Atlas A2 训练系列产品/Atlas A2 推理系列产品，取值范围是0-10。Atlas A3 训练系列产品/Atlas A3 推理系列产品，取值范围是0-10。 |
+| 参数名 | 输入/输出 | 描述                                                                                                                                       |
+| ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| flagId | 输入      | 核间同步的标记。Atlas A2 训练系列产品/Atlas A2 推理系列产品，取值范围是0-10。Atlas A3 训练系列产品/Atlas A3 推理系列产品，取值范围是0-10。 |
 
 #### 返回值说明
 
@@ -59,5 +60,5 @@
 
 #### 调用示例
 
-| 123456789101112131415161718192021222324 | // 使用模式0的方式同步所有的AIV核if(g_coreType==AscendC::AIV){AscendC::CrossCoreSetFlag<0x0,PIPE_MTE3>(0x8);AscendC::CrossCoreWaitFlag(0x8);}// 使用模式1的方式同步当前AICore内的所有AIV子核if(g_coreType==AscendC::AIV){AscendC::CrossCoreSetFlag<0x1,PIPE_MTE3>(0x8);AscendC::CrossCoreWaitFlag(0x8);}// 注意：如果调用高阶API,无需开发者处理AIC和AIV的同步// AIC侧做完Matmul计算后通知AIV进行后处理if(g_coreType==AscendC::AIC){// Matmul处理AscendC::CrossCoreSetFlag<0x2,PIPE_FIX>(0x8);}// AIV侧等待AIC Set消息, 进行Vector后处理if(g_coreType==AscendC::AIV){AscendC::CrossCoreWaitFlag(0x8);// Vector后处理} |
-| --- | --- |
+| 123456789101112131415161718192021222324 | // 使用模式0的方式同步所有的AIV核if(g_coreType==AscendC:AIV){AscendC:CrossCoreSetFlag<0x0,PIPE_MTE3>(0x8);AscendC:CrossCoreWaitFlag(0x8);}// 使用模式1的方式同步当前AICore内的所有AIV子核if(g_coreType==AscendC:AIV){AscendC:CrossCoreSetFlag<0x1,PIPE_MTE3>(0x8);AscendC:CrossCoreWaitFlag(0x8);}// 注意：如果调用高阶API,无需开发者处理AIC和AIV的同步// AIC侧做完Matmul计算后通知AIV进行后处理if(g_coreType==AscendC:AIC){// Matmul处理AscendC:CrossCoreSetFlag<0x2,PIPE_FIX>(0x8);}// AIV侧等待AIC Set消息，进行Vector后处理if(g_coreType==AscendC:AIV){AscendC:CrossCoreWaitFlag(0x8);// Vector后处理} |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

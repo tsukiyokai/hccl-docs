@@ -1,6 +1,6 @@
 # HCCL相关环境变量
 
-> 来源: CANN商用版8.0.RC3 hiascend.com
+> 来源：CANN商用版8.0.RC3 hiascend.com
 
 ## Ascend Extension for PyTorch
 
@@ -131,7 +131,7 @@ export HCCL_EVENT_TIMEOUT=1800
 #### 内存占用说明
 
 - 申请的内存为HCCL独占，不可与其他业务复用
-- 每个通信域额外占用 2 x P2P_HCCL_BUFFSIZE 的内存（分别用于收发）
+- 每个通信域额外占用2 x P2P_HCCL_BUFFSIZE的内存（分别用于收发）
 - 按通信域粒度管理，每个通信域独占一组缓存
 
 #### 配置示例
@@ -288,8 +288,8 @@ IPv4协议
 #### 配置示例
 
 ```bash
-export HCCL_SOCKET_FAMILY=AF_INET       # IPv4
-export HCCL_SOCKET_FAMILY=AF_INET6      # IPv6
+export HCCL_SOCKET_FAMILY=AF_INET     # IPv4
+export HCCL_SOCKET_FAMILY=AF_INET6    # IPv6
 ```
 
 #### 使用约束
@@ -314,12 +314,12 @@ export HCCL_SOCKET_FAMILY=AF_INET6      # IPv6
 
 #### 参数配置
 
-| 项目 | 值 |
-|------|-----|
-| 数据类型 | 整数 |
+| 项目     | 值         |
+| -------- | ---------- |
+| 数据类型 | 整数       |
 | 取值范围 | 120 - 7200 |
-| 默认值 | 120 |
-| 单位 | 秒(s) |
+| 默认值   | 120        |
+| 单位     | 秒(s)      |
 
 #### 配置示例
 
@@ -352,7 +352,7 @@ export HCCL_CONNECT_TIMEOUT=200
 - 单位：秒
 - 取值范围：(0, 17340]
 - 默认值：1836s
-- 注意：实际超时时间 = (环境变量值 / 68) x 68，小于68时按68s处理
+- 注意：实际超时时间 = （环境变量值 / 68）x 68，小于68时按68s处理
 - 示例：HCCL_EXEC_TIMEOUT=600 -> 实际值为544s
 
 ##### Atlas 300I Duo推理卡
@@ -401,14 +401,14 @@ export HCCL_EXEC_TIMEOUT=1800
 
 #### 配置规则
 
-| HCCL_INTRA_PCIE_ENABLE | HCCL_INTRA_ROCE_ENABLE | 结果 |
-|---|---|---|
-| 1 | 未配置 | 采用PCIe环路 |
-| 未配置 | 1 | 采用RoCE环路 |
-| 1 | 0 | 采用PCIe环路 |
-| 0 | 1 | 采用RoCE环路 |
-| 0 | 0 | 采用PCIe环路 |
-| 未配置 | 未配置 | 采用PCIe环路（默认） |
+| HCCL_INTRA_PCIE_ENABLE | HCCL_INTRA_ROCE_ENABLE | 结果                 |
+| ---------------------- | ---------------------- | -------------------- |
+| 1                      | 未配置                 | 采用PCIe环路         |
+| 未配置                 | 1                      | 采用RoCE环路         |
+| 1                      | 0                      | 采用PCIe环路         |
+| 0                      | 1                      | 采用RoCE环路         |
+| 0                      | 0                      | 采用PCIe环路         |
+| 未配置                 | 未配置                 | 采用PCIe环路（默认） |
 
 注意：不支持两个变量同时配置为1。默认采用PCIe环路通信。
 
@@ -445,14 +445,14 @@ export HCCL_INTRA_PCIE_ENABLE=1
 
 #### 配置规则
 
-| HCCL_INTRA_PCIE_ENABLE | HCCL_INTRA_ROCE_ENABLE | 结果 |
-|---|---|---|
-| 1 | 未配置 | PCIe环路 |
-| 未配置 | 1 | RoCE环路 |
-| 1 | 0 | PCIe环路 |
-| 0 | 1 | RoCE环路 |
-| 0 | 0 | PCIe环路 |
-| 未配置 | 未配置 | PCIe环路（默认） |
+| HCCL_INTRA_PCIE_ENABLE | HCCL_INTRA_ROCE_ENABLE | 结果             |
+| ---------------------- | ---------------------- | ---------------- |
+| 1                      | 未配置                 | PCIe环路         |
+| 未配置                 | 1                      | RoCE环路         |
+| 1                      | 0                      | PCIe环路         |
+| 0                      | 1                      | RoCE环路         |
+| 0                      | 0                      | PCIe环路         |
+| 未配置                 | 未配置                 | PCIe环路（默认） |
 
 限制：不支持两个变量同时配置为1。
 
@@ -483,10 +483,10 @@ export HCCL_INTRA_ROCE_ENABLE=1
 
 #### 取值说明
 
-| 取值 | 说明 |
-|------|------|
-| 0 | 开启白名单，校验HCCL通信白名单，只有在通信白名单中的IP地址才允许进行集合通信 |
-| 1 | 关闭白名单，无需校验HCCL通信白名单 |
+| 取值 | 说明                                                                         |
+| ---- | ---------------------------------------------------------------------------- |
+| 0    | 开启白名单，校验HCCL通信白名单，只有在通信白名单中的IP地址才允许进行集合通信 |
+| 1    | 关闭白名单，无需校验HCCL通信白名单                                           |
 
 #### 缺省值
 
@@ -508,8 +508,8 @@ export HCCL_WHITELIST_DISABLE=1
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -547,8 +547,8 @@ export HCCL_WHITELIST_FILE=/home/test/whitelist
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -579,8 +579,8 @@ export HCCL_RDMA_TC=100
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -609,8 +609,8 @@ export HCCL_RDMA_SL=3
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -625,11 +625,11 @@ RDMA网卡重传超时时间最小值的计算公式为：`4.096 μs * 2 ^ timeo
 
 #### 配置范围
 
-| 产品型号 | 取值范围 | 默认值 |
-|---------|---------|--------|
-| Atlas 训练系列产品 | [5, 24] | 20 |
-| Atlas 300I Duo 推理卡 | [5, 24] | 20 |
-| Atlas A2 训练系列产品 | [5, 20] | 20 |
+| 产品型号              | 取值范围 | 默认值 |
+| --------------------- | -------- | ------ |
+| Atlas训练系列产品     | [5, 24]  | 20     |
+| Atlas 300I Duo推理卡  | [5, 24]  | 20     |
+| Atlas A2 训练系列产品 | [5, 20]  | 20     |
 
 #### 配置示例
 
@@ -643,8 +643,8 @@ export HCCL_RDMA_TIMEOUT=6
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -672,8 +672,8 @@ export HCCL_RDMA_RETRY_CNT=5
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -721,8 +721,8 @@ export HCCL_BUFFSIZE=200
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -785,7 +785,7 @@ Server内通信算法仅支持配置为"NA"。
 
 #### 支持的型号
 
-- Atlas 训练系列产品
+- Atlas训练系列产品
 - Atlas A2 训练系列产品
 
 ---
@@ -798,10 +798,10 @@ Server内通信算法仅支持配置为"NA"。
 
 #### 取值说明
 
-| 取值 | 含义 |
-|------|------|
-| 1 | 开启集合通信缓存 |
-| 0 | 不开启集合通信缓存 |
+| 取值 | 含义               |
+| ---- | ------------------ |
+| 1    | 开启集合通信缓存   |
+| 0    | 不开启集合通信缓存 |
 
 #### 默认值
 
@@ -854,8 +854,8 @@ export HCCL_ENTRY_LOG_ENABLE=1
 
 #### 支持的型号
 
-- Atlas 训练系列产品
-- Atlas 300I Duo 推理卡
+- Atlas训练系列产品
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -874,10 +874,10 @@ export HCCL_ENTRY_LOG_ENABLE=1
 
 #### 产品支持情况
 
-| 产品型号 | 支持的配置 | 默认值 | 约束说明 |
-|---------|---------|-------|---------|
-| Atlas 300I Duo 推理卡 | AI_CPU | HOST | 仅支持单机单通信域；仅支持AllReduce算子；不支持profiling性能数据采集；对于静态shape图不支持此配置 |
-| Atlas 800T A2 训练服务器 / Atlas 900 A2 PoD 集群基础单元 / Atlas 200T A2 Box16异构子框 | AIV | HOST | 仅支持推理特性；支持AllReduce、AlltoAll、AlltoAllV算子；数据类型和操作类型有限制；不支持跨框通信 |
+| 产品型号                                                                              | 支持的配置 | 默认值 | 约束说明                                                                                          |
+| ------------------------------------------------------------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------------------- |
+| Atlas 300I Duo推理卡                                                                  | AI_CPU     | HOST   | 仅支持单机单通信域；仅支持AllReduce算子；不支持profiling性能数据采集；对于静态shape图不支持此配置 |
+| Atlas 800T A2 训练服务器 / Atlas 900 A2 PoD集群基础单元 / Atlas 200T A2 Box16异构子框 | AIV        | HOST   | 仅支持推理特性；支持AllReduce、AlltoAll、AlltoAllV算子；数据类型和操作类型有限制；不支持跨框通信  |
 
 #### 配置示例
 
@@ -893,7 +893,7 @@ export HCCL_OP_EXPANSION_MODE="HOST"
 
 #### 支持的型号
 
-- Atlas 300I Duo 推理卡
+- Atlas 300I Duo推理卡
 - Atlas A2 训练系列产品
 
 ---
@@ -946,10 +946,10 @@ export HCCL_DETERMINISTIC=true
 
 #### 取值说明
 
-| 取值 | 说明 |
-|------|------|
-| TRUE | 通过PCIe Direct方式提交RDMA任务 |
-| FALSE | 通过HDC（Host Device Communication）方式提交RDMA任务 |
+| 取值  | 说明                                               |
+| ----- | -------------------------------------------------- |
+| TRUE  | 通过PCIe Direct方式提交RDMA任务                    |
+| FALSE | 通过HDC(Host Device Communication)方式提交RDMA任务 |
 
 #### 默认行为
 
@@ -982,7 +982,7 @@ export HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE
 
 #### 功能描述
 
-此环境变量控制两个rank之间RDMA通信时使用的Queue Pair（QP）个数。默认情况下创建1个QP，通过配置此变量可实现多QP并行传输。
+此环境变量控制两个rank之间RDMA通信时使用的Queue Pair(QP)个数。默认情况下创建1个QP，通过配置此变量可实现多QP并行传输。
 
 业务数据会平均分配到配置的QP数量上进行并行收发。
 
@@ -1029,7 +1029,7 @@ export HCCL_RDMA_QPS_PER_CONNECTION=4
 
 #### 工作机制
 
-当 (rank间单次通信数据量 / HCCL_RDMA_QPS_PER_CONNECTION取值) < HCCL_MULTI_QP_THRESHOLD取值 时，HCCL会自动减少QP个数，确保每个QP分担的数据量>=该阈值。
+当（rank间单次通信数据量 / HCCL_RDMA_QPS_PER_CONNECTION取值） < HCCL_MULTI_QP_THRESHOLD取值 时，HCCL会自动减少QP个数，确保每个QP分担的数据量>=该阈值。
 
 示例：通信数据量1MB、HCCL_RDMA_QPS_PER_CONNECTION为4、阈值为512KB，则HCCL会减少QP个数至2个。
 

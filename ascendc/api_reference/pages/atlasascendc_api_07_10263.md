@@ -1,6 +1,7 @@
 # EnableL1BankConflictOptimise-Matmul Tiling类-Matmul Tiling侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_10263
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10263.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10263.html
 ---
 
 # EnableL1BankConflictOptimise
@@ -11,8 +12,8 @@
 
 #### 函数原型
 
-| 1 | boolEnableL1BankConflictOptimise() |
-| --- | --- |
+| 1   | boolEnableL1BankConflictOptimise() |
+| --- | ---------------------------------- |
 
 #### 参数说明
 
@@ -25,9 +26,9 @@
 
 #### 约束说明
 
-使用创建的Tiling对象调用本接口，且需在完成Tiling计算（GetTiling）后调用本接口。
+使用创建的Tiling对象调用本接口，且需在完成Tiling计算(GetTiling)后调用本接口。
 
 #### 调用示例
 
-| 123456789101112131415 | autoascendcPlatform=platform_ascendc::PlatformAscendC(context->GetPlatformInfo());matmul_tiling::MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);tiling.SetBType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);tiling.SetCType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);tiling.SetBiasType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);tiling.SetShape(1024,1024,1024);tiling.SetOrgShape(1024,1024,1024);tiling.SetBias(true);tiling.SetBufferSpace(-1,-1,-1);optiling::TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);// Kernel侧是否可以开启L1 Bank冲突优化，可与TilingKey机制结合使用boolenableL1BankConflictOptimise=tiling.EnableL1BankConflictOptimise(); |
-| --- | --- |
+| 123456789101112131415 | autoascendcPlatform=platform_ascendc:PlatformAscendC(context->GetPlatformInfo());matmul_tiling:MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);tiling.SetBType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);tiling.SetCType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);tiling.SetBiasType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);tiling.SetShape(1024,1024,1024);tiling.SetOrgShape(1024,1024,1024);tiling.SetBias(true);tiling.SetBufferSpace(-1,-1,-1);optiling:TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);// Kernel侧是否可以开启L1 Bank冲突优化，可与TilingKey机制结合使用boolenableL1BankConflictOptimise=tiling.EnableL1BankConflictOptimise(); |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

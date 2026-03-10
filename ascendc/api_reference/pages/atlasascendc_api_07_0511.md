@@ -1,20 +1,21 @@
 # Log-Log接口-数学计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0511
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0511.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0511.html
 ---
 
 # Log
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -48,17 +49,17 @@
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas 推理系列产品AI Core，支持的数据类型为：half、float。 |
-| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。 |
+| 参数名        | 描述                                                                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T             | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas推理系列产品AI Core，支持的数据类型为：half、float。 |
+| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。                                                                                                                                                                             |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dstTensor | 输出 | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
-| srcTensor | 输入 | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。 |
-| sharedTmpBuffer | 输入 | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。临时空间大小BufferSize的获取方式请参考GetLogMaxMinTmpSize。 |
-| calCount | 输入 | 参与计算的元素个数。 |
+| 参数名          | 输入/输出 | 描述                                                                                                                            |
+| --------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| dstTensor       | 输出      | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。                                                          |
+| srcTensor       | 输入      | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。                |
+| sharedTmpBuffer | 输入      | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。临时空间大小BufferSize的获取方式请参考GetLogMaxMinTmpSize。 |
+| calCount        | 输入      | 参与计算的元素个数。                                                                                                            |
 
 #### 返回值说明
 
@@ -79,5 +80,5 @@
 
 #### 样例模板
 
-| 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667 | #include"kernel_operator.h"template<typenamesrcType>classKernelLog{public:__aicore__inlineKernelLog(){}__aicore__inlinevoidInit(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){src_global.SetGlobalBuffer(reinterpret_cast<__gm__srcType*>(srcGm),srcSize);dst_global.SetGlobalBuffer(reinterpret_cast<__gm__srcType*>(dstGm),srcSize);pipe.InitBuffer(inQueueX,1,srcSize*sizeof(srcType));pipe.InitBuffer(outQueue,1,srcSize*sizeof(srcType));bufferSize=srcSize;}__aicore__inlinevoidProcess(){CopyIn();Compute();CopyOut();}private:__aicore__inlinevoidCopyIn(){AscendC::LocalTensor<srcType>srcLocal=inQueueX.AllocTensor<srcType>();AscendC::DataCopy(srcLocal,src_global,bufferSize);inQueueX.EnQue(srcLocal);}__aicore__inlinevoidCompute(){AscendC::LocalTensor<srcType>dstLocal=outQueue.AllocTensor<srcType>();AscendC::LocalTensor<srcType>srcLocal=inQueueX.DeQue<srcType>();AscendC::Log(dstLocal,srcLocal);// 或可调用 AscendC::Log10(dstLocal, srcLocal);// 或可调用 AscendC::Log2(dstLocal, srcLocal);outQueue.EnQue<srcType>(dstLocal);inQueueX.FreeTensor(srcLocal);}__aicore__inlinevoidCopyOut(){AscendC::LocalTensor<srcType>dstLocal=outQueue.DeQue<srcType>();AscendC::DataCopy(dst_global,dstLocal,bufferSize);outQueue.FreeTensor(dstLocal);}private:AscendC::GlobalTensor<srcType>src_global;AscendC::GlobalTensor<srcType>dst_global;AscendC::TPipepipe;AscendC::TQue<AscendC::TPosition::VECIN,1>inQueueX;AscendC::TQue<AscendC::TPosition::VECOUT,1>outQueue;uint32_tbufferSize=0;};template<typenamedataType>__aicore__voidkernel_log_operator(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){KernelLog<dataType>op;op.Init(srcGm,dstGm,srcSize);op.Process();}extern"C"__global____aicore__voidlog_operator_custom(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){kernel_log_operator<half>(srcGm,dstGm,srcSize);// 传入类型和大小} |
-| --- | --- |
+| 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667 | #include"kernel_operator.h"template<typenamesrcType>classKernelLog{public:__aicore__inlineKernelLog(){}__aicore__inlinevoidInit(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){src_global.SetGlobalBuffer(reinterpret_cast<__gm__srcType*>(srcGm),srcSize);dst_global.SetGlobalBuffer(reinterpret_cast<__gm__srcType*>(dstGm),srcSize);pipe.InitBuffer(inQueueX,1,srcSize*sizeof(srcType));pipe.InitBuffer(outQueue,1,srcSize*sizeof(srcType));bufferSize=srcSize;}__aicore__inlinevoidProcess(){CopyIn();Compute();CopyOut();}private:__aicore__inlinevoidCopyIn(){AscendC:LocalTensor<srcType>srcLocal=inQueueX.AllocTensor<srcType>();AscendC:DataCopy(srcLocal,src_global,bufferSize);inQueueX.EnQue(srcLocal);}__aicore__inlinevoidCompute(){AscendC:LocalTensor<srcType>dstLocal=outQueue.AllocTensor<srcType>();AscendC:LocalTensor<srcType>srcLocal=inQueueX.DeQue<srcType>();AscendC:Log(dstLocal,srcLocal);// 或可调用AscendC:Log10(dstLocal, srcLocal);// 或可调用AscendC:Log2(dstLocal, srcLocal);outQueue.EnQue<srcType>(dstLocal);inQueueX.FreeTensor(srcLocal);}__aicore__inlinevoidCopyOut(){AscendC:LocalTensor<srcType>dstLocal=outQueue.DeQue<srcType>();AscendC:DataCopy(dst_global,dstLocal,bufferSize);outQueue.FreeTensor(dstLocal);}private:AscendC:GlobalTensor<srcType>src_global;AscendC:GlobalTensor<srcType>dst_global;AscendC:TPipepipe;AscendC:TQue<AscendC:TPosition:VECIN,1>inQueueX;AscendC:TQue<AscendC:TPosition:VECOUT,1>outQueue;uint32_tbufferSize=0;};template<typenamedataType>__aicore__voidkernel_log_operator(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){KernelLog<dataType>op;op.Init(srcGm,dstGm,srcSize);op.Process();}extern"C"__global____aicore__voidlog_operator_custom(GM_ADDRsrcGm,GM_ADDRdstGm,uint32_tsrcSize){kernel_log_operator<half>(srcGm,dstGm,srcSize);// 传入类型和大小} |
+| ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

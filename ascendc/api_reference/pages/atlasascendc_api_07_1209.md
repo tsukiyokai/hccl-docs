@@ -1,6 +1,7 @@
 # ICPU_SET_TILING_KEY-CPU孪生调试-调试接口-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_1209
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1209.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1209.html
 ---
 
 # ICPU_SET_TILING_KEY
@@ -11,14 +12,14 @@
 
 #### 函数原型
 
-| 1 | ICPU_SET_TILING_KEY(tilingKey) |
-| --- | --- |
+| 1   | ICPU_SET_TILING_KEY(tilingKey) |
+| --- | ------------------------------ |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| tilingKey | 输入 | 指定本次CPU调测使用的tilingKey，参数类型为int32_t。 |
+| 参数名    | 输入/输出 | 描述                                                |
+| --------- | --------- | --------------------------------------------------- |
+| tilingKey | 输入      | 指定本次CPU调测使用的tilingKey，参数类型为int32_t。 |
 
 #### 返回值说明
 
@@ -32,5 +33,5 @@
 
 #### 调用示例
 
-| 12 | ICPU_SET_TILING_KEY(10086);ICPU_RUN_KF(sort_kernel0,coreNum,(uint8_t*)x,(uint8_t*)y); |
-| --- | --- |
+| 12  | ICPU_SET_TILING_KEY(10086);ICPU_RUN_KF(sort_kernel0,coreNum,(uint8_t*)x,(uint8_t*)y); |
+| --- | ------------------------------------------------------------------------------------- |

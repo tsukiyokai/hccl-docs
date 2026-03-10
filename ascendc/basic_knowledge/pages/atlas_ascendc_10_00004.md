@@ -1,6 +1,7 @@
 # 算子包部署时出现权限不足报错-FAQ-附录-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_00004
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00004.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00004.html
 ---
 
 # 算子包部署时出现权限不足报错
@@ -10,7 +11,7 @@
 部署自定义算子包时，出现如下报错信息：
 
 | 123 | [WARNING]Thedirectory/usr/local/Ascend/cann/oppdoesnothavesufficientpermissions.Pleasecheckandmodifythefolderpermissions(e.g.,usingchmod),orusethe--install-pathoptiontospecifyaninstallationpathandchangetheenvironmentvariableASCEND_CUSTOM_OPP_PATHtothespecifiedpath....[ERROR]create/usr/local/Ascend/cann/opp/vendors/customize/frameworkfailed |
-| --- | --- |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 问题根因
 

@@ -1,20 +1,21 @@
 # SetOrgShape-Matmul Kernel侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0651
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0651.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0651.html
 ---
 
 # SetOrgShape
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | √ |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | √        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -22,22 +23,22 @@
 
 #### 函数原型
 
-| 1 | __aicore__inlinevoidSetOrgShape(intorgM,intorgN,intorgK) |
-| --- | --- |
+| 1   | __aicore__inlinevoidSetOrgShape(intorgM,intorgN,intorgK) |
+| --- | -------------------------------------------------------- |
 
-| 1 | __aicore__inlinevoidSetOrgShape(intorgM,intorgN,intorgKa,intorgKb,intorgKc=0) |
-| --- | --- |
+| 1   | __aicore__inlinevoidSetOrgShape(intorgM,intorgN,intorgKa,intorgKb,intorgKc=0) |
+| --- | ----------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| orgM | 输入 | 设置原始完整的形状M大小，单位为元素。 |
-| orgN | 输入 | 设置原始完整的形状N大小，单位为元素。 |
-| orgK | 输入 | 设置原始完整的形状K大小，单位为元素。原始完整形状Ka=Kb时可设置。 |
-| orgKa | 输入 | 设置矩阵A原始完整的形状Ka大小，单位为元素。 |
-| orgKb | 输入 | 设置矩阵B原始完整的形状Kb大小，单位为元素。 |
-| orgKc | 输入 | 设置输出C矩阵的N，单位为元素。需要输入B矩阵的N和输出C矩阵的N不一样时可设置，默认为0（即使用B矩阵的N，不进行修改）。 |
+| 参数名 | 输入/输出 | 描述                                                                                                                |
+| ------ | --------- | ------------------------------------------------------------------------------------------------------------------- |
+| orgM   | 输入      | 设置原始完整的形状M大小，单位为元素。                                                                               |
+| orgN   | 输入      | 设置原始完整的形状N大小，单位为元素。                                                                               |
+| orgK   | 输入      | 设置原始完整的形状K大小，单位为元素。原始完整形状Ka=Kb时可设置。                                                    |
+| orgKa  | 输入      | 设置矩阵A原始完整的形状Ka大小，单位为元素。                                                                         |
+| orgKb  | 输入      | 设置矩阵B原始完整的形状Kb大小，单位为元素。                                                                         |
+| orgKc  | 输入      | 设置输出C矩阵的N，单位为元素。需要输入B矩阵的N和输出C矩阵的N不一样时可设置，默认为0（即使用B矩阵的N，不进行修改）。 |
 
 #### 返回值说明
 
@@ -50,4 +51,4 @@
 #### 调用示例
 
 | 1234567891011 | REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm,&tiling);mm.SetTensorA(gm_a);mm.SetTensorB(gm_b);mm.SetBias(gm_bias);mm.IterateAll(gm_c);//  复用mm对象mm.SetOrgShape(orgM,orgN,orgK);mm.SetTensorA(gm_a1);mm.SetTensorB(gm_b1);mm.SetBias(gm_bias1);mm.IterateAll(gm_c1); |
-| --- | --- |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

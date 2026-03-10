@@ -1,20 +1,21 @@
 # Cos-Cos接口-数学计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0508
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0508.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0508.html
 ---
 
 # Cos
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -41,17 +42,17 @@ Cos(x)的泰勒展开式为：
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas 推理系列产品AI Core，支持的数据类型为：half、float。 |
+| 参数名        | 描述                                                                                                                                                                                                                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T             | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas推理系列产品AI Core，支持的数据类型为：half、float。                                                    |
 | isReuseSource | 是否允许修改源操作数，默认值为false。该参数仅在输入的数据类型为float时生效。true：开发者允许源操作数被改写，可以使能该参数，使能后本接口内部计算时复用srcTensor的内存空间，节省部分内存空间；false：本接口内部计算时不复用srcTensor的内存空间。isReuseSource的使用样例请参考更多样例。 |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dstTensor | 输出 | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
-| srcTensor | 输入 | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。 |
-| sharedTmpBuffer | 输入 | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。临时空间大小BufferSize的获取方式请参考GetCosMaxMinTmpSize。 |
-| calCount | 输入 | 参与计算的元素个数。 |
+| 参数名          | 输入/输出 | 描述                                                                                                                            |
+| --------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| dstTensor       | 输出      | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。                                                          |
+| srcTensor       | 输入      | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。                |
+| sharedTmpBuffer | 输入      | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。临时空间大小BufferSize的获取方式请参考GetCosMaxMinTmpSize。 |
+| calCount        | 输入      | 参与计算的元素个数。                                                                                                            |
 
 #### 返回值说明
 
@@ -59,7 +60,7 @@ Cos(x)的泰勒展开式为：
 
 #### 约束说明
 
-- 对于以下产品，输入源数据必须保持值域在[-65504.0, 65504.0]范围内。Atlas A3 训练系列产品/Atlas A3 推理系列产品Atlas A2 训练系列产品/Atlas A2 推理系列产品Atlas 推理系列产品AI Core
+- 对于以下产品，输入源数据必须保持值域在[-65504.0, 65504.0]范围内。Atlas A3 训练系列产品/Atlas A3 推理系列产品Atlas A2 训练系列产品/Atlas A2 推理系列产品Atlas推理系列产品AI Core
 - 不支持源操作数与目的操作数地址重叠。
 - 不支持sharedTmpBuffer与源操作数和目的操作数地址重叠。
 - 操作数地址对齐要求请参见通用地址对齐约束。
@@ -68,8 +69,8 @@ Cos(x)的泰勒展开式为：
 
 完整的算子样例请参考Cos算子样例。
 
-| 123456 | AscendC::TPipepipe;AscendC::TQue<AscendC::TPosition::VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize 通过Host侧tiling参数获取LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC::Cos(dstLocal,srcLocal,sharedTmpBuffer,512); |
-| --- | --- |
+| 123456 | AscendC:TPipepipe;AscendC:TQue<AscendC:TPosition:VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize通过Host侧tiling参数获取LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC:Cos(dstLocal,srcLocal,sharedTmpBuffer,512); |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-| 12 | 输入数据(srcLocal):[0.50473140.1864135...-0.733192150.84544605]输出数据(dstLocal):[0.87530440.98267525...0.74304190.6633976] |
-| --- | --- |
+| 12  | 输入数据(srcLocal):[0.50473140.1864135...-0.733192150.84544605]输出数据(dstLocal):[0.87530440.98267525...0.74304190.6633976] |
+| --- | ---------------------------------------------------------------------------------------------------------------------------- |

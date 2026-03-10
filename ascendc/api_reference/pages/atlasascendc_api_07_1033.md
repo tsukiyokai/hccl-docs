@@ -1,6 +1,7 @@
 # CalcTschBlockDim-PlatformAscendC-平台信息获取-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_1033
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1033.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1033.html
 ---
 
 # CalcTschBlockDim
@@ -13,16 +14,16 @@
 
 #### 函数原型
 
-| 1 | uint32_tCalcTschBlockDim(uint32_tsliceNum,uint32_taicCoreNum,uint32_taivCoreNum)const |
-| --- | --- |
+| 1   | uint32_tCalcTschBlockDim(uint32_tsliceNum,uint32_taicCoreNum,uint32_taivCoreNum)const |
+| --- | ------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| sliceNum | 输入 | 数据切分的份数。 |
-| aicCoreNum | 输入 | 如果算子实现使用了矩阵计算API，请传入GetCoreNumAic返回的数量，否则传入0。 |
-| aivCoreNum | 输入 | 如果算子实现使用了矢量计算API，请传入GetCoreNumAiv返回的数量，否则传入0。 |
+| 参数       | 输入/输出 | 说明                                                                      |
+| ---------- | --------- | ------------------------------------------------------------------------- |
+| sliceNum   | 输入      | 数据切分的份数。                                                          |
+| aicCoreNum | 输入      | 如果算子实现使用了矩阵计算API，请传入GetCoreNumAic返回的数量，否则传入0。 |
+| aivCoreNum | 输入      | 如果算子实现使用了矢量计算API，请传入GetCoreNumAiv返回的数量，否则传入0。 |
 
 #### 返回值说明
 
@@ -34,5 +35,5 @@
 
 #### 调用示例
 
-| 123456789 | ge::graphStatusTilingXXX(gert::TilingContext*context){autoascendcPlatform=platform_ascendc::PlatformAscendC(context->GetPlatformInfo());autoaicNum=ascendcPlatform.GetCoreNumAic();autoaivNum=ascendcPlatform.GetCoreNumAiv();// ..按照aivNum切分数据，并进行计算uint32_tsliceNum=aivNum;context->SetBlockDim(ascendcPlatform.CalcTschBlockDim(sliceNum,aicNum,aivNum));returnret;} |
-| --- | --- |
+| 123456789 | ge:graphStatusTilingXXX(gert:TilingContext*context){autoascendcPlatform=platform_ascendc:PlatformAscendC(context->GetPlatformInfo());autoaicNum=ascendcPlatform.GetCoreNumAic();autoaivNum=ascendcPlatform.GetCoreNumAiv();// ..按照aivNum切分数据，并进行计算uint32_tsliceNum=aivNum;context->SetBlockDim(ascendcPlatform.CalcTschBlockDim(sliceNum,aicNum,aivNum));returnret;} |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

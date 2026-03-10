@@ -1,6 +1,7 @@
 # Matmul高阶API使能UnitFlag-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10003
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10003.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10003.html
 ---
 
 # Matmul高阶API使能UnitFlag
@@ -15,10 +16,10 @@
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 128, 64 | float16 | ND |
-| b | 64, 30720 | float16 | ND |
+| 输入 | Shape     | Data type | Format |
+| ---- | --------- | --------- | ------ |
+| a    | 128, 64   | float16   | ND     |
+| b    | 64, 30720 | float16   | ND     |
 
 当前案例使用的AI处理器共20个核，每个核包含1个AIC核和2个AIV核。
 
@@ -51,7 +52,7 @@
 Matmul API使能UnitFlag功能的完整样例请参考Matmul API性能优化样例。使能UnitFlag功能的主要步骤如下：
 
 1. 自定义MatmulConfig模板参数，将其中的enUnitFlag参数设置为true，使能UnitFlag功能。1234567__aicore__inlineconstexprMatmulConfigGetCustomMDLCFG(){autommCfg=CFG_MDL;mmCfg.enUnitFlag=true;returnmmCfg;}constexprstaticMatmulConfigCUSTOM_CFG_MDL=GetCustomMDLCFG();
-1. 基于自定义的MatmulConfig模板参数，创建Matmul对象。12345usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,AType>;usingB_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BType>;usingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,CType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BiasType>;AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CUSTOM_CFG_MDL>matmulObj;
+1. 基于自定义的MatmulConfig模板参数，创建Matmul对象。12345usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,AType>;usingB_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BType>;usingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,CType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BiasType>;AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CUSTOM_CFG_MDL>matmulObj;
 
 #### 验证优化方案性能收益
 

@@ -1,6 +1,7 @@
 # Matmul高阶API使能NBuffer33模板-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10005
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10005.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10005.html
 ---
 
 # Matmul高阶API使能NBuffer33模板
@@ -11,14 +12,14 @@
 
 - 使能NBuffer33模板的适用场景MTE2 Bound的场景，Tiling参数满足约束条件时，可以使能NBuffer33模板。
 
-- 使能NBuffer33模板的约束条件仅支持MatmulConfig为MDL模板。A矩阵、B矩阵的内存逻辑位置只支持TPosition::GM。仅支持纯Cube模式（只有矩阵计算），暂不支持MIX模式（包含矩阵计算和矢量计算）。仅支持通过IterateAll接口获取Matmul的计算结果C矩阵。stepM、stepKa、stepKb小于等于3，且满足：stepKa=stepKb=Ceil(singleCoreK/baseK)。A矩阵全载的基本块大小与B矩阵载入的基本块大小之和不超过L1 Buffer的大小。
+- 使能NBuffer33模板的约束条件仅支持MatmulConfig为MDL模板。A矩阵、B矩阵的内存逻辑位置只支持TPosition:GM。仅支持纯Cube模式（只有矩阵计算），暂不支持MIX模式（包含矩阵计算和矢量计算）。仅支持通过IterateAll接口获取Matmul的计算结果C矩阵。stepM、stepKa、stepKb小于等于3，且满足：stepKa=stepKb=Ceil(singleCoreK/baseK)。A矩阵全载的基本块大小与B矩阵载入的基本块大小之和不超过L1 Buffer的大小。
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 256, 192 | float16 | ND |
-| b | 192, 512 | float16 | ND |
+| 输入 | Shape    | Data type | Format |
+| ---- | -------- | --------- | ------ |
+| a    | 256, 192 | float16   | ND     |
+| b    | 192, 512 | float16   | ND     |
 
 当前案例使用的AI处理器共24个核，算子中使能高阶API Matmul的纯Cube模式，使用MDL模板，Tiling参数如下：
 
@@ -40,8 +41,8 @@
 
 使能NBuffer33模板：在GetTiling接口前，调用SetMatmulConfigParams接口开启NBuffer33模式，使获取的Tiling满足要求；Kernel侧在创建Matmul对象时使能NBuffer33模板。使能NBuffer33模板的完整样例请参考使能NBuffer33模板策略的样例。具体步骤如下：
 
-- Tiling实现调用GetTiling接口获取TCubeTiling结构体前，开启NBuffer33模式。12345678matmul_tiling::MatmulConfigParamsmatmulConfigParams(1,false,matmul_tiling::ScheduleType::N_BUFFER_33,/* NBuffer33模式 */matmul_tiling::MatrixTraverse::NOSET,false);cubeTiling.SetMatmulConfigParams(matmulConfigParams);if(cubeTiling.GetTiling(tilingData)==-1){std::cout<<"Generate tiling failed."<<std::endl;return{};}
-- Kernel实现设置模板参数MatmulPolicy为NBuffer33模板策略，创建Matmul对象。1234567AscendC::MatmulImpl<AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,aType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,bType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,cType>,AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,biasType>,CFG_MDL,AscendC::MatmulCallBackFunc<nullptr,nullptr,nullptr>,AscendC::Impl::Detail::NBuffer33MatmulPolicy>matmulObj;
+- Tiling实现调用GetTiling接口获取TCubeTiling结构体前，开启NBuffer33模式。12345678matmul_tiling:MatmulConfigParamsmatmulConfigParams（1,false,matmul_tiling:ScheduleType:N_BUFFER_33,/* NBuffer33模式 */matmul_tiling:MatrixTraverse:NOSET,false）；cubeTiling.SetMatmulConfigParams(matmulConfigParams);if(cubeTiling.GetTiling(tilingData)==-1){std:cout<<"Generate tiling failed."<<std:endl;return{};}
+- Kernel实现设置模板参数MatmulPolicy为NBuffer33模板策略，创建Matmul对象。1234567AscendC:MatmulImpl<AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,aType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,bType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,cType>,AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,biasType>,CFG_MDL,AscendC:MatmulCallBackFunc<nullptr,nullptr,nullptr>,AscendC:Impl:Detail:NBuffer33MatmulPolicy>matmulObj;
 
 #### 验证优化方案性能收益
 
@@ -50,4 +51,4 @@
 
 #### 总结
 
-MTE2 Bound的场景，Tiling参数满足stepM、stepKa、stepKb小于等于3的条件时，可以考虑使能NBuffer33模板，切分矩阵将搬运流水错开， 减少单次搬运的数据量，平衡MTE2和FixPipe的数据流量。
+MTE2 Bound的场景，Tiling参数满足stepM、stepKa、stepKb小于等于3的条件时，可以考虑使能NBuffer33模板，切分矩阵将搬运流水错开，减少单次搬运的数据量，平衡MTE2和FixPipe的数据流量。

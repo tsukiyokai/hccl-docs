@@ -1,6 +1,7 @@
 # 性能调优-调试调优-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_00059
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00059.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00059.html
 ---
 
 # 性能调优
@@ -13,4 +14,4 @@
 - Roofline瓶颈分析：通过msprof op生成的visualize_data.bin文件可通过MindStudio Insight进行可视化呈现，Roofline瓶颈分析图可构建出处理器的性能模型，然后利用该性能模型快速评估出算子的理论性能极限，协助开发者快速识别瓶颈类型。
 - 指令流水图：通过msprof op simulator生成的visualize_data.bin文件或trace.json文件，并进行可视化呈现。指令流水图以指令维度展示时序关系，并关联调用栈快速定位瓶颈位置。
 
-性能调优工具的具体使用方法请参考算子调优（msProf）。
+性能调优工具的具体使用方法请参考算子调优(msProf)。

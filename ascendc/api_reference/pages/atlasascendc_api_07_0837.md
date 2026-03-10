@@ -1,6 +1,7 @@
 # TopK Tiling-排序操作-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0837
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0837.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0837.html
 ---
 
 # TopK Tiling
@@ -18,41 +19,41 @@ Ascend C提供TopK Tiling API，方便用户获取TopK kernel计算时所需的T
 
 #### 函数原型
 
-| 1 | boolGetTopKMaxMinTmpSize(constplatform_ascendc::PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constboolisReuseSource,constboolisInitIndex,enumTopKModemode,constboolisLargest,constuint32_tdataTypeSize,uint32_t&maxValue,uint32_t&minValue) |
-| --- | --- |
+| 1   | boolGetTopKMaxMinTmpSize(constplatform_ascendc:PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constboolisReuseSource,constboolisInitIndex,enumTopKModemode,constboolisLargest,constuint32_tdataTypeSize,uint32_t&maxValue,uint32_t&minValue) |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
-| 1 | boolTopKTilingFunc(constplatform_ascendc::PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constint32_tk,constuint32_tdataTypeSize,constboolisInitIndex,enumTopKModemode,constboolisLargest,optiling::TopkTiling&topKTiling) |
-| --- | --- |
+| 1   | boolTopKTilingFunc(constplatform_ascendc:PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constint32_tk,constuint32_tdataTypeSize,constboolisInitIndex,enumTopKModemode,constboolisLargest,optiling:TopkTiling&topKTiling) |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-| 1 | boolTopKTilingFunc(constplatform_ascendc::PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constint32_tk,constuint32_tdataTypeSize,constboolisInitIndex,enumTopKModemode,constboolisLargest,AscendC::tiling::TopkTiling&topKTiling) |
-| --- | --- |
+| 1   | boolTopKTilingFunc(constplatform_ascendc:PlatformAscendC&ascendcPlatform,constint32_tinner,constint32_toutter,constint32_tk,constuint32_tdataTypeSize,constboolisInitIndex,enumTopKModemode,constboolisLargest,AscendC:tiling:TopkTiling&topKTiling) |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 接口 | 输入/输出 | 功能 |
-| --- | --- | --- |
-| ascendcPlatform | 输入 | 传入硬件平台的信息，PlatformAscendC定义请参见构造及析构函数。 |
-| inner | 输入 | 表示TopK接口输入srcLocal的内轴长度，该参数的取值为32的整数倍。 |
-| outter | 输入 | 表示TopK接口输入srcLocal的外轴长度。 |
-| isReuseSource | 输入 | 中间变量是否能够复用输入内存。与kernel侧接口的isReuseSrc保持一致。 |
-| isInitIndex | 输入 | 是否传入输入数据对应的索引，与kernel侧接口一致。 |
-| mode | 输入 | 选择TopKMode::TOPK_NORMAL模式或者TopKMode::TOPK_NSMALL模式，与kernel侧接口一致。 |
-| isLargest | 输入 | 表示降序/升序，true表示降序，false表示升序。与kernel侧接口一致。 |
-| dataTypeSize | 输入 | 参与计算的srcLocal数据类型的大小，比如half=2， float=4 |
-| maxValue | 输出 | TopK接口内部完成计算需要的最大临时空间大小，单位是Byte。说明：maxValue仅作为参考值，有可能大于Unified Buffer剩余空间的大小，该场景下，开发者需要根据Unified Buffer剩余空间的大小来选取合适的临时空间大小。 |
-| minValue | 输出 | TopK接口内部完成计算需要的最小临时空间大小，单位是Byte。 |
+| 接口            | 输入/输出 | 功能                                                                                                                                                                                                       |
+| --------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ascendcPlatform | 输入      | 传入硬件平台的信息，PlatformAscendC定义请参见构造及析构函数。                                                                                                                                              |
+| inner           | 输入      | 表示TopK接口输入srcLocal的内轴长度，该参数的取值为32的整数倍。                                                                                                                                             |
+| outter          | 输入      | 表示TopK接口输入srcLocal的外轴长度。                                                                                                                                                                       |
+| isReuseSource   | 输入      | 中间变量是否能够复用输入内存。与kernel侧接口的isReuseSrc保持一致。                                                                                                                                         |
+| isInitIndex     | 输入      | 是否传入输入数据对应的索引，与kernel侧接口一致。                                                                                                                                                           |
+| mode            | 输入      | 选择TopKMode:TOPK_NORMAL模式或者TopKMode:TOPK_NSMALL模式，与kernel侧接口一致。                                                                                                                             |
+| isLargest       | 输入      | 表示降序/升序，true表示降序，false表示升序。与kernel侧接口一致。                                                                                                                                           |
+| dataTypeSize    | 输入      | 参与计算的srcLocal数据类型的大小，比如half=2，float=4                                                                                                                                                      |
+| maxValue        | 输出      | TopK接口内部完成计算需要的最大临时空间大小，单位是Byte。说明：maxValue仅作为参考值，有可能大于Unified Buffer剩余空间的大小，该场景下，开发者需要根据Unified Buffer剩余空间的大小来选取合适的临时空间大小。 |
+| minValue        | 输出      | TopK接口内部完成计算需要的最小临时空间大小，单位是Byte。                                                                                                                                                   |
 
-| 接口 | 输入/输出 | 功能 |
-| --- | --- | --- |
-| ascendcPlatform | 输入 | 传入硬件平台的信息，PlatformAscendC定义请参见构造及析构函数。 |
-| inner | 输入 | 表示TopK接口输入srcLocal的内轴长度，该参数的取值为32的整数倍。 |
-| outter | 输入 | 表示TopK接口输入srcLocal的外轴长度。 |
-| k | 输入 | 获取前k个最大值或最小值及其对应的索引。 |
-| dataTypeSize | 输入 | 参与计算的srcLocal数据类型的大小，比如half=2， float=4。 |
-| isInitIndex | 输入 | 是否传入输入数据对应的索引，与kernel侧接口一致。 |
-| mode | 输入 | 选择TopKMode::TOPK_NORMAL模式或者TopKMode::TOPK_NSMALL模式，与kernel侧接口一致。 |
-| isLargest | 输入 | 表示降序/升序，true表示降序，false表示升序。与kernel侧接口一致。 |
-| topKTiling | 输出 | 输出TopK接口所需的tiling信息。 |
+| 接口            | 输入/输出 | 功能                                                                           |
+| --------------- | --------- | ------------------------------------------------------------------------------ |
+| ascendcPlatform | 输入      | 传入硬件平台的信息，PlatformAscendC定义请参见构造及析构函数。                  |
+| inner           | 输入      | 表示TopK接口输入srcLocal的内轴长度，该参数的取值为32的整数倍。                 |
+| outter          | 输入      | 表示TopK接口输入srcLocal的外轴长度。                                           |
+| k               | 输入      | 获取前k个最大值或最小值及其对应的索引。                                        |
+| dataTypeSize    | 输入      | 参与计算的srcLocal数据类型的大小，比如half=2，float=4。                        |
+| isInitIndex     | 输入      | 是否传入输入数据对应的索引，与kernel侧接口一致。                               |
+| mode            | 输入      | 选择TopKMode:TOPK_NORMAL模式或者TopKMode:TOPK_NSMALL模式，与kernel侧接口一致。 |
+| isLargest       | 输入      | 表示降序/升序，true表示降序，false表示升序。与kernel侧接口一致。               |
+| topKTiling      | 输出      | 输出TopK接口所需的tiling信息。                                                 |
 
 #### 返回值说明
 
@@ -69,5 +70,5 @@ TopKTilingFunc返回值为true/false，true表示成功拿到TopK的Tiling各项
 如下样例介绍了使用TopK高阶API时host侧获取Tiling参数的流程以及该参数如何在kernel侧使用。
 
 1. 将TopK Tiling结构体参数增加至TilingData结构体，作为TilingData结构体的一个字段。1234567891011121314151617181920namespaceoptiling{BEGIN_TILING_DATA_DEF(TilingData)TILING_DATA_FIELD_DEF(uint32_t,totalLength);TILING_DATA_FIELD_DEF(uint32_t,tilenum);//添加其他tiling字段...TILING_DATA_FIELD_DEF(int32_t,k);TILING_DATA_FIELD_DEF(bool,islargest);TILING_DATA_FIELD_DEF(bool,isinitindex);TILING_DATA_FIELD_DEF(bool,ishasfinish);TILING_DATA_FIELD_DEF(uint32_t,tmpsize);TILING_DATA_FIELD_DEF(int32_t,outter);TILING_DATA_FIELD_DEF(int32_t,inner);TILING_DATA_FIELD_DEF(int32_t,n);TILING_DATA_FIELD_DEF(int32_t,order);TILING_DATA_FIELD_DEF(int32_t,sorted);TILING_DATA_FIELD_DEF_STRUCT(TopkTiling,topkTilingData);END_TILING_DATA_DEF;REGISTER_TILING_DATA_CLASS(TopkCustom,TilingData)}
-1. Tiling实现函数中，首先调用GetTopKMaxMinTmpSize接口获取TopK接口能完成计算所需最大/最小临时空间大小，根据该范围结合实际的内存使用情况设置合适的空间大小；然后根据输入shape等信息获取TopK kernel侧接口所需tiling参数。1234567891011121314151617181920212223242526272829303132333435363738394041namespaceoptiling{constuint32_tBLOCK_DIM=8;constuint32_tTILE_NUM=8;constint32_tOUTTER=2;constint32_tINNER=32;constint32_tN=32;constint32_tK=8;constboolIS_LARGEST=true;constboolIS_INITINDEX=true;constboolIS_REUSESOURCE=false;staticge::graphStatusTilingFunc(gert::TilingContext*context){TilingDatatiling;uint32_ttotalLength=context->GetInputTensor(0)->GetShapeSize();context->SetBlockDim(BLOCK_DIM);tiling.set_totalLength(totalLength);tiling.set_tileNum(TILE_NUM);tiling.set_k(K);tiling.set_outter(OUTTER);tiling.set_inner(INNER);tiling.set_n(N);tiling.set_islargest(IS_LARGEST);tiling.set_isinitindex(IS_INITINDEX);// 设置其他Tiling参数...// 本样例中仅作为样例说明，通过GetTopKMaxMinTmpSize获取最小值并传入，来保证功能正确，开发者可以根据需要传入合适的空间大小。uint32_tmaxsize=0;uint32_tminsize=0;uint32_tdtypesize=4;// float类型autoascendcPlatform=platform_ascendc::PlatformAscendC(context->GetPlatformInfo());AscendC::TopKTilingFunc(ascendcPlatform,tiling.inner,tiling.outter,tiling.k,dtypesize,tiling.isinitindex,AscendC::TopKMode::TOPK_NSMALL,tiling.islargest,tiling.topkTilingData);AscendC::GetTopKMaxMinTmpSize(ascendcPlatform,tiling.inner,tiling.outter,IS_REUSESOURCE,tiling.isinitindex,AscendC::TopKMode::TOPK_NSMALL,tiling.islargest,dtypesize,maxsize,minsize);tiling.set_tmpsize(minsize);...// 其他逻辑tiling.SaveToBuffer(context->GetRawTilingData()->GetData(),context->GetRawTilingData()->GetCapacity());context->GetRawTilingData()->SetDataSize(tiling.GetDataSize());size_t*currentWorkspace=context->GetWorkspaceSizes(1);currentWorkspace[0]=0;returnge::GRAPH_SUCCESS;}}// namespace optiling
-1. 对应的kernel侧通过在核函数中调用GET_TILING_DATA获取TilingData，继而将TilingData中的TopK Tiling信息传入TopK接口参与计算。完整的kernel侧样例请参考调用示例。1234567extern"C"__global____aicore__voidtopk_custom(GM_ADDRsrcVal,GM_ADDRsrcIdx,GM_ADDRfinishLocal,GM_ADDRdstVal,GM_ADDRdstIdx,GM_ADDRtiling){GET_TILING_DATA(tilingData,tiling);KernelTopK<float,true,true,false,false,AscendC::TopKMode::TOPK_NSMALL>op;op.Init(srcVal,srcIdx,finishLocal,dstVal,dstIdx,tilingData.k,tilingData.islargest,tilingData.tmpsize,tilingData.outter,tilingData.inner,tilingData.n,tilingData.topkTilingData);op.Process();}
+1. Tiling实现函数中，首先调用GetTopKMaxMinTmpSize接口获取TopK接口能完成计算所需最大/最小临时空间大小，根据该范围结合实际的内存使用情况设置合适的空间大小；然后根据输入shape等信息获取TopK kernel侧接口所需tiling参数。1234567891011121314151617181920212223242526272829303132333435363738394041namespaceoptiling{constuint32_tBLOCK_DIM=8;constuint32_tTILE_NUM=8;constint32_tOUTTER=2;constint32_tINNER=32;constint32_tN=32;constint32_tK=8;constboolIS_LARGEST=true;constboolIS_INITINDEX=true;constboolIS_REUSESOURCE=false;staticge:graphStatusTilingFunc(gert:TilingContext*context){TilingDatatiling;uint32_ttotalLength=context->GetInputTensor(0)->GetShapeSize();context->SetBlockDim(BLOCK_DIM);tiling.set_totalLength(totalLength);tiling.set_tileNum(TILE_NUM);tiling.set_k(K);tiling.set_outter(OUTTER);tiling.set_inner(INNER);tiling.set_n(N);tiling.set_islargest(IS_LARGEST);tiling.set_isinitindex(IS_INITINDEX);// 设置其他Tiling参数...// 本样例中仅作为样例说明，通过GetTopKMaxMinTmpSize获取最小值并传入，来保证功能正确，开发者可以根据需要传入合适的空间大小。uint32_tmaxsize=0;uint32_tminsize=0;uint32_tdtypesize=4;// float类型autoascendcPlatform=platform_ascendc:PlatformAscendC(context->GetPlatformInfo());AscendC:TopKTilingFunc(ascendcPlatform,tiling.inner,tiling.outter,tiling.k,dtypesize,tiling.isinitindex,AscendC:TopKMode:TOPK_NSMALL,tiling.islargest,tiling.topkTilingData);AscendC:GetTopKMaxMinTmpSize(ascendcPlatform,tiling.inner,tiling.outter,IS_REUSESOURCE,tiling.isinitindex,AscendC:TopKMode:TOPK_NSMALL,tiling.islargest,dtypesize,maxsize,minsize);tiling.set_tmpsize(minsize);...// 其他逻辑tiling.SaveToBuffer(context->GetRawTilingData()->GetData(),context->GetRawTilingData()->GetCapacity());context->GetRawTilingData()->SetDataSize(tiling.GetDataSize());size_t*currentWorkspace=context->GetWorkspaceSizes(1);currentWorkspace[0]=0;returnge:GRAPH_SUCCESS;}}// namespace optiling
+1. 对应的kernel侧通过在核函数中调用GET_TILING_DATA获取TilingData，继而将TilingData中的TopK Tiling信息传入TopK接口参与计算。完整的kernel侧样例请参考调用示例。1234567extern"C"__global____aicore__voidtopk_custom(GM_ADDRsrcVal,GM_ADDRsrcIdx,GM_ADDRfinishLocal,GM_ADDRdstVal,GM_ADDRdstIdx,GM_ADDRtiling){GET_TILING_DATA(tilingData,tiling);KernelTopK<float,true,true,false,false,AscendC:TopKMode:TOPK_NSMALL>op;op.Init(srcVal,srcIdx,finishLocal,dstVal,dstIdx,tilingData.k,tilingData.islargest,tilingData.tmpsize,tilingData.outter,tilingData.inner,tilingData.n,tilingData.topkTilingData);op.Process();}

@@ -1,6 +1,7 @@
 # 多核对齐切分-特性场景-矩阵编程（高阶API）-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10013
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10013.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10013.html
 ---
 
 # 多核对齐切分
@@ -44,5 +45,5 @@
 
 该场景的关键代码示例如下。Matmul多核对齐场景的完整样例请参考：多核切M、N的样例：Matmul多核Kernel直调样例；多核切K的样例：多核切K场景的算子样例。
 
-| 123456789101112131415 | // 构造多核Tiling对象autoascendcPlatform=platform_ascendc::PlatformAscendCManager::GetInstance(socVersion);matmul_tiling::MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);// 仅包含Cube计算的算子，设置可参与矩阵乘运算的核数为当前AI处理器上的Cube核数cubeTiling.SetDim(ascendcPlatform.GetCoreNumAic());cubeTiling.SetAType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);cubeTiling.SetBType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT16);cubeTiling.SetCType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);cubeTiling.SetBiasType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_FLOAT);cubeTiling.SetOrgShape(M,N,K);cubeTiling.SetShape(M,N,K);cubeTiling.EnableBias(isBias);optiling::TCubeTilingtilingData;// 获取Tiling参数intret=cubeTiling.GetTiling(tilingData);// if ret = -1, gen tiling failed |
-| --- | --- |
+| 123456789101112131415 | // 构造多核Tiling对象autoascendcPlatform=platform_ascendc:PlatformAscendCManager:GetInstance(socVersion);matmul_tiling:MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);// 仅包含Cube计算的算子，设置可参与矩阵乘运算的核数为当前AI处理器上的Cube核数cubeTiling.SetDim(ascendcPlatform.GetCoreNumAic());cubeTiling.SetAType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);cubeTiling.SetBType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT16);cubeTiling.SetCType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);cubeTiling.SetBiasType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_FLOAT);cubeTiling.SetOrgShape(M,N,K);cubeTiling.SetShape(M,N,K);cubeTiling.EnableBias(isBias);optiling:TCubeTilingtilingData;// 获取Tiling参数intret=cubeTiling.GetTiling(tilingData);// if ret = -1, gen tiling failed |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

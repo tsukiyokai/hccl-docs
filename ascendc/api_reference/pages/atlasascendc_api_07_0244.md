@@ -1,20 +1,21 @@
-# LoadDataWithSparse-数据搬运-矩阵计算（ISASI）-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+# LoadDataWithSparse-数据搬运-矩阵计算(ISASI)-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0244
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0244.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0244.html
 ---
 
 # LoadDataWithSparse
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -26,22 +27,22 @@
 
 #### 函数原型
 
-| 12 | template<typenameT=int8_t,typenameU=uint8_t,typenameStd::enable_if<Std::is_same<PrimT<T>,int8_t>::value,bool>::type=true,typenameStd::enable_if<Std::is_same<PrimT<U>,uint8_t>::value,bool>::type=true>__aicore__inlinevoidLoadDataWithSparse(constLocalTensor<T>&dst,constLocalTensor<T>&src,constLocalTensor<U>&idx,constLoadData2dParams&loadDataParam) |
-| --- | --- |
+| 12  | template<typenameT=int8_t,typenameU=uint8_t,typenameStd:enable_if<Std:is_same<PrimT<T>,int8_t>:value,bool>:type=true,typenameStd:enable_if<Std:is_same<PrimT<U>,uint8_t>:value,bool>:type=true>__aicore__inlinevoidLoadDataWithSparse(constLocalTensor<T>&dst,constLocalTensor<T>&src,constLocalTensor<U>&idx,constLoadData2dParams&loadDataParam) |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | dst、src的数据类型。 |
-| U | idx的数据类型。当dst、src、idx为基础数据类型时，T和U必须为uint8_t类型，否则编译失败。当dst、src、idx为TensorTrait类型时，T和U的LiteType必须为int8_t类型，否则编译失败。最后两个模板参数仅用于上述数据类型检查，用户无需关注。 |
+| 参数名 | 描述                                                                                                                                                                                                                          |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T      | dst、src的数据类型。                                                                                                                                                                                                          |
+| U      | idx的数据类型。当dst、src、idx为基础数据类型时，T和U必须为uint8_t类型，否则编译失败。当dst、src、idx为TensorTrait类型时，T和U的LiteType必须为int8_t类型，否则编译失败。最后两个模板参数仅用于上述数据类型检查，用户无需关注。 |
 
-| 参数名称 | 输入/输出 | 含义 |
-| --- | --- | --- |
-| dst | 输出 | 目的操作数，类型为LocalTensor，支持的TPosition为B2，LocalTensor的起始地址需要512字节对齐。支持的数据类型为int8_t。数据连续排列顺序要求为小N大Z格式。 |
-| src | 输入 | 源操作数，类型为LocalTensor，支持的TPosition为B1，LocalTensor的起始地址需要32字节对齐。支持的数据类型为int8_t。 |
-| idx | 输入 | 源操作数，类型为LocalTensor，支持的TPosition为B1，LocalTensor的起始地址需要32字节对齐。支持的数据类型为int8_t。 |
-| loadDataParam | 输入 | LoadData参数结构体，LoadData2DParams类型，详细说明参考LoadData2DParams结构体内参数说明。 |
+| 参数名称      | 输入/输出 | 含义                                                                                                                                                 |
+| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dst           | 输出      | 目的操作数，类型为LocalTensor，支持的TPosition为B2，LocalTensor的起始地址需要512字节对齐。支持的数据类型为int8_t。数据连续排列顺序要求为小N大Z格式。 |
+| src           | 输入      | 源操作数，类型为LocalTensor，支持的TPosition为B1，LocalTensor的起始地址需要32字节对齐。支持的数据类型为int8_t。                                      |
+| idx           | 输入      | 源操作数，类型为LocalTensor，支持的TPosition为B1，LocalTensor的起始地址需要32字节对齐。支持的数据类型为int8_t。                                      |
+| loadDataParam | 输入      | LoadData参数结构体，LoadData2DParams类型，详细说明参考LoadData2DParams结构体内参数说明。                                                             |
 
 #### 约束说明
 

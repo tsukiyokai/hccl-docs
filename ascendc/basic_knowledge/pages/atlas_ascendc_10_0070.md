@@ -1,6 +1,7 @@
 # 单算子API调用-工程化算子开发-附录-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_0070
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0070.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0070.html
 ---
 
 # 单算子API调用
@@ -13,8 +14,8 @@
 
 单算子API的形式一般定义为“两段式接口”，形如：
 
-| 12 | aclnnStatusaclnnXxxGetWorkspaceSize(constaclTensor*src,...,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor);aclnnStatusaclnnXxx(void*workspace,uint64_tworkspaceSize,aclOpExecutor*executor,aclrtStreamstream); |
-| --- | --- |
+| 12  | aclnnStatusaclnnXxxGetWorkspaceSize(constaclTensor*src,...,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor);aclnnStatusaclnnXxx(void*workspace,uint64_tworkspaceSize,aclOpExecutor*executor,aclrtStreamstream); |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 其中aclnnXxxGetWorkspaceSize/aclnnXxxTensorGetWorkspaceSize为第一段接口，主要用于计算本次API调用过程中需要多少workspace内存，获取到本次计算所需的workspaceSize后，按照workspaceSize申请NPU内存，然后调用第二段接口aclnnXxx执行计算。Xxx代表算子原型注册时传入的算子类型。
 
@@ -28,18 +29,18 @@ aclnnXxxGetWorkspaceSize接口的输入输出参数生成规则如下：
 
 当算子原型注册时使用ValueDepend接口标识输入为数据依赖输入时，会额外生成一个API，该API支持值依赖场景输入数据为空的一阶段计算。
 
-| 1 | aclnnStatusaclnnXxxTensorGetWorkspaceSize(constaclTensor*src,...,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor); |
-| --- | --- |
+| 1   | aclnnStatusaclnnXxxTensorGetWorkspaceSize(constaclTensor*src,...,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor); |
+| --- | ------------------------------------------------------------------------------------------------------------------------------- |
 
-| 12 | aclnnStatusaclnnXxxGetWorkspaceSize(constaclIntArray*x0,constaclBoolArray*x1,constaclFloatArray*x2,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor);aclnnStatusaclnnXxxTensorGetWorkspaceSize(constaclTensor*x0,constaclTensor*x1,constaclTensor*x2,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor); |
-| --- | --- |
+| 12  | aclnnStatusaclnnXxxGetWorkspaceSize(constaclIntArray*x0,constaclBoolArray*x1,constaclFloatArray*x2,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor);aclnnStatusaclnnXxxTensorGetWorkspaceSize(constaclTensor*x0,constaclTensor*x1,constaclTensor*x2,aclTensor*out,uint64_t*workspaceSize,aclOpExecutor**executor); |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 前置步骤
 
 - 参考创建算子工程完成自定义算子工程的创建。
 - 参考Kernel侧算子实现完成kernel侧实现的相关准备，参考Host侧Tiling实现、算子原型定义完成host侧实现相关准备。
 - 对于算子包编译场景，参考算子工程编译、算子包部署完成算子的编译部署，编译部署时需要开启算子的二进制编译功能：修改算子工程中的编译配置项文件CMakePresets.json，将ENABLE_BINARY_PACKAGE设置为True。编译部署时可将算子的二进制部署到当前环境，便于后续算子的调用。"ENABLE_BINARY_PACKAGE": {
-                    "type": "BOOL","value": "True"},算子编译部署后，会在算子包安装目录下的op_api目录生成单算子调用的头文件aclnn_xx.h和动态库libcust_opapi.so。以默认安装场景为例，单算子调用的头文件.h和动态库libcust_opapi.so所在的目录结构，如下所示：├── opp    //算子库目录
+                    "type": "BOOL","value": "True"},算子编译部署后，会在算子包安装目录下的op_api目录生成单算子调用的头文件aclnn_xx.h和动态库libcust_opapi.so。以默认安装场景为例，单算子调用的头文件。h和动态库libcust_opapi.so所在的目录结构，如下所示：├── opp    //算子库目录
 │   ├── vendors     //自定义算子所在目录
 │       ├── config.ini
 │       └──vendor_name1// 存储对应厂商部署的自定义算子，此名字为编译自定义算子安装包时配置的vendor_name，若未配置，默认值为customize
@@ -68,7 +69,7 @@ aclnnXxxGetWorkspaceSize接口的输入输出参数生成规则如下：
 ![](../images/atlas_ascendc_10_00043_img_002.png)
 
 | 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152 | // 1.初始化aclRet=aclInit("../scripts/acl.json");// 2.运行管理资源申请intdeviceId=0;aclRet=aclrtSetDevice(deviceId);// 获取软件栈的运行模式，不同运行模式影响后续的接口调用流程（例如是否进行数据传输等）aclrtRunModerunMode;boolg_isDevice=false;aclErroraclRet=aclrtGetRunMode(&runMode);g_isDevice=(runMode==ACL_DEVICE);// 3.申请内存存放算子的输入输出// ......// 4.传输数据if(aclrtMemcpy(devInputs_[i],size,hostInputs_[i],size,kind)!=ACL_SUCCESS){returnfalse;}// 5.计算workspace大小并申请内存size_tworkspaceSize=0;aclOpExecutor*handle=nullptr;autoret=aclnnAddCustomGetWorkspaceSize(inputTensor_[0],inputTensor_[1],outputTensor_[0],&workspaceSize,&handle);// ...void*workspace=nullptr;if(workspaceSize!=0){if(aclrtMalloc(&workspace,workspaceSize,ACL_MEM_MALLOC_HUGE_FIRST)!=ACL_SUCCESS){ERROR_LOG("Malloc device memory failed");}}// 6.执行算子if(aclnnAddCustom(workspace,workspaceSize,handle,stream)!=ACL_SUCCESS){(void)aclrtDestroyStream(stream);ERROR_LOG("Execute Operator failed. error code is %d",static_cast<int32_t>(ret));returnfalse;}// 7.同步等待aclrtSynchronizeStream(stream);// 8.处理执行算子后的输出数据，例如在屏幕上显示、写入文件等，由用户根据实际情况自行实现// ......// 9.释放运行管理资源aclRet=aclrtResetDevice(deviceId);// ....// 10.去初始化aclRet=aclFinalize(); |
-| --- | --- |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### CMakeLists文件
 
@@ -104,6 +105,6 @@ aclnnXxxGetWorkspaceSize接口的输入输出参数生成规则如下：
 
 1. 开发环境上，设置环境变量，配置单算子验证程序编译依赖的头文件与库文件路径，如下为设置环境变量的示例。${INSTALL_DIR}请替换为CANN软件安装后文件存储路径。以root用户安装为例，则安装后文件存储路径为：/usr/local/Ascend/cann。{arch-os}为运行环境的架构和操作系统，arch表示操作系统架构，os表示操作系统，例如x86_64-linux或aarch64-linux。export DDK_PATH=${INSTALL_DIR}export NPU_HOST_LIB=${INSTALL_DIR}/{arch-os}/devlib
 1. 编译样例工程，生成单算子验证可执行文件。切换到样例工程根目录，然后在样例工程根目录下执行如下命令创建目录用于存放编译文件，例如，创建的目录为“build”。mkdir -p build进入build目录，执行cmake编译命令，生成编译文件命令示例如下所示：cd buildcmake ../src -DCMAKE_SKIP_RPATH=TRUE执行如下命令，生成可执行文件。make会在工程目录的output目录下生成可执行文件execute_add_op。
-1. 执行单算子以运行用户（例如HwHiAiUser）拷贝开发环境中样例工程output目录下的execute_add_op到运行环境任一目录。说明： 若您的开发环境即为运行环境，此拷贝操作可跳过。在运行环境中，执行execute_add_op文件：chmod +x execute_add_op
+1. 执行单算子以运行用户（例如HwHiAiUser）拷贝开发环境中样例工程output目录下的execute_add_op到运行环境任一目录。说明：若您的开发环境即为运行环境，此拷贝操作可跳过。在运行环境中，执行execute_add_op文件：chmod +x execute_add_op
 ./execute_add_op会有如下屏显信息：123456789101112131415[INFO]Setdevice[0]success[INFO]GetRunMode[1]success[INFO]Initresourcesuccess[INFO]Setinputsuccess[INFO]Copyinput[0]success[INFO]Copyinput[1]success[INFO]Createstreamsuccess[INFO]ExecuteaclnnAddCustomGetWorkspaceSizesuccess,workspacesize0[INFO]ExecuteaclnnAddCustomsuccess[INFO]Synchronizestreamsuccess[INFO]Copyoutput[0]success[INFO]Writeoutputsuccess[INFO]Runopsuccess[INFO]ResetDevicesuccess[INFO]Destroyresourcesuccess如果有Run op success，表明执行成功，会在output目录下生成输出文件output_z.bin。
 1. 比较真值文件切换到样例工程根目录，然后执行如下命令：python3 scripts/verify_result.py output/output_z.bin output/golden.bin会有如下屏显信息：1testpass可见，AddCustom算子验证结果正确。

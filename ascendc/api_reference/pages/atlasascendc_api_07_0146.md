@@ -1,6 +1,7 @@
 # TQueBind简介-TQueBind-Pipe和Que框架-资源管理-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0146
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0146.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0146.html
 ---
 
 # TQueBind简介
@@ -11,23 +12,23 @@ TQueBind绑定源逻辑位置和目的逻辑位置，根据源位置和目的位
 
 ![](../images/atlasascendc_api_07_0146_img_001.png)
 
-| 数据通路 | TQueBind定义 | TQue定义 |
-| --- | --- | --- |
-| GM->VECIN | TQueBind<TPosition::GM, TPosition::VECIN, 1> | TQue<TPosition::VECIN, 1> |
-| VECOUT->GM | TQueBind<TPosition::VECOUT, TPosition::GM, 1> | TQue<TPosition::VECOUT, 1> |
-| VECIN->VECOUT | TQueBind<TPosition::VECIN, TPosition::VECOUT, 1> | - |
-| GM->A1 | TQueBind<TPosition::GM, TPosition::A1, 1> | TQue<TPosition::A1, 1> |
-| GM->B1 | TQueBind<TPosition::GM, TPosition::B1, 1> | TQue<TPosition::B1, 1> |
-| GM->C1 | TQueBind<TPosition::GM, TPosition::C1, 1> | TQue<TPosition::C1, 1> |
-| A1->A2 | TQueBind<TPosition::A1, TPosition::A2, 1> | TQue<TPosition::A2, 1> |
-| B1->B2 | TQueBind<TPosition::B1, TPosition::B2, 1> | TQue<TPosition::B2, 1> |
-| C1->C2 | TQueBind<TPosition::C1, TPosition::C2, 1> | TQue<TPosition::C2, 1> |
-| CO1->CO2 | TQueBind<TPosition::CO1, TPosition::CO2, 1> | TQue<TPosition::CO1, 1> |
-| CO2->GM | TQueBind<TPosition::CO2, TPosition::GM, 1> | TQue<TPosition::CO2, 1> |
-| VECOUT->A1/B1/C1 | TQueBind<TPosition::VECOUT, TPosition::A1, 1>
-TQueBind<TPosition::VECOUT, TPosition::B1, 1>
-TQueBind<TPosition::VECOUT, TPosition::C1, 1> | - |
-| CO2->VECIN | TQueBind<TPosition::CO2, TPosition::VECIN, 1> | - |
+| 数据通路      | TQueBind定义                                   | TQue定义                  |
+| ------------- | ---------------------------------------------- | ------------------------- |
+| GM->VECIN     | TQueBind<TPosition:GM, TPosition:VECIN, 1>     | TQue<TPosition:VECIN, 1>  |
+| VECOUT->GM    | TQueBind<TPosition:VECOUT, TPosition:GM, 1>    | TQue<TPosition:VECOUT, 1> |
+| VECIN->VECOUT | TQueBind<TPosition:VECIN, TPosition:VECOUT, 1> | -                         |
+| GM->A1        | TQueBind<TPosition:GM, TPosition:A1, 1>        | TQue<TPosition:A1, 1>     |
+| GM->B1        | TQueBind<TPosition:GM, TPosition:B1, 1>        | TQue<TPosition:B1, 1>     |
+| GM->C1        | TQueBind<TPosition:GM, TPosition:C1, 1>        | TQue<TPosition:C1, 1>     |
+| A1->A2        | TQueBind<TPosition:A1, TPosition:A2, 1>        | TQue<TPosition:A2, 1>     |
+| B1->B2        | TQueBind<TPosition:B1, TPosition:B2, 1>        | TQue<TPosition:B2, 1>     |
+| C1->C2        | TQueBind<TPosition:C1, TPosition:C2, 1>        | TQue<TPosition:C2, 1>     |
+| CO1->CO2      | TQueBind<TPosition:CO1, TPosition:CO2, 1>      | TQue<TPosition:CO1, 1>    |
+| CO2->GM       | TQueBind<TPosition:CO2, TPosition:GM, 1>       | TQue<TPosition:CO2, 1>    |
+| VECOUT->A1/B1/C1 | TQueBind<TPosition:VECOUT, TPosition:A1, 1>
+TQueBind<TPosition:VECOUT, TPosition:B1, 1>
+TQueBind<TPosition:VECOUT, TPosition:C1, 1> | - |
+| CO2->VECIN | TQueBind<TPosition:CO2, TPosition:VECIN, 1> | -   |
 
 ![](../images/atlasascendc_api_07_10005_img_003.png)
 
@@ -39,12 +40,12 @@ TQueBind<TPosition::VECOUT, TPosition::C1, 1> | - |
 
 #### 模板参数
 
-| 1 | template<TPositionsrc,TPositiondst,int32_tdepth,automask=0>classTQueBind{...}; |
-| --- | --- |
+| 1   | template<TPositionsrc,TPositiondst,int32_tdepth,automask=0>classTQueBind{...}; |
+| --- | ------------------------------------------------------------------------------ |
 
-| 参数名 | 描述 |
-| --- | --- |
-| src | 源逻辑位置，支持的TPosition可以为VECIN、VECOUT、A1、A2、B1、B2、CO1、CO2。关于TPosition的具体介绍请参考TPosition。支持的src和dst组合请参考表1。 |
-| dst | 目的逻辑位置，TPosition可以为VECIN、VECOUT、A1、A2、B1、B2、CO1、CO2。 |
-| depth | TQue的深度，一般不超过4。 |
-| mask | 如果用户在某一个Que上，数据搬运的时候需要做转换，可以设置为0或1。一般不需要用户配置，默认为0。设置为0，代表数据格式从ND转换为NZ，目前仅支持TPosition为A1或B1。 |
+| 参数名 | 描述                                                                                                                                                           |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| src    | 源逻辑位置，支持的TPosition可以为VECIN、VECOUT、A1、A2、B1、B2、CO1、CO2。关于TPosition的具体介绍请参考TPosition。支持的src和dst组合请参考表1。                |
+| dst    | 目的逻辑位置，TPosition可以为VECIN、VECOUT、A1、A2、B1、B2、CO1、CO2。                                                                                         |
+| depth  | TQue的深度，一般不超过4。                                                                                                                                      |
+| mask   | 如果用户在某一个Que上，数据搬运的时候需要做转换，可以设置为0或1。一般不需要用户配置，默认为0。设置为0，代表数据格式从ND转换为NZ，目前仅支持TPosition为A1或B1。 |

@@ -1,6 +1,7 @@
 # HcclGroup-OpMC2Def-原型注册与管理-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_1002
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1002.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1002.html
 ---
 
 # HcclGroup
@@ -11,14 +12,14 @@
 
 #### 函数原型
 
-| 12 | OpMC2Def&HcclGroup(constchar*value)OpMC2Def&HcclGroup(std::vector<constchar*>value) |
-| --- | --- |
+| 12  | OpMC2Def&HcclGroup(constchar*value)OpMC2Def&HcclGroup(std:vector<constchar*>value) |
+| --- | ---------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| value | 输入 | 配置的通信域名称。单个通信域使用const char *，多通信域使用std::vector<const char *>。 |
+| 参数  | 输入/输出 | 说明                                                                                 |
+| ----- | --------- | ------------------------------------------------------------------------------------ |
+| value | 输入      | 配置的通信域名称。单个通信域使用const char *，多通信域使用std:vector<const char *>。 |
 
 #### 约束说明
 
@@ -28,5 +29,5 @@
 
 #### 调用示例
 
-| 12345678910111213 | classMC2Custom:publicOpDef{public:MC2Custom(constchar*name):OpDef(name){this->Input("x").ParamType(REQUIRED).DataType({ge::DT_FLOAT}).Format({ge::FORMAT_ND});this->Input("y").ParamType(REQUIRED).DataType({ge::DT_FLOAT}).Format({ge::FORMAT_ND});this->Output("z").ParamType(REQUIRED).DataType({ge::DT_FLOAT}).Format({ge::FORMAT_ND});this->Attr("group").AttrType(REQUIRED).String();this->AICore().AddConfig("ascendxxx");this->MC2().HcclGroup("group");// 配置通信域名称为group}};OP_ADD(MC2Custom); |
-| --- | --- |
+| 12345678910111213 | classMC2Custom:publicOpDef{public:MC2Custom(constchar*name):OpDef(name){this->Input("x").ParamType(REQUIRED).DataType({ge:DT_FLOAT}).Format({ge:FORMAT_ND});this->Input("y").ParamType(REQUIRED).DataType({ge:DT_FLOAT}).Format({ge:FORMAT_ND});this->Output("z").ParamType(REQUIRED).DataType({ge:DT_FLOAT}).Format({ge:FORMAT_ND});this->Attr("group").AttrType(REQUIRED).String();this->AICore().AddConfig("ascendxxx");this->MC2().HcclGroup("group");// 配置通信域名称为group}};OP_ADD(MC2Custom); |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

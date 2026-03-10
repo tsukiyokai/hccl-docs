@@ -1,6 +1,7 @@
 # GetMeanMaxMinTmpSize-Mean接口-归约操作-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0830
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0830.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0830.html
 ---
 
 # GetMeanMaxMinTmpSize
@@ -14,19 +15,19 @@ kernel侧Mean接口的计算需要开发者预留/申请临时空间，本接口
 
 #### 函数原型
 
-| 1 | voidGetMeanMaxMinTmpSize(constuint32_tn,constuint32_tsrcTypeSize,constuint32_taccTypeSize,constboolisReuseSource,uint32_t&maxSize,uint32_t&minSize) |
-| --- | --- |
+| 1   | voidGetMeanMaxMinTmpSize(constuint32_tn,constuint32_tsrcTypeSize,constuint32_taccTypeSize,constboolisReuseSource,uint32_t&maxSize,uint32_t&minSize) |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 接口 | 输入/输出 | 功能 |
-| --- | --- | --- |
-| n | 输入 | 输入数据每行的实际计算个数。 |
-| srcTypeSize | 输入 | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处为2。 |
-| accTypeSize | 输入 | accType的数据类型大小，单位为字节，accType参数说明可参考Mean接口参数说明。 |
-| isReuseSource | 输入 | 是否复用源操作数输入的空间，与Mean接口一致。此处为预留参数。 |
-| maxSize | 输出 | Mean接口能完成计算所需的最大临时空间大小，超出该值的空间不会被该接口使用。说明：maxSize仅作为参考值，有可能大于Unified Buffer剩余空间的大小，该场景下，开发者需要根据Unified Buffer剩余空间的大小来选取合适的临时空间大小。 |
-| minSize | 输出 | Mean接口能完成计算所需最小临时空间大小。为保证功能正确，接口计算时预留/申请的临时空间不能小于该数值。 |
+| 接口          | 输入/输出 | 功能                                                                                                                                                                                                                        |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| n             | 输入      | 输入数据每行的实际计算个数。                                                                                                                                                                                                |
+| srcTypeSize   | 输入      | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处为2。                                                                                                                                                         |
+| accTypeSize   | 输入      | accType的数据类型大小，单位为字节，accType参数说明可参考Mean接口参数说明。                                                                                                                                                  |
+| isReuseSource | 输入      | 是否复用源操作数输入的空间，与Mean接口一致。此处为预留参数。                                                                                                                                                                |
+| maxSize       | 输出      | Mean接口能完成计算所需的最大临时空间大小，超出该值的空间不会被该接口使用。说明：maxSize仅作为参考值，有可能大于Unified Buffer剩余空间的大小，该场景下，开发者需要根据Unified Buffer剩余空间的大小来选取合适的临时空间大小。 |
+| minSize       | 输出      | Mean接口能完成计算所需最小临时空间大小。为保证功能正确，接口计算时预留/申请的临时空间不能小于该数值。                                                                                                                       |
 
 #### 返回值说明
 
@@ -38,5 +39,5 @@ kernel侧Mean接口的计算需要开发者预留/申请临时空间，本接口
 
 #### 调用示例
 
-| 1234567 | // 算子输入的数据类型T为half，accType为float，isReuseSource传入默认值falseuint32_tn=3;uint32_tsrcTypeSize=2;uint32_taccTypeSize=4;uint32_tmaxValue=0;uint32_tminValue=0;AscendC::GetMeanMaxMinTmpSize(n,srcTypeSize,accTypeSize,false,maxValue,minValue); |
-| --- | --- |
+| 1234567 | // 算子输入的数据类型T为half，accType为float，isReuseSource传入默认值falseuint32_tn=3;uint32_tsrcTypeSize=2;uint32_taccTypeSize=4;uint32_tmaxValue=0;uint32_tminValue=0;AscendC:GetMeanMaxMinTmpSize(n,srcTypeSize,accTypeSize,false,maxValue,minValue); |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,6 +1,7 @@
 # 避免TPipe在对象内创建和初始化-头尾开销优化-SIMD算子性能优化-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_0028
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0028.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0028.html
 ---
 
 # 避免TPipe在对象内创建和初始化
@@ -16,14 +17,14 @@
 代码中TPipe对象由KernelExample类内部创建并初始化，影响编译器Scalar折叠优化，在NPU侧导致Scalar不必要的增加。
 
 | 123456789101112131415161718192021222324 | template<typenameComputeT>classKernelExample{public:__aicore__inlineKernelExample(){}__aicore__inlinevoidInit(...){...pipe.InitBuffer(xxxBuf,BUFFER_NUM,xxxSize);...}private:...TPipepipe;...};extern"C"__global____aicore__voidexample_kernel(...){...KernelExample<float>op;op.Init(...);...} |
-| --- | --- |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 【正例】
 
 改为由Kernel入口函数创建TPipe对象，在KernelExample类中保存TPipe指针使用。
 
 | 1234567891011121314151617181920212223242526 | template<typenameComputeT>classKernelExample{public:__aicore__inlineKernelExample(){}__aicore__inlinevoidInit(...,TPipe*pipeIn){...pipe=pipeIn;pipe->InitBuffer(xxxBuf,BUFFER_NUM,xxxSize);...}private:...TPipe*pipe;...};extern"C"__global____aicore__voidexample_kernel(...){...TPipepipe;KernelExample<float>op;op.Init(...,&pipe);...} |
-| --- | --- |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 【性能对比】
 

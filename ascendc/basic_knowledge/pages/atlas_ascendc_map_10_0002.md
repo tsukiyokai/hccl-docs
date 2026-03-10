@@ -1,6 +1,7 @@
 # 什么是Ascend C-入门教程-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_map_10_0002
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_map_10_0002.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_map_10_0002.html
 ---
 
 # 什么是Ascend C
@@ -42,5 +43,5 @@ Ascend C支持在如下AI处理器型号使用：
 - Atlas A2 训练系列产品/Atlas A2 推理系列产品
 
 - Atlas 200I/500 A2 推理产品
-- Atlas 推理系列产品
-- Atlas 训练系列产品
+- Atlas推理系列产品
+- Atlas训练系列产品

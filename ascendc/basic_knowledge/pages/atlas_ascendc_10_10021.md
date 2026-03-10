@@ -1,6 +1,7 @@
 # 4:2稀疏矩阵乘-特性场景-矩阵编程（高阶API）-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10021
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10021.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10021.html
 ---
 
 # 4:2稀疏矩阵乘
@@ -12,8 +13,8 @@
 #### 实现流程
 
 1. 数据预处理在计算前的数据准备阶段，用户自行对原始为稀疏矩阵的B矩阵完成稠密化，稠密过程请参考稠密算法说明。稠密化过程结束后，得到4:2稠密化后的右矩阵B和索引矩阵index，稠密化后的右矩阵B和索引矩阵index将作为Sparse Matmul场景的计算输入。图1对原始稀疏矩阵B进行4:2稠密化过程示意图稠密化过程对于稀疏矩阵B的每4个元素，在索引矩阵index中生成2个2位索引，每个索引分别指向对应非零元素的相对位置，具体规则可参考稠密算法说明。稠密化过程生成的索引矩阵的数据类型为int2，索引矩阵在加载入Matmul前，需要拼成int8的数据类型。索引矩阵在一个int8的地址中的排布是逆序排布的，例如：索引矩阵1 2 0 1 0 2 1 0，在地址中的排布为1 0 2 1 0 1 2 0，其中1 0 2 1（对应索引矩阵前四位1 2 0 1）为一个int8，0 1 2 0（对应索引矩阵后四位0 2 1 0）为一个int8。
-1. 使能Sparse Matmul场景在Host侧，获取Tiling前需要通过SetSparse接口设置使能Sparse Matmul场景。1234567891011autoascendcPlatform=platform_ascendc::PlatformAscendC(context->GetPlatformInfo());matmul_tiling::MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_INT8);tiling.SetBType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_INT8);tiling.SetCType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_INT32);tiling.SetBiasType(matmul_tiling::TPosition::GM,matmul_tiling::CubeFormat::ND,matmul_tiling::DataType::DT_INT32);// 设置使能Sparse Matmul场景tiling.SetSparse(true);...// 其他实现内容optiling::TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);
-1. 创建Matmul对象在Kernel侧创建Matmul对象时，通过MatmulType定义A、C、Bias的参数类型信息，包括：内存逻辑位置、数据格式、数据类型。通过SparseMatmulType类型定义B矩阵的参数类型，包括：B矩阵的内存逻辑位置、索引矩阵的内存逻辑位置、数据格式、数据类型等。12345678#include"lib/matmul_intf.h"usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,ATYPE,false>;// 使用SparseMatmulType定义B矩阵的参数类型信息usingB_TYPE=AscendC::SparseMatmulType<AscendC::TPosition::GM,AscendC::TPosition::GM,CubeFormat::ND,BType,true>;usingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,CType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BiasType>;AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_MDL>mm;
+1. 使能Sparse Matmul场景在Host侧，获取Tiling前需要通过SetSparse接口设置使能Sparse Matmul场景。1234567891011autoascendcPlatform=platform_ascendc:PlatformAscendC(context->GetPlatformInfo());matmul_tiling:MatmulApiTilingtiling(ascendcPlatform);tiling.SetAType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_INT8);tiling.SetBType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_INT8);tiling.SetCType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_INT32);tiling.SetBiasType(matmul_tiling:TPosition:GM,matmul_tiling:CubeFormat:ND,matmul_tiling:DataType:DT_INT32);// 设置使能Sparse Matmul场景tiling.SetSparse(true);...// 其他实现内容optiling:TCubeTilingtilingData;intret=tiling.GetTiling(tilingData);
+1. 创建Matmul对象在Kernel侧创建Matmul对象时，通过MatmulType定义A、C、Bias的参数类型信息，包括：内存逻辑位置、数据格式、数据类型。通过SparseMatmulType类型定义B矩阵的参数类型，包括：B矩阵的内存逻辑位置、索引矩阵的内存逻辑位置、数据格式、数据类型等。12345678#include"lib/matmul_intf.h"usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,ATYPE,false>;// 使用SparseMatmulType定义B矩阵的参数类型信息usingB_TYPE=AscendC:SparseMatmulType<AscendC:TPosition:GM,AscendC:TPosition:GM,CubeFormat:ND,BType,true>;usingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,CType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BiasType>;AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_MDL>mm;
 1. 设置索引矩阵通过SetSparseIndex接口传入稠密化过程中生成的索引矩阵。mm.SetTensorA(gm_a);    // 设置左矩阵A
 mm.SetTensorB(gm_b);    // 设置右矩阵B
 mm.SetSparseIndex(gm_index); // 传入稠密化过程中生成的索引矩阵
@@ -22,15 +23,15 @@ mm.SetBias(gm_bias);    // 设置Bias
 
 #### 参数说明
 
-| 参数 | 说明 |
-| --- | --- |
-| POSITION | 内存逻辑位置。B矩阵仅支持设置为TPosition::GM。 |
-| INDEX_POSITION | 索引矩阵内存逻辑位置。仅支持设置为TPosition::GM。 |
-| CubeFormat | 数据的物理排布格式，详细介绍请参考数据格式。B矩阵支持设置为CubeFormat::ND，CubeFormat::NZ。 |
-| TYPE | B矩阵仅支持设置为int8_t数据类型。 |
-| ISTRANS | 是否开启使能矩阵转置的功能。当前只支持取值为true，表示开启使能矩阵转置的功能。 |
-| LAYOUT | 表征数据的排布。Sparse Matmul场景仅支持取值为LAYOUT::NONE。NONE：默认值，表示不使用BatchMatmul。 |
-| IBSHARE | 是否使能IBShare（IntraBlock Share）。IBShare的功能是能够复用L1 Buffer上相同的A矩阵或B矩阵数据。当A矩阵和B矩阵同时使能IBShare时，表示L1 Buffer上的A矩阵和B矩阵同时复用。Sparse Matmul场景当前仅支持该参数取值为false，表示不使能IBShare。 |
+| 参数           | 说明                                                                                                                                                                                                                                   |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POSITION       | 内存逻辑位置。B矩阵仅支持设置为TPosition:GM。                                                                                                                                                                                          |
+| INDEX_POSITION | 索引矩阵内存逻辑位置。仅支持设置为TPosition:GM。                                                                                                                                                                                       |
+| CubeFormat     | 数据的物理排布格式，详细介绍请参考数据格式。B矩阵支持设置为CubeFormat:ND，CubeFormat:NZ。                                                                                                                                              |
+| TYPE           | B矩阵仅支持设置为int8_t数据类型。                                                                                                                                                                                                      |
+| ISTRANS        | 是否开启使能矩阵转置的功能。当前只支持取值为true，表示开启使能矩阵转置的功能。                                                                                                                                                         |
+| LAYOUT         | 表征数据的排布。Sparse Matmul场景仅支持取值为LAYOUT:NONE。NONE：默认值，表示不使用BatchMatmul。                                                                                                                                        |
+| IBSHARE        | 是否使能IBShare(IntraBlock Share)。IBShare的功能是能够复用L1 Buffer上相同的A矩阵或B矩阵数据。当A矩阵和B矩阵同时使能IBShare时，表示L1 Buffer上的A矩阵和B矩阵同时复用。Sparse Matmul场景当前仅支持该参数取值为false，表示不使能IBShare。 |
 
 #### 使用场景
 

@@ -1,6 +1,7 @@
 # NeedCheckSupportFlag-OpAICoreConfig-原型注册与管理-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0995
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0995.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0995.html
 ---
 
 # NeedCheckSupportFlag
@@ -14,14 +15,14 @@
 
 #### 函数原型
 
-| 1 | OpAICoreConfig&NeedCheckSupportFlag(boolflag) |
-| --- | --- |
+| 1   | OpAICoreConfig&NeedCheckSupportFlag(boolflag) |
+| --- | --------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| flag | 输入 | 标识是否在算子融合阶段调用算子参数校验函数进行data type与shape的校验。 |
+| 参数 | 输入/输出 | 说明                                                                   |
+| ---- | --------- | ---------------------------------------------------------------------- |
+| flag | 输入      | 标识是否在算子融合阶段调用算子参数校验函数进行data type与shape的校验。 |
 
 #### 返回值说明
 

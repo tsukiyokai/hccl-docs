@@ -1,6 +1,7 @@
 # 高效的使用搬运API-内存访问-SIMD算子性能优化-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_0015
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0015.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_0015.html
 ---
 
 # 高效的使用搬运API
@@ -11,10 +12,10 @@
 
 ![](../images/atlas_ascendc_best_practices_10_0015_img_001.png)
 
-| 1234567891011 | // 搬运数据存在间隔，从GM上每行16KB中搬运2KB数据, 共16行LocalTensor<float>tensorIn;GlobalTensor<float>tensorGM;...constexprint32_tcopyWidth=2*1024/sizeof(float);constexprint32_timgWidth=16*1024/sizeof(float);constexprint32_timgHeight=16;// 使用for循环，每次只能搬运2K，重复16次for(inti=0;i<imgHeight;i++){DataCopy(tensorIn[i*copyWidth],tensorGM[i*imgWidth],copyWidth);} |
-| --- | --- |
+| 1234567891011 | // 搬运数据存在间隔，从GM上每行16KB中搬运2KB数据，共16行LocalTensor<float>tensorIn;GlobalTensor<float>tensorGM;...constexprint32_tcopyWidth=2*1024/sizeof(float);constexprint32_timgWidth=16*1024/sizeof(float);constexprint32_timgHeight=16;// 使用for循环，每次只能搬运2K，重复16次for(inti=0;i<imgHeight;i++){DataCopy(tensorIn[i*copyWidth],tensorGM[i*imgWidth],copyWidth);} |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 【正例】
 
 | 12345678910111213 | LocalTensor<float>tensorIn;GlobalTensor<float>tensorGM;...constexprint32_tcopyWidth=2*1024/sizeof(float);constexprint32_timgWidth=16*1024/sizeof(float);constexprint32_timgHeight=16;// 通过DataCopy包含DataCopyParams的接口一次搬完DataCopyParamscopyParams;copyParams.blockCount=imgHeight;copyParams.blockLen=copyWidth/8;// 搬运的单位为DataBlock(32Byte)，每个DataBlock内有8个floatcopyParams.srcStride=(imgWidth-copyWidth)/8;// 表示两次搬运src之间的间隔，单位为DataBlockcopyParams.dstStride=0;// 连续写，两次搬运之间dst的间隔为0，单位为DataBlockDataCopy(tensorGM,tensorIn,copyParams); |
-| --- | --- |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

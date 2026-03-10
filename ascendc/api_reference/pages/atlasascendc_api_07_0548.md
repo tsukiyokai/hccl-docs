@@ -1,20 +1,21 @@
 # Erfc-Erfc接口-数学计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0548
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0548.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0548.html
 ---
 
 # Erfc
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -49,17 +50,17 @@ S(z) = ((((z + S1) * z + S2) * z + S3) * z + S4) * z + S5是关于z的4次多项
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas 推理系列产品AI Core，支持的数据类型为：half、float。 |
-| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。 |
+| 参数名        | 描述                                                                                                                                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T             | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。Atlas推理系列产品AI Core，支持的数据类型为：half、float。 |
+| isReuseSource | 是否允许修改源操作数。该参数预留，传入默认值false即可。                                                                                                                                                                             |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dstTensor | 输出 | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
-| srcTensor | 输入 | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。 |
-| sharedTmpBuffer | 输入 | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Erfc内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetErfcMaxMinTmpSize。 |
-| calCount | 输入 | 参与计算的元素个数。 |
+| 参数名          | 输入/输出 | 描述                                                                                                                                                                               |
+| --------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dstTensor       | 输出      | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。                                                                                                             |
+| srcTensor       | 输入      | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。                                                                   |
+| sharedTmpBuffer | 输入      | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Erfc内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetErfcMaxMinTmpSize。 |
+| calCount        | 输入      | 参与计算的元素个数。                                                                                                                                                               |
 
 #### 返回值说明
 
@@ -76,8 +77,8 @@ S(z) = ((((z + S1) * z + S2) * z + S3) * z + S4) * z + S5是关于z的4次多项
 
 完整的调用样例请参考更多样例。
 
-| 123456 | AscendC::TPipepipe;AscendC::TQue<AscendC::TPosition::VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize 通过Host侧tiling参数获取AscendC::LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC::Erfc(dstLocal,srcLocal,sharedTmpBuffer,512); |
-| --- | --- |
+| 123456 | AscendC:TPipepipe;AscendC:TQue<AscendC:TPosition:VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize通过Host侧tiling参数获取AscendC:LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC:Erfc(dstLocal,srcLocal,sharedTmpBuffer,512); |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-| 12 | 输入数据(srcLocal):[-inf-10...1inf]输出数据(dstLocal):[2.00000001.84270381.0000000...0.15729610] |
-| --- | --- |
+| 12  | 输入数据(srcLocal):[-inf-10...1inf]输出数据(dstLocal):[2.00000001.84270381.0000000...0.15729610] |
+| --- | ------------------------------------------------------------------------------------------------ |

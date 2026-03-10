@@ -1,11 +1,12 @@
 # NPU架构版本200x-架构规格-硬件实现-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_0009
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0009.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0009.html
 ---
 
 # NPU架构版本200x
 
-本节介绍__NPU_ARCH__版本号为200x的硬件架构和其功能说明，其中200代表IP核编号，x表示同一个IP核的配置版本号。对应的产品型号为Atlas 推理系列产品。
+本节介绍__NPU_ARCH__版本号为200x的硬件架构和其功能说明，其中200代表IP核编号，x表示同一个IP核的配置版本号。对应的产品型号为Atlas推理系列产品。
 
 #### 硬件架构图
 
@@ -34,13 +35,13 @@ Cube计算单元
 
 各存储单元的最小访问粒度（对齐要求）
 
-| 存储单元 | 对齐要求 |
-| --- | --- |
-| Unified Buffer | 32Byte对齐。 |
-| L1 Buffer | 32Byte对齐。 |
-| L0A Buffer | 512Byte对齐。 |
-| L0B Buffer | 512Byte对齐。 |
-| L0C Buffer | 64Byte对齐。 |
+| 存储单元       | 对齐要求      |
+| -------------- | ------------- |
+| Unified Buffer | 32Byte对齐。  |
+| L1 Buffer      | 32Byte对齐。  |
+| L0A Buffer     | 512Byte对齐。 |
+| L0B Buffer     | 512Byte对齐。 |
+| L0C Buffer     | 64Byte对齐。  |
 
 各存储单元推荐使用的数据排布格式
 
@@ -73,11 +74,11 @@ Cube计算单元
 
 ![](../images/atlas_ascendc_10_0009_img_002.png)
 
-上图中，ID1、ID2、ID3、ID4、ID5、ID6表示事件ID（EventID），每个EventID对应一块存储数据的搬运状态，确保数据操作的正确性和一致性。
+上图中，ID1、ID2、ID3、ID4、ID5、ID6表示事件ID(EventID)，每个EventID对应一块存储数据的搬运状态，确保数据操作的正确性和一致性。
 
 - 建议通过AllocEventID或者FetchEventID接口获取EventID，以确保其合法性和有效性。
 - EventID的数量有限，使用后应立即调用ReleaseEventID释放资源，避免EventID耗尽，影响系统正常运行。
-- SetFlag和WaitFlag必须成对使用，且SetFlag和WaitFlag的参数必须完全一致（包括模板参数和事件ID）。如果不匹配，可能导致当前核的计算异常，或影响下一个核的算子执行，引发timeout问题。例如，SetFlag<HardEvent::S_MTE3>(1)和SetFlag<HardEvent::MTE3_MTE1>(1)设置的不是同一个EventID，因为其模板参数不同。只有当模板参数和事件ID完全一致时，才表示同一个EventID。
+- SetFlag和WaitFlag必须成对使用，且SetFlag和WaitFlag的参数必须完全一致（包括模板参数和事件ID）。如果不匹配，可能导致当前核的计算异常，或影响下一个核的算子执行，引发timeout问题。例如，SetFlag<HardEvent:S_MTE3>(1)和SetFlag<HardEvent:MTE3_MTE1>(1)设置的不是同一个EventID，因为其模板参数不同。只有当模板参数和事件ID完全一致时，才表示同一个EventID。
 - 不允许连续设置同一个EventID，因为这可能导致事件状态混乱或未被正确处理。
 
 核间同步

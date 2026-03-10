@@ -1,6 +1,7 @@
 # PlatformAscendC简介-PlatformAscendC-平台信息获取-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_1025
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1025.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1025.html
 ---
 
 # PlatformAscendC简介
@@ -11,7 +12,7 @@
 
 使用该功能需要包含"tiling/platform/platform_ascendc.h"头文件。样例如下：
 
-| 1 | #include"tiling/platform/platform_ascendc.h" |
-| --- | --- |
+| 1   | #include"tiling/platform/platform_ascendc.h" |
+| --- | -------------------------------------------- |
 
 #### Public成员函数

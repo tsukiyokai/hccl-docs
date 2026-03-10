@@ -1,20 +1,21 @@
 # GET_TILING_DATA_PTR_WITH_STRUCT-Kernel Tiling-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_00140
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00140.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00140.html
 ---
 
 # GET_TILING_DATA_PTR_WITH_STRUCT
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | √ |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | √ |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | √        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | √        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -22,16 +23,16 @@
 
 #### 函数原型
 
-| 1 | GET_TILING_DATA_PTR_WITH_STRUCT(tiling_struct,dst_ptr,tiling_ptr) |
-| --- | --- |
+| 1   | GET_TILING_DATA_PTR_WITH_STRUCT(tiling_struct,dst_ptr,tiling_ptr) |
+| --- | ----------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| tiling_struct | 输入 | 指定的结构体名称。 |
-| dst_ptr | 输出 | 返回指定的Tiling结构体指针。 |
-| tiling_ptr | 输入 | 算子入口函数处传入的Tiling参数。 |
+| 参数          | 输入/输出 | 说明                             |
+| ------------- | --------- | -------------------------------- |
+| tiling_struct | 输入      | 指定的结构体名称。               |
+| dst_ptr       | 输出      | 返回指定的Tiling结构体指针。     |
+| tiling_ptr    | 输入      | 算子入口函数处传入的Tiling参数。 |
 
 #### 约束说明
 
@@ -42,6 +43,6 @@
 #### 调用示例
 
 | 12345678910 | extern"C"__global____aicore__voidadd_custom(__gm__uint8_t*x,__gm__uint8_t*y,__gm__uint8_t*z,__gm__uint8_t*tiling){KernelAddop;GET_TILING_DATA_PTR_WITH_STRUCT(AddCustomTilingData,tilingDataPtr,tiling);op.Init(x,y,z,tilingDataPtr->totalLength,tilingDataPtr->tileNum);op.Process();} |
-| --- | --- |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 以下是错误调用的示例：

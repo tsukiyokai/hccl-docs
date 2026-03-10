@@ -1,6 +1,7 @@
 # 设置合适的核数和算子Kernel类型-头尾开销优化-SIMD算子性能优化-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_00011
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_00011.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_00011.html
 ---
 
 # 设置合适的核数和算子Kernel类型
@@ -8,7 +9,7 @@
 在算子执行过程中，可能会因为以下几个原因产生额外的启动开销或者头开销：
 
 1. 核启动：每个核在启动时需要进行初始化操作，加载必要的配置和资源。
-1. 核取址TLB MISS：当核在访问内存时，如果Translation Lookaside Buffer（TLB）中没有对应的页表项，就需要从内存中加载页表项，这会导致额外的延迟。
+1. 核取址TLB MISS：当核在访问内存时，如果Translation Lookaside Buffer(TLB)中没有对应的页表项，就需要从内存中加载页表项，这会导致额外的延迟。
 1. 同地址访问冲突：由于硬件限制，多个核同时访问相同的内存地址时可能会发生冲突，导致额外的时延。
 1. 变量资源初始化：在算子执行前，需要初始化一些变量和资源，这也可能带来额外的性能开销。
 

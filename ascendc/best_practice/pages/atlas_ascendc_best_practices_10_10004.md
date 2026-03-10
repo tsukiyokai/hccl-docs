@@ -1,6 +1,7 @@
 # Matmul高阶API使能多核切K-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10004
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10004.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10004.html
 ---
 
 # Matmul高阶API使能多核切K
@@ -15,10 +16,10 @@
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 16, 1024 | float16 | ND |
-| b | 1024, 16 | float16 | ND |
+| 输入 | Shape    | Data type | Format |
+| ---- | -------- | --------- | ------ |
+| a    | 16, 1024 | float16   | ND     |
+| b    | 1024, 16 | float16   | ND     |
 
 当前案例使用的AI处理器共24个核，算子中使能高阶API Matmul的纯Cube模式。Tiling参数如下：
 
@@ -42,7 +43,7 @@
 
 使能多核切K功能的方式为：在GetTiling接口前调用EnableMultiCoreSplitK接口，使能多核切K，并在Kernel实现中，对C矩阵的Global Memory地址清零后开启AtomicAdd。使能多核切K的完整样例请参考多核切K场景的算子样例。具体步骤如下：
 
-- Tiling实现通过GetTiling接口获取TCubeTiling结构体前，调用EnableMultiCoreSplitK接口且入参为true，使能多核切K。12345678910cubeTiling.SetOrgShape(M,N,K);cubeTiling.SetShape(M,N,K);cubeTiling.EnableBias(isBias);cubeTiling.SetBufferSpace(-1,-1,-1);// tiling enable split KcubeTiling.EnableMultiCoreSplitK(true);if(cubeTiling.GetTiling(tilingData)==-1){std::cout<<"Generate tiling failed."<<std::endl;return{};}
+- Tiling实现通过GetTiling接口获取TCubeTiling结构体前，调用EnableMultiCoreSplitK接口且入参为true，使能多核切K。12345678910cubeTiling.SetOrgShape(M,N,K);cubeTiling.SetShape(M,N,K);cubeTiling.EnableBias(isBias);cubeTiling.SetBufferSpace(-1,-1,-1);// tiling enable split KcubeTiling.EnableMultiCoreSplitK(true);if(cubeTiling.GetTiling(tilingData)==-1){std:cout<<"Generate tiling failed."<<std:endl;return{};}
 - Kernel实现调用Fill接口，对C矩阵的Global Memory地址清零。123cGlobal.SetGlobalBuffer(reinterpret_cast<__gm__cType*>(c),tiling.M*tiling.N);// clear gmFill(cGlobal,tiling.M*tiling.N,(cType)0);调用IterateAll接口，开启AtomicAdd累加，完成矩阵乘操作。123// set AtomicAdduint8_tenAtomic=1;matmulObj.IterateAll(cGlobal,enAtomic);
 
 #### 验证优化方案性能收益

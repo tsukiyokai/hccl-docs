@@ -1,6 +1,7 @@
 # 单次矩阵乘局部输出-特性场景-矩阵编程（高阶API）-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10027
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10027.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10027.html
 ---
 
 # 单次矩阵乘局部输出
@@ -29,5 +30,5 @@
 
 完整的算子样例请参考开启Partial Output功能的算子样例。
 
-| 1234567891011121314151617 | // 配置MDL模板，使能Partial OutputconstexprstaticMatmulConfigModeconfigMode=MatmulConfigMode::CONFIG_MDL;constexprstaticMatmulFuncParamsfuncParams={false,false,false,false,0,IterateOrder::UNDEF,ScheduleType::INNER_PRODUCT,true,true,true/* isPartialOutput */};constexprstaticMatmulConfigCFG_PARTIAL=GetMMConfig<configMode>(funcParams);Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_PARTIAL>mm;REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm);mm.Init(&tiling);mm.SetTensorA(gmA,isTransposeA);mm.SetTensorB(gmB,isTransposeB);while(mm.Iterate()){mm.GetTensorC(tmpGmC[dstOffset],false,true);dstOffset+=baseM*baseN;// 其他操作} |
-| --- | --- |
+| 1234567891011121314151617 | // 配置MDL模板，使能Partial OutputconstexprstaticMatmulConfigModeconfigMode=MatmulConfigMode:CONFIG_MDL;constexprstaticMatmulFuncParamsfuncParams={false,false,false,false,0,IterateOrder:UNDEF,ScheduleType:INNER_PRODUCT,true,true,true/* isPartialOutput */};constexprstaticMatmulConfigCFG_PARTIAL=GetMMConfig<configMode>(funcParams);Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_PARTIAL>mm;REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm);mm.Init(&tiling);mm.SetTensorA(gmA,isTransposeA);mm.SetTensorB(gmB,isTransposeB);while(mm.Iterate()){mm.GetTensorC(tmpGmC[dstOffset],false,true);dstOffset+=baseM*baseN;// 其他操作} |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

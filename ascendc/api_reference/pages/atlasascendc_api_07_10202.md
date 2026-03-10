@@ -1,6 +1,7 @@
 # SetCommBlockNum-HCCL Tiling侧接口-HCCL通信类-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_10202
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10202.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10202.html
 ---
 
 # SetCommBlockNum
@@ -11,14 +12,14 @@
 
 #### 函数原型
 
-| 1 | uint32_tSetCommBlockNum(uint16_tnum) |
-| --- | --- |
+| 1   | uint32_tSetCommBlockNum(uint16_tnum) |
+| --- | ------------------------------------ |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| num | 输入 | 表示核的数量。 |
+| 参数名 | 输入/输出 | 描述           |
+| ------ | --------- | -------------- |
+| num    | 输入      | 表示核的数量。 |
 
 #### 返回值说明
 
@@ -31,5 +32,5 @@
 
 #### 调用示例
 
-| 123456 | constchar*groupName="testGroup";uint32_topType=HCCL_CMD_BATCH_WRITE;std::stringalgConfig="BatchWrite=level0:fullmesh";uint32_treduceType=HCCL_REDUCE_SUM;AscendC::Mc2CcTilingConfigmc2CcTilingConfig(groupName,opType,algConfig,reduceType);mc2CcTilingConfig.SetCommBlockNum(24U); |
-| --- | --- |
+| 123456 | constchar*groupName="testGroup";uint32_topType=HCCL_CMD_BATCH_WRITE;std:stringalgConfig="BatchWrite=level0:fullmesh";uint32_treduceType=HCCL_REDUCE_SUM;AscendC:Mc2CcTilingConfigmc2CcTilingConfig(groupName,opType,algConfig,reduceType);mc2CcTilingConfig.SetCommBlockNum(24U); |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

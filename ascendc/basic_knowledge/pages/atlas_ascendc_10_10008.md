@@ -1,6 +1,7 @@
 # 尾核Tiling-多核&Tiling切分-矢量编程-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10008
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10008.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10008.html
 ---
 
 # 尾核Tiling
@@ -24,8 +25,8 @@
 
 Tiling参数的计算代码如下：
 
-| 123456789101112131415161718192021 | constexpruint32_tBLOCK_DIM=8;constexpruint32_tSIZE_OF_HALF=2;constexpruint32_tBLOCK_SIZE=32;// shape需要对齐到的最小单位constexpruint32_tALIGN_NUM=BLOCK_SIZE/SIZE_OF_HALF;...uint8_t*GenerateTiling(){// shape需要对齐到的datablock,假设原totalLength为1999，向上满足32字节对齐后为2000uint32_ttotalLengthAligned=((totalLength+ALIGN_NUM-1)/ALIGN_NUM)*ALIGN_NUM;// 核心数为8，一个datablock包含16个数，那么：datablock的总数：2000 / 16 = 125// 有5个核会分到16个datablock：125 % 8 =5，可以称之为整核// 有3个核会分到15个datablock：8 - 5 = 3，可以称之为尾核uint32_tformerNum=(totalLengthAligned/ALIGN_NUM)%BLOCK_DIM;uint32_ttailNum=BLOCK_DIM-formerNum;// 整核计算的数据长度：totalLengthAligned / BLOCK_DIM为每个核上计算的元素个数，formerLength为上述元素个数向上32字节对齐的结果uint32_tformerLength=((totalLengthAligned/BLOCK_DIM+ALIGN_NUM-1)/ALIGN_NUM)*ALIGN_NUM;// 尾核计算的数据长度：totalLengthAligned / BLOCK_DIM为每个核上计算的元素个数，tailLength 为上述元素个数向下32字节对齐的结果uint32_ttailLength=(totalLengthAligned/BLOCK_DIM/ALIGN_NUM)*ALIGN_NUM;...} |
-| --- | --- |
+| 123456789101112131415161718192021 | constexpruint32_tBLOCK_DIM=8;constexpruint32_tSIZE_OF_HALF=2;constexpruint32_tBLOCK_SIZE=32;// shape需要对齐到的最小单位constexpruint32_tALIGN_NUM=BLOCK_SIZE/SIZE_OF_HALF;...uint8_t*GenerateTiling(){// shape需要对齐到的datablock,假设原totalLength为1999，向上满足32字节对齐后为2000uint32_ttotalLengthAligned=((totalLength+ALIGN_NUM-1)/ALIGN_NUM)*ALIGN_NUM;// 核心数为8，一个datablock包含16个数，那么：datablock的总数：2000 / 16 = 125// 有5个核会分到16个datablock：125 % 8 =5，可以称之为整核// 有3个核会分到15个datablock：8 - 5 = 3，可以称之为尾核uint32_tformerNum=(totalLengthAligned/ALIGN_NUM)%BLOCK_DIM;uint32_ttailNum=BLOCK_DIM-formerNum;// 整核计算的数据长度：totalLengthAligned / BLOCK_DIM为每个核上计算的元素个数，formerLength为上述元素个数向上32字节对齐的结果uint32_tformerLength=((totalLengthAligned/BLOCK_DIM+ALIGN_NUM-1)/ALIGN_NUM)*ALIGN_NUM;// 尾核计算的数据长度：totalLengthAligned / BLOCK_DIM为每个核上计算的元素个数，tailLength为上述元素个数向下32字节对齐的结果uint32_ttailLength=(totalLengthAligned/BLOCK_DIM/ALIGN_NUM)*ALIGN_NUM;...} |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 算子类实现
 
@@ -33,17 +34,17 @@ Tiling参数的计算代码如下：
 
 整核上，输入的内存偏移地址计算代码如下：
 
-| 1 | xGm.SetGlobalBuffer((__gm__half*)x+formerLength*AscendC::GetBlockIdx(),formerLength); |
-| --- | --- |
+| 1   | xGm.SetGlobalBuffer((__gm__half*)x+formerLength*AscendC:GetBlockIdx(),formerLength); |
+| --- | ------------------------------------------------------------------------------------ |
 
 尾核上，计算输入的内存偏移地址时，需在全部整核的数据长度基础上加上尾核的偏移量，代码如下：
 
-| 1 | xGm.SetGlobalBuffer((__gm__half*)x+formerLength*formerNum+tailLength*(AscendC::GetBlockIdx()-formerNum),tailLength); |
-| --- | --- |
+| 1   | xGm.SetGlobalBuffer((__gm__half*)x+formerLength*formerNum+tailLength*(AscendC:GetBlockIdx()-formerNum),tailLength); |
+| --- | ------------------------------------------------------------------------------------------------------------------- |
 
 完整的Init函数实现代码如下：
 
-| 1234567891011121314151617 | __aicore__inlinevoidInit(GM_ADDRx,GM_ADDRy,GM_ADDRz,AddCustomTilingDatatiling){if(AscendC::GetBlockIdx()<formerNum){this->tileLength=formerLength;xGm.SetGlobalBuffer((__gm__half*)x+formerLength*AscendC::GetBlockIdx(),formerLength);yGm.SetGlobalBuffer((__gm__half*)y+formerLength*AscendC::GetBlockIdx(),formerLength);zGm.SetGlobalBuffer((__gm__half*)z+formerLength*AscendC::GetBlockIdx(),formerLength);}else{this->tileLength=tailLength;xGm.SetGlobalBuffer((__gm__half*)x+formerLength*formerNum+tailLength*(AscendC::GetBlockIdx()-formerNum),tailLength);yGm.SetGlobalBuffer((__gm__half*)y+formerLength*formerNum+tailLength*(AscendC::GetBlockIdx()-formerNum),tailLength);zGm.SetGlobalBuffer((__gm__half*)z+formerLength*formerNum+tailLength*(AscendC::GetBlockIdx()-formerNum),tailLength);}pipe.InitBuffer(inQueueX,1,this->tileLength*sizeof(half));pipe.InitBuffer(inQueueY,1,this->tileLength*sizeof(half));pipe.InitBuffer(outQueueZ,1,this->tileLength*sizeof(half));} |
-| --- | --- |
+| 1234567891011121314151617 | __aicore__inlinevoidInit(GM_ADDRx,GM_ADDRy,GM_ADDRz,AddCustomTilingDatatiling){if(AscendC:GetBlockIdx()<formerNum){this->tileLength=formerLength;xGm.SetGlobalBuffer((__gm__half*)x+formerLength*AscendC:GetBlockIdx(),formerLength);yGm.SetGlobalBuffer((__gm__half*)y+formerLength*AscendC:GetBlockIdx(),formerLength);zGm.SetGlobalBuffer((__gm__half*)z+formerLength*AscendC:GetBlockIdx(),formerLength);}else{this->tileLength=tailLength;xGm.SetGlobalBuffer((__gm__half*)x+formerLength*formerNum+tailLength*(AscendC:GetBlockIdx()-formerNum),tailLength);yGm.SetGlobalBuffer((__gm__half*)y+formerLength*formerNum+tailLength*(AscendC:GetBlockIdx()-formerNum),tailLength);zGm.SetGlobalBuffer((__gm__half*)z+formerLength*formerNum+tailLength*(AscendC:GetBlockIdx()-formerNum),tailLength);}pipe.InitBuffer(inQueueX,1,this->tileLength*sizeof(half));pipe.InitBuffer(inQueueY,1,this->tileLength*sizeof(half));pipe.InitBuffer(outQueueZ,1,this->tileLength*sizeof(half));} |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 其余实现与多核Tiling中的实现一致，这里不重复进行说明。

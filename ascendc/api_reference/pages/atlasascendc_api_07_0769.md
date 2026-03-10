@@ -1,6 +1,7 @@
 # LogSoftMax Tiling-LogSoftMax接口-激活函数-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0769
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0769.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0769.html
 ---
 
 # LogSoftMax Tiling
@@ -14,24 +15,24 @@ kernel侧LogSoftMax接口的计算需要开发者预留/申请临时空间，以
 
 #### 函数原型
 
-- 获取Kernel接口计算所需最大/最小临时空间的接口1uint32_tGetLogSoftMaxMaxTmpSize(constge::ShapesrcShape,constuint32_tdataTypeSize,constboolisReuseSource)1uint32_tGetLogSoftMaxMinTmpSize(constge::ShapesrcShape,constuint32_tdataTypeSize,constboolisReuseSource)
+- 获取Kernel接口计算所需最大/最小临时空间的接口1uint32_tGetLogSoftMaxMaxTmpSize(constge:ShapesrcShape,constuint32_tdataTypeSize,constboolisReuseSource)1uint32_tGetLogSoftMaxMinTmpSize(constge:ShapesrcShape,constuint32_tdataTypeSize,constboolisReuseSource)
 
-- Tiling计算接口1voidLogSoftMaxTilingFunc(constge::ShapesrcShape,constuint32_tdataTypeSize,constuint32_tlocalWorkSpaceSize,optiling::LogSoftMaxTiling&softmaxTiling)1voidLogSoftMaxTilingFunc(constge::ShapesrcShape,constuint32_tdataTypeSize,constuint32_tlocalWorkSpaceSize,AscendC::tiling::LogSoftMaxTiling&softmaxTiling)
+- Tiling计算接口1voidLogSoftMaxTilingFunc(constge:ShapesrcShape,constuint32_tdataTypeSize,constuint32_tlocalWorkSpaceSize,optiling:LogSoftMaxTiling&softmaxTiling)1voidLogSoftMaxTilingFunc(constge:ShapesrcShape,constuint32_tdataTypeSize,constuint32_tlocalWorkSpaceSize,AscendC:tiling:LogSoftMaxTiling&softmaxTiling)
 
 #### 参数说明
 
-| 接口 | 输入/输出 | 功能 |
-| --- | --- | --- |
-| srcShape | 输入 | 输入的shape信息。 |
-| dataTypeSize | 输入 | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处应传入2。 |
-| isReuseSource | 输入 | 是否复用源操作数输入的空间，与LogSoftMax接口一致。 |
+| 接口          | 输入/输出 | 功能                                                                    |
+| ------------- | --------- | ----------------------------------------------------------------------- |
+| srcShape      | 输入      | 输入的shape信息。                                                       |
+| dataTypeSize  | 输入      | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处应传入2。 |
+| isReuseSource | 输入      | 是否复用源操作数输入的空间，与LogSoftMax接口一致。                      |
 
-| 接口 | 输入/输出 | 功能 |
-| --- | --- | --- |
-| srcShape | 输入 | 输入的shape信息。 |
-| dataTypeSize | 输入 | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处应传入2。 |
-| localWorkSpaceSize | 输入 | 输入的临时空间大小。 |
-| softmaxTiling | 输出 | 传递到kernel侧使用的Tiling参数。 |
+| 接口               | 输入/输出 | 功能                                                                    |
+| ------------------ | --------- | ----------------------------------------------------------------------- |
+| srcShape           | 输入      | 输入的shape信息。                                                       |
+| dataTypeSize       | 输入      | 输入的数据类型大小，单位为字节。比如输入的数据类型为half，此处应传入2。 |
+| localWorkSpaceSize | 输入      | 输入的临时空间大小。                                                    |
+| softmaxTiling      | 输出      | 传递到kernel侧使用的Tiling参数。                                        |
 
 #### 返回值说明
 
@@ -45,5 +46,5 @@ LogSoftMaxTilingFunc接口无返回值。
 
 #### 调用示例
 
-| 12345678 | staticge::graphStatusTilingFunc(gert::TilingContext*context){std::vector<int64_t>srcDims={outter,inner};ge::Shapeshape(srcDims);constuint32_ttmpsize=AscendC::GetLogSoftMaxMaxTmpSize(shape,dtypesize,false);AscendC::LogSoftMaxTilingFunc(shape,dtypesize,tmpsize,tiling.logSoftmaxTilingData);...} |
-| --- | --- |
+| 12345678 | staticge:graphStatusTilingFunc(gert:TilingContext*context){std:vector<int64_t>srcDims={outter,inner};ge:Shapeshape(srcDims);constuint32_ttmpsize=AscendC:GetLogSoftMaxMaxTmpSize(shape,dtypesize,false);AscendC:LogSoftMaxTilingFunc(shape,dtypesize,tmpsize,tiling.logSoftmaxTilingData);...} |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

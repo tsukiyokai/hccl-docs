@@ -1,6 +1,7 @@
 # ShapeInfo-其他数据类型-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0008
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0008.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0008.html
 ---
 
 # ShapeInfo
@@ -17,15 +18,15 @@ ShapeInfo用来存放LocalTensor或GlobalTensor的shape信息。
 
 #### 函数说明
 
-| 参数名称 | 描述 |
-| --- | --- |
-| shapeDim | 现有的shape维度。 |
-| shape | 现有的shape。 |
-| originalShapeDim | 原始的shape维度。 |
-| originalShape | 原始的shape。 |
-| dataFormat | 数据排布格式，DataFormat类型，定义如下：1234567enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,}; | 1234567 | enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,}; |
-| 1234567 | enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,}; |
+| 参数名称         | 描述                                                                                                    |         |                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------- |
+| shapeDim         | 现有的shape维度。                                                                                       |         |                                                          |
+| shape            | 现有的shape。                                                                                           |         |                                                          |
+| originalShapeDim | 原始的shape维度。                                                                                       |         |                                                          |
+| originalShape    | 原始的shape。                                                                                           |         |                                                          |
+| dataFormat       | 数据排布格式，DataFormat类型，定义如下：1234567enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,}; | 1234567 | enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,}; |
+| 1234567          | enumclassDataFormat:uint8_t{ND=0,NZ,NCHW,NC1HWC0,NHWC,};                                                |         |                                                          |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| shapeInfo | 输入 | ShapeInfo类型，LocalTensor或GlobalTensor的shape信息。 |
+| 参数名    | 输入/输出 | 描述                                                  |
+| --------- | --------- | ----------------------------------------------------- |
+| shapeInfo | 输入      | ShapeInfo类型，LocalTensor或GlobalTensor的shape信息。 |

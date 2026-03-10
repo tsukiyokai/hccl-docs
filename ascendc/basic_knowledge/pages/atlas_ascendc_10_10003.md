@@ -1,6 +1,7 @@
 # TBuf的使用-矢量编程-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10003
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10003.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10003.html
 ---
 
 # TBuf的使用
@@ -11,18 +12,18 @@
 
 通过以上分析，得到Ascend CAdd算子的设计规格如下：
 
-| 算子类型（OpType） | Add |
-| --- | --- |
-| 算子输入输出 | name | shape | data type | format |
-| x（输入） | (1, 2048) | bfloat16_t | ND |
-| y（输入） | (1, 2048) | bfloat16_t | ND |
-| z（输出） | (1, 2048) | bfloat16_t | ND |
-| 核函数名称 | add_custom |
-| 使用的主要接口 | DataCopy：数据搬移接口 |
-| Cast：矢量精度转换接口 |
-| Add：矢量基础算术接口 |
-| EnQue、DeQue等接口：Queue队列管理接口 |
-| 算子实现文件名称 | add_custom.cpp |
+| 算子类型(OpType)                      | Add                    |            |           |        |
+| ------------------------------------- | ---------------------- | ---------- | --------- | ------ |
+| 算子输入输出                          | name                   | shape      | data type | format |
+| x（输入）                             | (1, 2048)              | bfloat16_t | ND        |        |
+| y（输入）                             | (1, 2048)              | bfloat16_t | ND        |        |
+| z（输出）                             | (1, 2048)              | bfloat16_t | ND        |        |
+| 核函数名称                            | add_custom             |            |           |        |
+| 使用的主要接口                        | DataCopy：数据搬移接口 |            |           |        |
+| Cast：矢量精度转换接口                |                        |            |           |        |
+| Add：矢量基础算术接口                 |                        |            |           |        |
+| EnQue、DeQue等接口：Queue队列管理接口 |                        |            |           |        |
+| 算子实现文件名称                      | add_custom.cpp         |            |           |        |
 
 #### 算子类实现
 
@@ -30,13 +31,13 @@
 
 ![](../images/atlas_ascendc_10_10003_img_001.png)
 
-| 123456789101112131415161718 | classKernelAdd{public:__aicore__inlineKernelAdd(){}__aicore__inlinevoidInit(GM_ADDRx,GM_ADDRy,GM_ADDRz){}__aicore__inlinevoidProcess(){}private:__aicore__inlinevoidCopyIn(){}__aicore__inlinevoidCompute(){}__aicore__inlinevoidCopyOut(){}private:AscendC::TPipepipe;AscendC::TQue<AscendC::TPosition::VECIN,1>inQueueX,inQueueY;AscendC::TQue<AscendC::TPosition::VECOUT,1>outQueueZ;AscendC::TBuf<AscendC::TPosition::VECCALC>tmpBuf0,tmpBuf1,tmpBuf2;AscendC::GlobalTensor<bfloat16_t>xGm;AscendC::GlobalTensor<bfloat16_t>yGm;AscendC::GlobalTensor<bfloat16_t>zGm;}; |
-| --- | --- |
+| 123456789101112131415161718 | classKernelAdd{public:__aicore__inlineKernelAdd(){}__aicore__inlinevoidInit(GM_ADDRx,GM_ADDRy,GM_ADDRz){}__aicore__inlinevoidProcess(){}private:__aicore__inlinevoidCopyIn(){}__aicore__inlinevoidCompute(){}__aicore__inlinevoidCopyOut(){}private:AscendC:TPipepipe;AscendC:TQue<AscendC:TPosition:VECIN,1>inQueueX,inQueueY;AscendC:TQue<AscendC:TPosition:VECOUT,1>outQueueZ;AscendC:TBuf<AscendC:TPosition:VECCALC>tmpBuf0,tmpBuf1,tmpBuf2;AscendC:GlobalTensor<bfloat16_t>xGm;AscendC:GlobalTensor<bfloat16_t>yGm;AscendC:GlobalTensor<bfloat16_t>zGm;}; |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 初始化函数阶段除原有步骤外，需要调用InitBuffer接口为TBuf变量分配内存，具体的初始化函数代码如下：
 
 | 1234567891011121314 | __aicore__inlinevoidInit(GM_ADDRx,GM_ADDRy,GM_ADDRz){xGm.SetGlobalBuffer((__gm__half*)x,TOTAL_LENGTH);yGm.SetGlobalBuffer((__gm__half*)y,TOTAL_LENGTH);zGm.SetGlobalBuffer((__gm__half*)z,TOTAL_LENGTH);pipe.InitBuffer(inQueueX,1,TOTAL_LENGTH*sizeof(bfloat16_t));pipe.InitBuffer(inQueueY,1,TOTAL_LENGTH*sizeof(bfloat16_t));pipe.InitBuffer(outQueueZ,1,TOTAL_LENGTH*sizeof(bfloat16_t));pipe.InitBuffer(tmpBuf0,TOTAL_LENGTH*sizeof(float));pipe.InitBuffer(tmpBuf1,TOTAL_LENGTH*sizeof(float));pipe.InitBuffer(tmpBuf2,TOTAL_LENGTH*sizeof(float));} |
-| --- | --- |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 基于矢量编程范式，核函数需要实现3个基本任务：CopyIn，Compute，CopyOut。与基础矢量算子实现相同，Process函数按顺序调用CopyIn函数，Compute函数，CopyOut函数。其中，CopyIn函数，CopyOut函数与基础矢量算子的CopyIn函数、基础矢量算子的CopyOut函数的实现没有差异，此处不过多赘述。Compute函数的实现步骤如下：
 
@@ -48,5 +49,5 @@
 1. 使用EnQue将bfloat16_t类型的结果LocalTensor放入VECOUT的Queue中。
 1. 使用FreeTensor释放不再使用的LocalTensor。
 
-| 12345678910111213141516171819 | __aicore__inlinevoidCompute(){AscendC::LocalTensor<bfloat16_t>xLocal=inQueueX.DeQue<bfloat16_t>();AscendC::LocalTensor<bfloat16_t>yLocal=inQueueY.DeQue<bfloat16_t>();AscendC::LocalTensor<bfloat16_t>zLocal=outQueueZ.AllocTensor<bfloat16_t>();AscendC::LocalTensor<float>tmpTensor0=tmpBuf0.Get<float>();AscendC::LocalTensor<float>tmpTensor1=tmpBuf1.Get<float>();AscendC::LocalTensor<float>tmpTensor2=tmpBuf2.Get<float>();AscendC::Cast(tmpTensor0,xLocal,AscendC::RoundMode::CAST_NONE,TOTAL_LENGTH);AscendC::Cast(tmpTensor1,yLocal,AscendC::RoundMode::CAST_NONE,TOTAL_LENGTH);AscendC::Add(tmpTensor2,tmpTensor0,tmpTensor1,TOTAL_LENGTH);AscendC::Cast(zLocal,tmpTensor2,AscendC::RoundMode::CAST_RINT,TOTAL_LENGTH);outQueueZ.EnQue<bfloat16_t>(zLocal);inQueueX.FreeTensor(xLocal);inQueueY.FreeTensor(yLocal);} |
-| --- | --- |
+| 12345678910111213141516171819 | __aicore__inlinevoidCompute(){AscendC:LocalTensor<bfloat16_t>xLocal=inQueueX.DeQue<bfloat16_t>();AscendC:LocalTensor<bfloat16_t>yLocal=inQueueY.DeQue<bfloat16_t>();AscendC:LocalTensor<bfloat16_t>zLocal=outQueueZ.AllocTensor<bfloat16_t>();AscendC:LocalTensor<float>tmpTensor0=tmpBuf0.Get<float>();AscendC:LocalTensor<float>tmpTensor1=tmpBuf1.Get<float>();AscendC:LocalTensor<float>tmpTensor2=tmpBuf2.Get<float>();AscendC:Cast(tmpTensor0,xLocal,AscendC:RoundMode:CAST_NONE,TOTAL_LENGTH);AscendC:Cast(tmpTensor1,yLocal,AscendC:RoundMode:CAST_NONE,TOTAL_LENGTH);AscendC:Add(tmpTensor2,tmpTensor0,tmpTensor1,TOTAL_LENGTH);AscendC:Cast(zLocal,tmpTensor2,AscendC:RoundMode:CAST_RINT,TOTAL_LENGTH);outQueueZ.EnQue<bfloat16_t>(zLocal);inQueueX.FreeTensor(xLocal);inQueueY.FreeTensor(yLocal);} |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

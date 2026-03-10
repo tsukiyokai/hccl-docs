@@ -1,20 +1,21 @@
 # GetMatmulApiTiling-Matmul Kernel侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0666
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0666.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0666.html
 ---
 
 # GetMatmulApiTiling
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -28,22 +29,22 @@ Matmul Tiling常量化功能为在编译期期间获取常量化的Matmul Tiling
 
 #### 函数原型
 
-| 12 | template<classA_TYPE,classB_TYPE,classC_TYPE,classBIAS_TYPE>__aicore__constexprMatmulApiStaticTilingGetMatmulApiTiling(constMatmulConfig&mmCFG,int32_tl1Size=Impl::L1_SIZE) |
-| --- | --- |
+| 12  | template<classA_TYPE,classB_TYPE,classC_TYPE,classBIAS_TYPE>__aicore__constexprMatmulApiStaticTilingGetMatmulApiTiling(constMatmulConfig&mmCFG,int32_tl1Size=Impl:L1_SIZE) |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| A_TYPE | A矩阵类型信息，通过MatmulType来定义。 |
-| B_TYPE | B矩阵类型信息，通过MatmulType来定义。 |
-| C_TYPE | C矩阵类型信息，通过MatmulType来定义。 |
+| 参数名    | 描述                                     |
+| --------- | ---------------------------------------- |
+| A_TYPE    | A矩阵类型信息，通过MatmulType来定义。    |
+| B_TYPE    | B矩阵类型信息，通过MatmulType来定义。    |
+| C_TYPE    | C矩阵类型信息，通过MatmulType来定义。    |
 | BIAS_TYPE | BIAS矩阵类型信息，通过MatmulType来定义。 |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| mmCFG | 输入 | 获取的MatmulConfig模板。对于Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持常量化的模板有：Norm, MDL模板。对于Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持常量化的模板有：Norm, MDL模板。 |
-| l1Size | 输入 | 可用的L1大小，默认值L1_SIZE。 |
+| 参数名 | 输入/输出 | 描述                                                                                                                                                                                             |
+| ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| mmCFG  | 输入      | 获取的MatmulConfig模板。对于Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持常量化的模板有：Norm, MDL模板。对于Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持常量化的模板有：Norm, MDL模板。 |
+| l1Size | 输入      | 可用的L1大小，默认值L1_SIZE。                                                                                                                                                                    |
 
 #### 返回值说明
 
@@ -58,5 +59,5 @@ MatmulApiStaticTiling
 
 完整算子样例请参考Matmul Tiling常量化的算子样例。
 
-| 12345678 | //定义Matmul对象typedefAscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,half>aType;typedefAscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,half>bType;typedefAscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,float>cType;typedefAscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,float>biasType;// 这里CFG使用GetNormalConfig接口获取，并指定已知的singleshape信息和baseM,baseN,baseK，指定的数值跟运行时tiling保持一致constexprautostaticTiling=GetMatmulApiTiling<aType,bType,cType,biasType>(CFG,524288);// 该示例L1 Buffer可用大小为512KBAscendC::Matmul<aType,bType,cType,biasType,staticTiling>mm; |
-| --- | --- |
+| 12345678 | //定义Matmul对象typedefAscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,half>aType;typedefAscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,half>bType;typedefAscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,float>cType;typedefAscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,float>biasType;// 这里CFG使用GetNormalConfig接口获取，并指定已知的singleshape信息和baseM,baseN,baseK，指定的数值跟运行时tiling保持一致constexprautostaticTiling=GetMatmulApiTiling<aType,bType,cType,biasType>(CFG,524288);// 该示例L1 Buffer可用大小为512KBAscendC:Matmul<aType,bType,cType,biasType,staticTiling>mm; |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

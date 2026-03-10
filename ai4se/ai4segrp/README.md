@@ -2,7 +2,7 @@
 
 TU Delft + JetBrains联合实验室，2023年启动，隶属ICAI (Innovation Center for Artificial Intelligence)。
 
-来源： https://se.ewi.tudelft.nl/ai4se
+来源：https://se.ewi.tudelft.nl/ai4se
 
 ## 研究方向
 

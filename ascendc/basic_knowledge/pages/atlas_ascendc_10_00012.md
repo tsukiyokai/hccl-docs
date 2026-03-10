@@ -1,6 +1,7 @@
 # 算子动态库和静态库编译-工程化算子开发-附录-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_00012
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00012.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00012.html
 ---
 
 # 算子动态库和静态库编译
@@ -32,44 +33,44 @@
 │       ├── cmake
 │         └── ${vendor_name}
 │            ├──${vendor_name}-config.cmake  // 安装文件，定义了项目中的配置选项和变量
-│            └──${vendor_name}-targets.cmake // 安装文件，定义静态库和动态库的构建目标${vendor_name}::static和${vendor_name}::shared，便于开发者使用静态库和动态库，自动处理库的依赖关系
+│            └──${vendor_name}-targets.cmake // 安装文件，定义静态库和动态库的构建目标${vendor_name}:static和${vendor_name}:shared，便于开发者使用静态库和动态库，自动处理库的依赖关系
 │       ├── libcust_opapi.so                 // 算子动态库
 │       └── lib${vendor_name}.a              // 算子静态库
 
 #### 算子库集成和使用
 
-- 单算子调用场景单算子调用场景可以通过如下方式对算子库编译中生成的动态库和静态库进行集成和使用。完整样例可参考静态库集成和使用样例。动态库集成find_package(${vendor_name} REQUIRED     # ${vendor_name}为编译生成的算子package名称
+- 单算子调用场景单算子调用场景可以通过如下方式对算子库编译中生成的动态库和静态库进行集成和使用。完整样例可参考静态库集成和使用样例。动态库集成find_package（${vendor_name} REQUIRED     # ${vendor_name}为编译生成的算子package名称
     PATHS ${CUST_PKG_PATH}               # ${CUST_PKG_PATH}为编译生成的算子package的存放路径
     NO_DEFAULT_PATH
-)
-target_link_libraries(op_runner PRIVATE
+）
+target_link_libraries（op_runner PRIVATE
     ...
-    ${vendor_name}::shared               # 已自动包含相关的target依赖
+    ${vendor_name}:shared               # 已自动包含相关的target依赖
     ...
-)静态库集成find_package(${vendor_name} REQUIRED     # ${vendor_name}为编译生成的算子package名称
+）静态库集成find_package（${vendor_name} REQUIRED     # ${vendor_name}为编译生成的算子package名称
     PATHS ${CUST_PKG_PATH}               # ${CUST_PKG_PATH}为编译生成的算子package的存放路径
     NO_DEFAULT_PATH
-)
+）
 
-target_link_libraries(op_runner PRIVATE
+target_link_libraries（op_runner PRIVATE
     ...
-    ${vendor_name}::static                # 已自动包含相关的target依赖
+    ${vendor_name}:static                # 已自动包含相关的target依赖
     ...
-)静态库和动态库混合使用场景find_package(${vendor_name1} REQUIRED     # ${vendor_name1}为编译生成的算子package名称
+）静态库和动态库混合使用场景find_package（${vendor_name1} REQUIRED     # ${vendor_name1}为编译生成的算子package名称
     PATHS ${CUST_PKG_PATH_1}              # ${CUST_PKG_PATH_1}为编译生成的算子package的存放路径
     NO_DEFAULT_PATH
-)
-find_package(${vendor_name2} REQUIRED     # ${vendor_name2}为编译生成的算子package名称
+）
+find_package（${vendor_name2} REQUIRED     # ${vendor_name2}为编译生成的算子package名称
     PATHS ${CUST_PKG_PATH_2}              # ${CUST_PKG_PATH_2}为编译生成的算子package的存放路径
     NO_DEFAULT_PATH
-)
+）
 
-target_link_libraries(op_runner PRIVATE
+target_link_libraries（op_runner PRIVATE
     ...
-    ${vendor_name1}::static                 # 已自动包含相关的静态库target依赖
-    ${vendor_name2}::shared                 # 已自动包含相关的动态库target依赖
+    ${vendor_name1}:static                 # 已自动包含相关的静态库target依赖
+    ${vendor_name2}:shared                 # 已自动包含相关的动态库target依赖
     ...
-)
+）
 
 ![](../images/atlas_ascendc_10_00043_img_002.png)
 

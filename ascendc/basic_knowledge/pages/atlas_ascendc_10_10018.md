@@ -1,6 +1,7 @@
 # 矩阵乘输出的Channel拆分-特性场景-矩阵编程（高阶API）-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10018
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10018.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10018.html
 ---
 
 # 矩阵乘输出的Channel拆分
@@ -21,7 +22,7 @@
 
 开启ChannelSplit功能需满足：
 
-- C矩阵的数据排布格式为CubeFormat::NZ。
+- C矩阵的数据排布格式为CubeFormat:NZ。
 - C矩阵的数据类型为float。
 - C矩阵的内存逻辑位置为Global Memory。
 
@@ -29,5 +30,5 @@
 
 完整的算子样例请参考matmul_channelsplit算子样例。
 
-| 123456789101112131415 | // 指定获取和修改的MatmulConfig模板constexprstaticMatmulConfigModeconfigMode=MatmulConfigMode::CONFIG_NORM;// 修改模板参数isEnableChannelSplit=true，开启该MatmulConfig模板的ChannelSplit功能constexprstaticMatmulFuncParamsfuncParamsChannelSplit{false,false,false,false,0,IterateOrder::ORDER_M,ScheduleType::INNER_PRODUCT,true,false,false,false,true/*isEnableChannelSplit*/};constexprstaticMatmulConfigMM_CFG=GetMMConfig<configMode>(funcParamsChannelSplit);Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,MM_CFG>mm;// 常规Matmul计算，最后输出分形为16*8REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm);mm.SetTensorA(gm_a);mm.SetTensorB(gm_b);mm.SetBias(gm_bias);mm.IterateAll(gm_c); |
-| --- | --- |
+| 123456789101112131415 | // 指定获取和修改的MatmulConfig模板constexprstaticMatmulConfigModeconfigMode=MatmulConfigMode:CONFIG_NORM;// 修改模板参数isEnableChannelSplit=true，开启该MatmulConfig模板的ChannelSplit功能constexprstaticMatmulFuncParamsfuncParamsChannelSplit{false,false,false,false,0,IterateOrder:ORDER_M,ScheduleType:INNER_PRODUCT,true,false,false,false,true/*isEnableChannelSplit*/};constexprstaticMatmulConfigMM_CFG=GetMMConfig<configMode>(funcParamsChannelSplit);Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,MM_CFG>mm;// 常规Matmul计算，最后输出分形为16*8REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm);mm.SetTensorA(gm_a);mm.SetTensorB(gm_b);mm.SetBias(gm_bias);mm.IterateAll(gm_c); |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

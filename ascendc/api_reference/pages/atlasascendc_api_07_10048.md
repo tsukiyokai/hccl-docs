@@ -1,6 +1,7 @@
 # TilingData结构体-HCCL Tiling侧接口-HCCL通信类-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_10048
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10048.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10048.html
 ---
 
 # TilingData结构体
@@ -11,10 +12,10 @@
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
+| 参数名   | 描述                                                                                         |
+| -------- | -------------------------------------------------------------------------------------------- |
 | reserved | 初始化通信任务配置。uint8_t *类型，支持最大长度64字节，该结构体仅支持通过接口GetTiling获取。 |
 
-| 参数名 | 描述 |
-| --- | --- |
+| 参数名   | 描述                                                                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | reserved | 各通信域中每个通信任务的参数配置。uint8_t *类型，支持最大长度280字节，该结构体仅支持通过接口GetTiling获取。注意，最多支持配置8个通信任务。 |

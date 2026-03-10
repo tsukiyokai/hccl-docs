@@ -1,20 +1,21 @@
 # CrossCoreWaitFlag(ISASI)-核间同步-同步控制-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0274
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0274.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0274.html
 ---
 
 # CrossCoreWaitFlag(ISASI)
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -22,19 +23,19 @@
 
 #### 函数原型
 
-| 12 | template<uint8_tmodeId=0,pipe_tpipe=PIPE_S>__aicore__inlinevoidCrossCoreWaitFlag(uint16_tflagId) |
-| --- | --- |
+| 12  | template<uint8_tmodeId=0,pipe_tpipe=PIPE_S>__aicore__inlinevoidCrossCoreWaitFlag(uint16_tflagId) |
+| --- | ------------------------------------------------------------------------------------------------ |
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| modeId | 核间同步的模式，取值如下：模式0：AI Core核间的同步控制。模式1：AI Core内部，Vector核（AIV）之间的同步控制。模式2：AI Core内部，Cube核（AIC）与Vector核（AIV）之间的同步控制。 |
-| pipe | 设置这条指令所在的流水类型，流水类型可参考硬件流水类型。 |
+| 参数名 | 描述                                                                                                                                                                    |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| modeId | 核间同步的模式，取值如下：模式0：AI Core核间的同步控制。模式1：AI Core内部，Vector核(AIV)之间的同步控制。模式2：AI Core内部，Cube核(AIC)与Vector核(AIV)之间的同步控制。 |
+| pipe   | 设置这条指令所在的流水类型，流水类型可参考硬件流水类型。                                                                                                                |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| flagId | 输入 | 核间同步的标记。Atlas A2 训练系列产品/Atlas A2 推理系列产品，取值范围是0-10。Atlas A3 训练系列产品/Atlas A3 推理系列产品，取值范围是0-10。 |
+| 参数名 | 输入/输出 | 描述                                                                                                                                       |
+| ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| flagId | 输入      | 核间同步的标记。Atlas A2 训练系列产品/Atlas A2 推理系列产品，取值范围是0-10。Atlas A3 训练系列产品/Atlas A3 推理系列产品，取值范围是0-10。 |
 
 #### 返回值说明
 

@@ -1,6 +1,7 @@
 # 抽象硬件架构-编程模型-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_0015
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0015.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0015.html
 ---
 
 # 抽象硬件架构
@@ -13,15 +14,15 @@ AI Core中包含计算单元、存储单元、搬运单元等核心组件。
 
 - 计算单元包括了三种基础计算资源：Cube计算单元、Vector计算单元和Scalar计算单元。
 - 存储单元包括内部存储和外部存储：AI Core的内部存储，统称为Local Memory，对应的数据类型为LocalTensor。AI Core能够访问的外部存储称之为Global Memory，对应的数据类型为GlobalTensor。
-- DMA（Direct Memory Access）搬运单元：负责数据搬运，包括Global Memory和Local Memory之间的数据搬运，以及不同层级Local Memory之间的数据搬运。
+- DMA(Direct Memory Access)搬运单元：负责数据搬运，包括Global Memory和Local Memory之间的数据搬运，以及不同层级Local Memory之间的数据搬运。
 
-| 组件分类 | 组件名称 | 组件功能 |
-| --- | --- | --- |
-| 计算单元 | Scalar | 执行地址计算、循环控制等标量计算工作，并把向量计算、矩阵计算、数据搬运、同步指令发射给对应单元执行。 |
-| Vector | 负责执行向量运算。 |
-| Cube | 负责执行矩阵运算。 |
-| 存储单元 | Local Memory | AI Core的内部存储。 |
-| 搬运单元 | DMA（Direct Memory Access） | 负责数据搬运，包括Global Memory和Local Memory之间的数据搬运以及不同层级Local Memory之间的数据搬运。 |
+| 组件分类 | 组件名称                  | 组件功能                                                                                             |
+| -------- | ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 计算单元 | Scalar                    | 执行地址计算、循环控制等标量计算工作，并把向量计算、矩阵计算、数据搬运、同步指令发射给对应单元执行。 |
+| Vector   | 负责执行向量运算。        |                                                                                                      |
+| Cube     | 负责执行矩阵运算。        |                                                                                                      |
+| 存储单元 | Local Memory              | AI Core的内部存储。                                                                                  |
+| 搬运单元 | DMA(Direct Memory Access) | 负责数据搬运，包括Global Memory和Local Memory之间的数据搬运以及不同层级Local Memory之间的数据搬运。  |
 
 开发者在理解硬件架构的抽象时，需要重点关注如下异步指令流、同步信号流、计算数据流三个过程：
 

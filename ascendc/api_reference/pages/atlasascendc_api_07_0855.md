@@ -1,20 +1,21 @@
 # Arange-索引计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0855
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0855.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0855.html
 ---
 
 # Arange
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -34,21 +35,21 @@
 
 #### 函数原型
 
-| 12 | template<typenameT>__aicore__inlinevoidArange(constLocalTensor<T>&dst,constTfirstValue,constTdiffValue,constint32_tcount) |
-| --- | --- |
+| 12  | template<typenameT>__aicore__inlinevoidArange(constLocalTensor<T>&dst,constTfirstValue,constTdiffValue,constint32_tcount) |
+| --- | ------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：int16_t、half、int32_t、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：int16_t、half、int32_t、float。Atlas 推理系列产品AI Core，支持的数据类型为：int16_t、half、int32_t、float。 |
+| 参数名 | 描述                                                                                                                                                                                                                                                                                      |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T      | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：int16_t、half、int32_t、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：int16_t、half、int32_t、float。Atlas推理系列产品AI Core，支持的数据类型为：int16_t、half、int32_t、float。 |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dst | 输出 | 目的操作数。dst的大小应大于等于count * sizeof(T)。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
-| firstValue | 输入 | 等差数列的首个元素值。 |
-| diffValue | 输入 | 等差数列元素之间的差值，应大于等于0。 |
-| count | 输入 | 等差数列的长度。count>0。 |
+| 参数名     | 输入/输出 | 描述                                                                                                         |
+| ---------- | --------- | ------------------------------------------------------------------------------------------------------------ |
+| dst        | 输出      | 目的操作数。dst的大小应大于等于count * sizeof(T)。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
+| firstValue | 输入      | 等差数列的首个元素值。                                                                                       |
+| diffValue  | 输入      | 等差数列元素之间的差值，应大于等于0。                                                                        |
+| count      | 输入      | 等差数列的长度。count>0。                                                                                    |
 
 #### 返回值说明
 
@@ -60,5 +61,5 @@
 
 #### 调用示例
 
-| 123 | AscendC::LocalTensor<T>dst=outDst.AllocTensor<T>();AscendC::Arange<T>(dst,static_cast<T>(firstValue_),static_cast<T>(diffValue_),count_);outDst.EnQue<T>(dst); |
-| --- | --- |
+| 123 | AscendC:LocalTensor<T>dst=outDst.AllocTensor<T>();AscendC:Arange<T>(dst,static_cast<T>(firstValue_),static_cast<T>(diffValue_),count_);outDst.EnQue<T>(dst); |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |

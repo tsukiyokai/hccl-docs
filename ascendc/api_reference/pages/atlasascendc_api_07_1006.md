@@ -1,6 +1,7 @@
 # TilingData结构注册-Tiling数据结构注册-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_1006
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1006.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_1006.html
 ---
 
 # TilingData结构注册
@@ -11,15 +12,15 @@
 
 #### 函数原型
 
-| 1234567891011 | #define REGISTER_TILING_DATA_CLASS(op_type, class_name)classop_type##class_name##Helper{public:op_type##class_name##Helper(){CTilingDataClassFactory::RegisterTilingData(#op_type,op_type##class_name##Helper::CreateTilingDataInstance);}staticstd::shared_ptr<TilingDef>CreateTilingDataInstance(){returnstd::make_shared<class_name>();}};op_type##class_name##Helperg_tilingdata_##op_type##class_name##helper; |
-| --- | --- |
+| 1234567891011 | #define REGISTER_TILING_DATA_CLASS(op_type, class_name)classop_type##class_name##Helper{public:op_type##class_name##Helper(){CTilingDataClassFactory:RegisterTilingData(#op_type,op_type##class_name##Helper:CreateTilingDataInstance);}staticstd:shared_ptr<TilingDef>CreateTilingDataInstance(){returnstd:make_shared<class_name>();}};op_type##class_name##Helperg_tilingdata_##op_type##class_name##helper; |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| op_type | 输入 | 注册的算子名 |
-| struct_name | 输入 | tiling结构体名，与c++变量命名要求一致 |
+| 参数        | 输入/输出 | 说明                                  |
+| ----------- | --------- | ------------------------------------- |
+| op_type     | 输入      | 注册的算子名                          |
+| struct_name | 输入      | tiling结构体名，与c++变量命名要求一致 |
 
 #### 约束说明
 

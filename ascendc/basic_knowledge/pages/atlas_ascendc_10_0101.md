@@ -1,6 +1,7 @@
 # 简易自定义算子工程-附录-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_0101
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0101.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_0101.html
 ---
 
 # 简易自定义算子工程
@@ -72,7 +73,7 @@
         ]
     }
 ]
-1. 使用msOpGen工具生成算子的开发工程。以生成AddCustom的算子工程为例，下文仅针对关键参数进行解释，详细参数说明请参见msOpGen工具。${INSTALL_DIR}/python/site-packages/bin/msopgen gen -i$HOME/sample/add_custom.json -c ai_core-<soc_version>-lan cpp -out $HOME/sample/AddCustom-f aclnn${INSTALL_DIR}为CANN软件安装后文件存储路径，请根据实际环境进行替换。-i：指定算子原型定义文件add_custom.json所在路径，请根据实际情况修改。-c：ai_core-<soc_version>代表算子在AI Core上执行，<soc_version>为昇腾AI处理器的型号。AI处理器的型号<soc_version>请通过如下方式获取：针对如下产品：在安装昇腾AI处理器的服务器执行npu-smi info命令进行查询，获取Name信息。实际配置值为AscendName，例如Name取值为xxxyy，实际配置值为Ascendxxxyy。Atlas A2 训练系列产品/Atlas A2 推理系列产品Atlas 200I/500 A2 推理产品Atlas 推理系列产品Atlas 训练系列产品针对如下产品，在安装昇腾AI处理器的服务器执行npu-smi info -t board -iid-cchip_id命令进行查询，获取Chip Name和NPU Name信息，实际配置值为Chip Name_NPU Name。例如Chip Name取值为Ascendxxx，NPU Name取值为1234，实际配置值为Ascendxxx_1234。其中：id：设备id，通过npu-smi info -l命令查出的NPU ID即为设备id。chip_id：芯片id，通过npu-smi info -m命令查出的Chip ID即为芯片id。Atlas A3 训练系列产品/Atlas A3 推理系列产品基于同系列的AI处理器型号创建的算子工程，其基础功能（基于该工程进行算子开发、编译和部署）通用。-lan：参数cpp代表算子基于Ascend C编程框架，使用C/C++编程语言开发。-out：生成文件所在路径，可配置为绝对路径或者相对路径，并且工具执行用户对路径具有可读写权限。若不配置，则默认生成在执行命令的当前路径。-f：表示框架类型，aclnn表示生成简易工程。
+1. 使用msOpGen工具生成算子的开发工程。以生成AddCustom的算子工程为例，下文仅针对关键参数进行解释，详细参数说明请参见msOpGen工具。${INSTALL_DIR}/python/site-packages/bin/msopgen gen -i$HOME/sample/add_custom.json -c ai_core-<soc_version>-lan cpp -out $HOME/sample/AddCustom-f aclnn${INSTALL_DIR}为CANN软件安装后文件存储路径，请根据实际环境进行替换。-i：指定算子原型定义文件add_custom.json所在路径，请根据实际情况修改。-c：ai_core-<soc_version>代表算子在AI Core上执行，<soc_version>为昇腾AI处理器的型号。AI处理器的型号<soc_version>请通过如下方式获取：针对如下产品：在安装昇腾AI处理器的服务器执行npu-smi info命令进行查询，获取Name信息。实际配置值为AscendName，例如Name取值为xxxyy，实际配置值为Ascendxxxyy。Atlas A2 训练系列产品/Atlas A2 推理系列产品Atlas 200I/500 A2 推理产品Atlas推理系列产品Atlas训练系列产品针对如下产品，在安装昇腾AI处理器的服务器执行npu-smi info -t board -iid-cchip_id命令进行查询，获取Chip Name和NPU Name信息，实际配置值为Chip Name_NPU Name。例如Chip Name取值为Ascendxxx，NPU Name取值为1234，实际配置值为Ascendxxx_1234。其中：id：设备id，通过npu-smi info -l命令查出的NPU ID即为设备id。chip_id：芯片id，通过npu-smi info -m命令查出的Chip ID即为芯片id。Atlas A3 训练系列产品/Atlas A3 推理系列产品基于同系列的AI处理器型号创建的算子工程，其基础功能（基于该工程进行算子开发、编译和部署）通用。-lan：参数cpp代表算子基于Ascend C编程框架，使用C/C++编程语言开发。-out：生成文件所在路径，可配置为绝对路径或者相对路径，并且工具执行用户对路径具有可读写权限。若不配置，则默认生成在执行命令的当前路径。-f：表示框架类型，aclnn表示生成简易工程。
 1. 命令执行完后，会在-out指定目录或者默认路径下生成算子工程目录，工程中包含算子实现的模板文件，编译脚本等，以AddCustom算子为例，目录结构如下所示：AddCustom
 ├── build.sh                        // 编译入口脚本
 ├── cmake 
@@ -92,10 +93,10 @@
 
 #### 算子编译
 
-算子kernel侧和host侧实现开发完成后，需要对算子进行编译，生成算子静态库；自动生成aclnn调用实现代码和头文件，链接算子静态库生成aclnn动态库，以支持后续的单算子API执行方式（aclnn）的算子调用。编译过程如下：
+算子kernel侧和host侧实现开发完成后，需要对算子进行编译，生成算子静态库；自动生成aclnn调用实现代码和头文件，链接算子静态库生成aclnn动态库，以支持后续的单算子API执行方式(aclnn)的算子调用。编译过程如下：
 
 - 根据host侧算子实现文件自动生成aclnn接口aclnn_*.h和aclnn实现文件aclnn_.cpp。
-- 编译Tiling实现和算子原型定义生成Tiling动态库liboptiling.so（libcust_opmaster_rt2.0）。
+- 编译Tiling实现和算子原型定义生成Tiling动态库liboptiling.so(libcust_opmaster_rt2.0)。
 - 编译kernel侧算子实现文件，并加载Tiling动态库，生成kernel静态库libkernels.a。
 - 编译aclnn实现文件，并链接kernel静态库libkernels.a生成单算子API调用的动态库libcust_opapi.so。
 

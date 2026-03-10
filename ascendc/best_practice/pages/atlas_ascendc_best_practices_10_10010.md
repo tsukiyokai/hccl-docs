@@ -1,6 +1,7 @@
 # Matmul高阶API使能IBShare模板共享B矩阵数据-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10010
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10010.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10010.html
 ---
 
 # Matmul高阶API使能IBShare模板共享B矩阵数据
@@ -15,10 +16,10 @@
 
 本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 64, 384 | float16 | ND |
-| b | 384, 256 | float16 | ND |
+| 输入 | Shape    | Data type | Format |
+| ---- | -------- | --------- | ------ |
+| a    | 64, 384  | float16   | ND     |
+| b    | 384, 256 | float16   | ND     |
 
 当前案例使用的AI处理器共20个核，每个核中包含1个AIC核和2个AIV核。因为输入shape较小，本案例以单核为示例，参考SetDim接口在MIX模式下的使用，在Tiling程序中设置参与运算的核数为2。Tiling参数如下：
 
@@ -33,7 +34,7 @@
 
 #### 分析主要瓶颈点
 
-- 优化前的流水图如下，不使能IBShare模板，默认使用的Norm模板。黑框标识AIV0发起的MTE2搬运流水：MTE2总共搬运了12次，其中A矩阵搬运了6次（stepM*stepKa=6），B矩阵搬运了6次（stepN*stepKb=6）。红框标识的AIV1发起的MTE2搬运流水，跟AIV0基本一致。在该案例中，因为AIV1使用的B矩阵跟AIV0使用的B矩阵数据相同，且singleCoreN=baseN*stepN，singleCoreK=baseK*stepKb，即B矩阵可以在L1全载。考虑在AIV0搬入B矩阵到L1 Buffer后，将B矩阵数据缓存在L1 Buffer上等待AIV1进行复用，进而节省B矩阵的MTE2重复搬运开销。
+- 优化前的流水图如下，不使能IBShare模板，默认使用的Norm模板。黑框标识AIV0发起的MTE2搬运流水：MTE2总共搬运了12次，其中A矩阵搬运了6次(stepM*stepKa=6)，B矩阵搬运了6次(stepN*stepKb=6)。红框标识的AIV1发起的MTE2搬运流水，跟AIV0基本一致。在该案例中，因为AIV1使用的B矩阵跟AIV0使用的B矩阵数据相同，且singleCoreN=baseN*stepN，singleCoreK=baseK*stepKb，即B矩阵可以在L1全载。考虑在AIV0搬入B矩阵到L1 Buffer后，将B矩阵数据缓存在L1 Buffer上等待AIV1进行复用，进而节省B矩阵的MTE2重复搬运开销。
 - 优化前的Profiling数据如下，C列的aic_time是10.29us，K列的aic_mte2_time是5.56us。
 
 #### 设计优化方案
@@ -48,7 +49,7 @@
 
 Matmul API使能IBShare模板共享B矩阵的完整样例请参考仅B矩阵使能IBShare样例。使能IBShare功能的主要步骤如下：
 
-1. 创建Matmul对象。12345678#define ASCENDC_CUBE_ONLY#include"lib/matmul_intf.h"usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,AType>;usingB_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BType,false,LayoutMode::NONE,true>;// 设置B矩阵的IBSHARE参数为trueusingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,CType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BiasType>;AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_IBSHARE_NORM>matmulObj;// 使用默认的IBShare模板参数CFG_IBSHARE_NORM定义Matmul对象
+1. 创建Matmul对象。12345678#define ASCENDC_CUBE_ONLY#include"lib/matmul_intf.h"usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,AType>;usingB_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BType,false,LayoutMode:NONE,true>;// 设置B矩阵的IBSHARE参数为trueusingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,CType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BiasType>;AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_IBSHARE_NORM>matmulObj;// 使用默认的IBShare模板参数CFG_IBSHARE_NORM定义Matmul对象
 
 #### 验证优化方案性能收益
 

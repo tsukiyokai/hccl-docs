@@ -1,20 +1,21 @@
 # assert-AI CPU API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_00167
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00167.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00167.html
 ---
 
 # assert
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -24,14 +25,14 @@
 
 #### 函数原型
 
-| 1 | assert(expr) |
-| --- | --- |
+| 1   | assert(expr) |
+| --- | ------------ |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| expr | 输入 | assert断言是否终止程序的条件。为true则程序继续执行，为false则终止程序。 |
+| 参数名 | 输入/输出 | 描述                                                                    |
+| ------ | --------- | ----------------------------------------------------------------------- |
+| expr   | 输入      | assert断言是否终止程序的条件。为true则程序继续执行，为false则终止程序。 |
 
 #### 返回值说明
 
@@ -51,9 +52,9 @@
 在算子kernel侧实现代码中需要增加断言的地方使用assert检查代码示例如下：
 
 | 123 | intassertFlag=10;// 断言条件assert(assertFlag==12); |
-| --- | --- |
+| --- | --------------------------------------------------- |
 
 程序运行时会触发assert，打印效果如下：
 
-| 1 | [ASSERT]`assertFlag==12'at/home/.../test.cpp:36 |
-| --- | --- |
+| 1   | [ASSERT]`assertFlag==12'at/home/.../test.cpp:36 |
+| --- | ----------------------------------------------- |

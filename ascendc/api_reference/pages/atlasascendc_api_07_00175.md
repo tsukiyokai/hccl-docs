@@ -1,6 +1,7 @@
 # 同步控制简介-核内同步-同步控制-基础API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_00175
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00175.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00175.html
 ---
 
 # 同步控制简介
@@ -41,15 +42,15 @@ AI Core内部并行的指令流水类型和解释如下所示：
 
 不同的硬件架构，每一种硬件流水类型包含的具体流水会有所差异，详细介绍请参考硬件实现章节。
 
-| 流水类型 | 含义 |
-| --- | --- |
-| PIPE_S | 标量流水线，使用Tensor GetValue函数时为此流水 |
-| PIPE_V | 矢量计算流水及部分硬件架构下的L0C Buffer->UB数据搬运流水 |
-| PIPE_M | 矩阵计算流水 |
+| 流水类型  | 含义                                                      |
+| --------- | --------------------------------------------------------- |
+| PIPE_S    | 标量流水线，使用Tensor GetValue函数时为此流水             |
+| PIPE_V    | 矢量计算流水及部分硬件架构下的L0C Buffer->UB数据搬运流水  |
+| PIPE_M    | 矩阵计算流水                                              |
 | PIPE_MTE1 | L1 Buffer ->L0A Buffer、L1 Buffer->L0B Buffer数据搬运流水 |
-| PIPE_MTE2 | GM->L1 Buffer、GM->UB等数据搬运流水 |
-| PIPE_MTE3 | UB->GM等数据搬运流水 |
-| PIPE_FIX | L0C Buffer->GM、L0C Buffer ->L1等数据搬运流水 |
+| PIPE_MTE2 | GM->L1 Buffer、GM->UB等数据搬运流水                       |
+| PIPE_MTE3 | UB->GM等数据搬运流水                                      |
+| PIPE_FIX  | L0C Buffer->GM、L0C Buffer ->L1等数据搬运流水             |
 
 #### 同步控制分类
 

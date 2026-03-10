@@ -1,6 +1,7 @@
 # DEVICE_IMPL_OP_OPTILING-Tiling下沉-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_00060
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00060.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_00060.html
 ---
 
 # DEVICE_IMPL_OP_OPTILING
@@ -11,18 +12,18 @@
 
 #### 函数原型
 
-| 1234567891011121314151617181920212223 | namespaceoptiling{usingSinkTilingFunc=std::function<ge::graphStatus(gert::TilingContext*context)>;classDeviceOpImplRegisterImpl;// 开发者仅关注Tiling成员函数classDeviceOpImplRegister{public:DeviceOpImplRegister(constchar*opType);~DeviceOpImplRegister();DeviceOpImplRegister(DeviceOpImplRegister&&other)noexcept;DeviceOpImplRegister(constDeviceOpImplRegister&other);DeviceOpImplRegister&operator=(constDeviceOpImplRegister&)=delete;DeviceOpImplRegister&operator=(DeviceOpImplRegister&&)=delete;DeviceOpImplRegister&Tiling(SinkTilingFuncfunc);// ...};}// namespace optiling#define DEVICE_IMPL_OP_OPTILING(optype)                                                                      \static optiling::DeviceOpImplRegister VAR_UNUSED g_deviceOpImplRegister##optype =                                    \optiling::DeviceOpImplRegister(#optype)#endif |
-| --- | --- |
+| 1234567891011121314151617181920212223 | namespaceoptiling{usingSinkTilingFunc=std:function<ge:graphStatus(gert:TilingContext*context)>;classDeviceOpImplRegisterImpl;// 开发者仅关注Tiling成员函数classDeviceOpImplRegister{public:DeviceOpImplRegister(constchar*opType);~DeviceOpImplRegister();DeviceOpImplRegister(DeviceOpImplRegister&&other)noexcept;DeviceOpImplRegister(constDeviceOpImplRegister&other);DeviceOpImplRegister&operator=(constDeviceOpImplRegister&)=delete;DeviceOpImplRegister&operator=(DeviceOpImplRegister&&)=delete;DeviceOpImplRegister&Tiling(SinkTilingFuncfunc);// ...};}// namespace optiling#define DEVICE_IMPL_OP_OPTILING(optype)                                                                      \static optiling:DeviceOpImplRegister VAR_UNUSED g_deviceOpImplRegister##optype =                                    \optiling:DeviceOpImplRegister(#optype)#endif |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| optype | 输入 | 需要注册Tiling函数的OpType（算子类型）。 |
+| 参数   | 输入/输出 | 说明                                     |
+| ------ | --------- | ---------------------------------------- |
+| optype | 输入      | 需要注册Tiling函数的OpType（算子类型）。 |
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| func | 输入 | 需要注册的Tiling函数，该函数接受一个TilingContext作为输入，以ge::graphStatus为返回值。 |
+| 参数 | 输入/输出 | 说明                                                                                  |
+| ---- | --------- | ------------------------------------------------------------------------------------- |
+| func | 输入      | 需要注册的Tiling函数，该函数接受一个TilingContext作为输入，以ge:graphStatus为返回值。 |
 
 #### 返回值说明
 
@@ -34,5 +35,5 @@
 
 #### 调用示例
 
-| 1 | DEVICE_IMPL_OP_OPTILING(TestOptype).Tiling(TestTilingFunc);// 将Tiling函数以及其OpType注册到Tiling下沉 |
-| --- | --- |
+| 1   | DEVICE_IMPL_OP_OPTILING(TestOptype).Tiling(TestTilingFunc);// 将Tiling函数以及其OpType注册到Tiling下沉 |
+| --- | ------------------------------------------------------------------------------------------------------ |

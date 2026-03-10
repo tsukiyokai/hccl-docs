@@ -1,6 +1,6 @@
 # AI4SE News
 
-来源: https://se.ewi.tudelft.nl/ai4se/news.html
+来源：https://se.ewi.tudelft.nl/ai4se/news.html
 
 ## 2025
 

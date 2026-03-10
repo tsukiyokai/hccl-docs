@@ -1,13 +1,14 @@
 # DoubleBuffer-性能优化技术原理-概念原理和术语-编程指南-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_00016
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00016.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_00016.html
 ---
 
 # DoubleBuffer
 
 执行于AI Core上的指令队列主要包括如下几类，即Vector指令队列、Cube指令队列和MTE指令队列。不同指令队列间的相互独立性和可并行执行性，是DoubleBuffer优化机制的基石。
 
-矢量计算CopyIn、CopyOut过程使用MTE指令队列（MTE2、MTE3），Compute过程使用Vector指令队列（V），意味着CopyIn、CopyOut过程和Compute过程是可以并行的。
+矢量计算CopyIn、CopyOut过程使用MTE指令队列(MTE2、MTE3)，Compute过程使用Vector指令队列(V)，意味着CopyIn、CopyOut过程和Compute过程是可以并行的。
 
 如图1所示，考虑一个完整的数据搬运和计算过程，CopyIn过程将数据从Global Memory搬运到Local Memory，Vector计算单元完成计算后，经过CopyOut过程将计算结果搬回Global Memory。
 
@@ -19,8 +20,8 @@
 
 总体来说，DoubleBuffer是基于MTE指令队列与Vector指令队列的独立性和可并行性，通过将数据搬运与Vector计算并行执行以隐藏数据搬运时间并降低Vector指令的等待时间，最终提高Vector单元的利用效率，您可以通过为队列申请内存时设置内存块的个数来实现数据并行，简单代码示例如下：
 
-| 1 | pipe.InitBuffer(inQueueX,2,256); |
-| --- | --- |
+| 1   | pipe.InitBuffer(inQueueX,2,256); |
+| --- | -------------------------------- |
 
 ![](../images/atlas_ascendc_10_00016_img_002.png)
 

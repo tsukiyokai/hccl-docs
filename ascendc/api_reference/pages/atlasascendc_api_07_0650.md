@@ -1,20 +1,21 @@
 # SetQuantVector-Matmul Kernel侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0650
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0650.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0650.html
 ---
 
 # SetQuantVector
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | √ |
-| Atlas 推理系列产品AI Core | √ |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | √        |
+| Atlas推理系列产品AI Core                    | √        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -26,14 +27,14 @@ Matmul量化场景：在Matmul计算时，左、右矩阵的输入为half或bflo
 
 #### 函数原型
 
-| 1 | __aicore__inlinevoidSetQuantVector(constGlobalTensor<uint64_t>&quantTensor) |
-| --- | --- |
+| 1   | __aicore__inlinevoidSetQuantVector(constGlobalTensor<uint64_t>&quantTensor) |
+| --- | --------------------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| quantTensor | 输入 | 量化或反量化运算时的参数向量。 |
+| 参数名      | 输入/输出 | 描述                           |
+| ----------- | --------- | ------------------------------ |
+| quantTensor | 输入      | 量化或反量化运算时的参数向量。 |
 
 #### 返回值说明
 
@@ -48,4 +49,4 @@ Matmul量化场景：在Matmul计算时，左、右矩阵的输入为half或bflo
 #### 调用示例
 
 | 12345678 | GlobalTensorgmQuant;...REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm,&tiling);mm.SetQuantVector(gmQuant);mm.SetTensorA(gm_a);mm.SetTensorB(gm_b);mm.SetBias(gm_bias);mm.IterateAll(gm_c); |
-| --- | --- |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

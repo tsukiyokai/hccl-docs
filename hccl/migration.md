@@ -1,6 +1,6 @@
 # 分布式训练迁移中的HCCL相关内容
 
-> 来源: CANN商用版8.0.RC3 hiascend.com
+> 来源：CANN商用版8.0.RC3 hiascend.com
 
 ---
 
@@ -18,7 +18,7 @@
 
 示例：将其替换为 `bash model_train_script.sh --data_path data_path`
 
-##### run_distributed_npu.sh 文件示例
+##### run_distributed_npu.sh文件示例
 
 ```bash
 export MASTER_ADDR=127.0.0.1
@@ -40,15 +40,15 @@ done
 
 ##### 参数说明
 
-| 参数 | 说明 |
-|------|------|
-| MASTER_ADDR | 训练服务器的IP地址 |
-| MASTER_PORT | 训练服务器的端口号 |
+| 参数                   | 说明               |
+| ---------------------- | ------------------ |
+| MASTER_ADDR            | 训练服务器的IP地址 |
+| MASTER_PORT            | 训练服务器的端口号 |
 | HCCL_WHITELIST_DISABLE | HCCL通信白名单开关 |
-| NPUS | 指定运行的NPU设备 |
-| RANK_SIZE | 调用卡的数量 |
-| DEVICE_ID | 调用的device_id |
-| RANK_ID | 调用卡的逻辑ID |
+| NPUS                   | 指定运行的NPU设备  |
+| RANK_SIZE              | 调用卡的数量       |
+| DEVICE_ID              | 调用的device_id    |
+| RANK_ID                | 调用卡的逻辑ID     |
 
 #### 2. 执行脚本
 
@@ -60,13 +60,13 @@ done
 
 ```
 xxx_msft/xxx_msft_multi/
-├── 生成脚本文件                 # 与迁移前目录结构一致
-├── msFmkTranspltlog.txt         # 迁移过程日志（限制1M）
-├── cuda_op_list.csv             # CUDA算子列表
-├── unknown_api.csv              # 支持情况存疑的API
-├── unsupported_api.csv          # 不支持的API列表
-├── change_list.csv              # 修改记录
-├── run_distributed_npu.sh       # 多卡启动脚本
+├── 生成脚本文件                     # 与迁移前目录结构一致
+├── msFmkTranspltlog.txt             # 迁移过程日志（限制1M）
+├── cuda_op_list.csv                 # CUDA算子列表
+├── unknown_api.csv                  # 支持情况存疑的API
+├── unsupported_api.csv              # 不支持的API列表
+├── change_list.csv                  # 修改记录
+├── run_distributed_npu.sh           # 多卡启动脚本
 └── ascend_modelarts_function/
     ├── modelarts_path_manager.py    # 路径映射适配层代码
     └── path_mapping_config.py       # 路径映射配置文件

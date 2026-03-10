@@ -1,6 +1,7 @@
 # REGIST_MATMUL_OBJ-Matmul Kernel侧接口-矩阵计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0628
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0628.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0628.html
 ---
 
 # REGIST_MATMUL_OBJ
@@ -11,16 +12,16 @@
 
 #### 函数原型
 
-| 1 | REGIST_MATMUL_OBJ(tpipe,workspace,...) |
-| --- | --- |
+| 1   | REGIST_MATMUL_OBJ(tpipe,workspace,...) |
+| --- | -------------------------------------- |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| tpipe | 输入 | Tpipe对象。 |
-| workspace | 输入 | 系统workspace指针。 |
-| ... | 输入 | 可变参数，传入Matmul对象和与之对应的Tiling结构，要求Tiling结构的数据类型为TCubeTiling结构。Tiling参数可以通过Host侧GetTiling接口获取，并传递到kernel侧使用。 |
+| 参数名    | 输入/输出 | 描述                                                                                                                                                         |
+| --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| tpipe     | 输入      | Tpipe对象。                                                                                                                                                  |
+| workspace | 输入      | 系统workspace指针。                                                                                                                                          |
+| ...       | 输入      | 可变参数，传入Matmul对象和与之对应的Tiling结构，要求Tiling结构的数据类型为TCubeTiling结构。Tiling参数可以通过Host侧GetTiling接口获取，并传递到kernel侧使用。 |
 
 #### 返回值说明
 
@@ -36,4 +37,4 @@
 #### 调用示例
 
 | 12345678 | Tpipepipe;// 推荐：初始化单个matmul对象，传入tiling参数REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm,&tiling);// 推荐：初始化多个matmul对象，传入对应的tiling参数REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm1,mm1tiling,mm2,mm2tiling,mm3,mm3tiling,mm4,mm4tiling);// 初始化单个matmul对象，未传入tiling参数。注意，该场景下需要使用Init接口单独传入tiling参数。这种方式将matmul对象的初始化和tiling的设置分离，比如，Tiling可变的场景，可通过这种方式多次对Tiling进行重新设置REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),mm);mm.Init(&tiling); |
-| --- | --- |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

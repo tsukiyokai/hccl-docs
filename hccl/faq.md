@@ -1,6 +1,6 @@
 # HCCL故障处理
 
-> 来源: CANN商用版8.0.RC3 hiascend.com
+> 来源：CANN商用版8.0.RC3 hiascend.com
 
 > 注：HCCL/HCCP/HCCL Test的常见问题FAQ（错误码EI0001~EI0008、HCCP EJ0001~EJ0004等）已包含在 `user-guide.md` 的FAQ章节中。本文件收录用户指南之外的故障处理条目。
 
@@ -10,7 +10,7 @@
 
 ### 问题现象
 
-HCCL初始化网卡失败，HCCP（Huawei Collective Communication Process）返回错误：`ra rdev init failed, ret [-17]`
+HCCL初始化网卡失败，HCCP(Huawei Collective Communication Process)返回错误：`ra rdev init failed, ret [-17]`
 
 ### 原因分析
 

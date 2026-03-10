@@ -1,6 +1,7 @@
 # Input-OpDef-原型注册与管理-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0946
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0946.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0946.html
 ---
 
 # Input
@@ -11,14 +12,14 @@
 
 #### 函数原型
 
-| 1 | OpParamDef&Input(constchar*name) |
-| --- | --- |
+| 1   | OpParamDef&Input(constchar*name) |
+| --- | -------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| name | 输入 | 算子输入名称。 |
+| 参数 | 输入/输出 | 说明           |
+| ---- | --------- | -------------- |
+| name | 输入      | 算子输入名称。 |
 
 #### 返回值说明
 

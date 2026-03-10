@@ -1,6 +1,7 @@
 # SetTiling-OpAICoreDef-原型注册与管理-Utils API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0978
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0978.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0978.html
 ---
 
 # SetTiling
@@ -11,15 +12,15 @@
 
 #### 函数原型
 
-| 1 | OpAICoreDef&SetTiling(gert::OpImplRegisterV2::TilingKernelFuncfunc) |
-| --- | --- |
+| 1   | OpAICoreDef&SetTiling(gert:OpImplRegisterV2:TilingKernelFuncfunc) |
+| --- | ----------------------------------------------------------------- |
 
 #### 参数说明
 
-| 参数 | 输入/输出 | 说明 |
-| --- | --- | --- |
-| func | 输入 | Tiling函数。TilingKernelFunc类型定义如下：1usingTilingKernelFunc=UINT32(*)(TilingContext*); | 1 | usingTilingKernelFunc=UINT32(*)(TilingContext*); |
-| 1 | usingTilingKernelFunc=UINT32(*)(TilingContext*); |
+| 参数 | 输入/输出                                        | 说明                                                                                        |     |                                                  |
+| ---- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- | --- | ------------------------------------------------ |
+| func | 输入                                             | Tiling函数。TilingKernelFunc类型定义如下：1usingTilingKernelFunc=UINT32(*)(TilingContext*); | 1   | usingTilingKernelFunc=UINT32(*)(TilingContext*); |
+| 1    | usingTilingKernelFunc=UINT32(*)(TilingContext*); |                                                                                             |     |                                                  |
 
 #### 返回值说明
 

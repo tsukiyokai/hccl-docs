@@ -1,6 +1,7 @@
 # 基础知识-CV融合-融合算子编程-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10031
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10031.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10031.html
 ---
 
 # 基础知识
@@ -9,9 +10,9 @@
 
 #### CV融合算子
 
-融合算子由多个独立的小算子融合而成，其功能与多个小算子的功能等价，性能方面通常优于独立的小算子。用户可以根据实际业务场景诉求，按照具体算法自由融合向量（Vector）、矩阵（Cube）算子以达到性能上的收益。融合了Cube计算、Vector计算的算子统称为CV融合算子。
+融合算子由多个独立的小算子融合而成，其功能与多个小算子的功能等价，性能方面通常优于独立的小算子。用户可以根据实际业务场景诉求，按照具体算法自由融合向量(Vector)、矩阵(Cube)算子以达到性能上的收益。融合了Cube计算、Vector计算的算子统称为CV融合算子。
 
-比如对于LLM大模型中最核心的一个融合算子Flash Attention， 其核心实现如下图。图中的MatMul算子（Cube）、Scale算子（Vector）、Mask算子（Vector）、SoftMax算子（Vector）融合为一个大的算子Flash Attention。
+比如对于LLM大模型中最核心的一个融合算子Flash Attention，其核心实现如下图。图中的MatMul算子(Cube)、Scale算子(Vector)、Mask算子(Vector)、SoftMax算子(Vector)融合为一个大的算子Flash Attention。
 
 ![](../images/atlas_ascendc_10_0048_img_002.png)
 
@@ -54,5 +55,5 @@ Ascend C提供融合算子的编程范式，方便开发者基于该范式表达
 
 整个过程的示例代码如下（伪代码）。完整样例请参考MatmulLeakyRelu。
 
-| 12345678910111213141516171819202122232425262728 | template<typenameaType,typenamebType,typenamecType,typenamebiasType>__aicore__inlinevoidMatmulLeakyKernel<aType,bType,cType,biasType>::Process(){// 步骤1：初始化一个MatMul对象，将输入数据从Global Memory搬运到Cube核上。uint32_tcomputeRound=0;REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),matmulObj);matmulObj.Init(&tiling);matmulObj.SetTensorA(aGlobal);matmulObj.SetTensorB(bGlobal);matmulObj.SetBias(biasGlobal);while(matmulObj.templateIterate<true>()){// 步骤2：进行MatMul内部的计算。// 步骤3：将MatMul的计算结果搬运到Vector核上。reluOutLocal=reluOutQueue_.AllocTensor<cType>();matmulObj.templateGetTensorC<true>(reluOutLocal,false,true);// 步骤4：进行Vector矢量计算。AscendC::LeakyRelu(reluOutLocal,reluOutLocal,(cType)alpha,tiling.baseM*tiling.baseN);reluOutQueue_.EnQue(reluOutLocal);// 步骤5：将输出结果搬运到Global Memory上reluOutQueue_.DeQue<cType>();...AscendC::DataCopy(cGlobal[startOffset],reluOutLocal,copyParam);reluOutQueue_.FreeTensor(reluOutLocal);computeRound++;}matmulObj.End();} |
-| --- | --- |
+| 12345678910111213141516171819202122232425262728 | template<typenameaType,typenamebType,typenamecType,typenamebiasType>__aicore__inlinevoidMatmulLeakyKernel<aType,bType,cType,biasType>:Process(){// 步骤1：初始化一个MatMul对象，将输入数据从Global Memory搬运到Cube核上。uint32_tcomputeRound=0;REGIST_MATMUL_OBJ(&pipe,GetSysWorkSpacePtr(),matmulObj);matmulObj.Init(&tiling);matmulObj.SetTensorA(aGlobal);matmulObj.SetTensorB(bGlobal);matmulObj.SetBias(biasGlobal);while(matmulObj.templateIterate<true>()){// 步骤2：进行MatMul内部的计算。// 步骤3：将MatMul的计算结果搬运到Vector核上。reluOutLocal=reluOutQueue_.AllocTensor<cType>();matmulObj.templateGetTensorC<true>(reluOutLocal,false,true);// 步骤4：进行Vector矢量计算。AscendC:LeakyRelu(reluOutLocal,reluOutLocal,(cType)alpha,tiling.baseM*tiling.baseN);reluOutQueue_.EnQue(reluOutLocal);// 步骤5：将输出结果搬运到Global Memory上reluOutQueue_.DeQue<cType>();...AscendC:DataCopy(cGlobal[startOffset],reluOutLocal,copyParam);reluOutQueue_.FreeTensor(reluOutLocal);computeRound++;}matmulObj.End();} |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,20 +1,21 @@
 # Exp-Exp接口-数学计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_0589
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0589.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_0589.html
 ---
 
 # Exp
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -45,18 +46,18 @@
 
 #### 参数说明
 
-| 参数名 | 描述 |
-| --- | --- |
-| T | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。 |
-| taylorExpandLevel | 泰勒展开项数，项数为0表示不使用泰勒公式进行计算。项数太少时，精度会有一定误差。项数越多，精度相对而言更高，但是性能会更差。取值范围为[0, 255]，推荐取值为[10, 15] |
-| isReuseSource | 是否允许修改源操作数，默认值为false。该参数仅在输入的数据类型为float时生效。true：开发者允许源操作数被改写，可以使能该参数，使能后本接口内部计算时复用srcLocal的内存空间，节省部分内存空间；false：本接口内部计算时不复用srcLocal的内存空间。isReuseSource的使用样例请参考更多样例。 |
+| 参数名            | 描述                                                                                                                                                                                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| T                 | 操作数的数据类型。Atlas A3 训练系列产品/Atlas A3 推理系列产品，支持的数据类型为：half、float。Atlas A2 训练系列产品/Atlas A2 推理系列产品，支持的数据类型为：half、float。                                                                                                           |
+| taylorExpandLevel | 泰勒展开项数，项数为0表示不使用泰勒公式进行计算。项数太少时，精度会有一定误差。项数越多，精度相对而言更高，但是性能会更差。取值范围为[0, 255]，推荐取值为[10, 15]                                                                                                                    |
+| isReuseSource     | 是否允许修改源操作数，默认值为false。该参数仅在输入的数据类型为float时生效。true：开发者允许源操作数被改写，可以使能该参数，使能后本接口内部计算时复用srcLocal的内存空间，节省部分内存空间；false：本接口内部计算时不复用srcLocal的内存空间。isReuseSource的使用样例请参考更多样例。 |
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| dstLocal | 输出 | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。 |
-| srcLocal | 输入 | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。 |
-| sharedTmpBuffer | 输入 | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Exp内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetExpMaxMinTmpSize。 |
-| calCount | 输入 | 参与计算的元素个数。 |
+| 参数名          | 输入/输出 | 描述                                                                                                                                                                             |
+| --------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dstLocal        | 输出      | 目的操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。                                                                                                           |
+| srcLocal        | 输入      | 源操作数。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。源操作数的数据类型需要与目的操作数保持一致。                                                                 |
+| sharedTmpBuffer | 输入      | 临时缓存。类型为LocalTensor，支持的TPosition为VECIN/VECCALC/VECOUT。用于Exp内部复杂计算时存储中间变量，由开发者提供。临时空间大小BufferSize的获取方式请参考GetExpMaxMinTmpSize。 |
+| calCount        | 输入      | 参与计算的元素个数。                                                                                                                                                             |
 
 #### 返回值说明
 
@@ -72,5 +73,5 @@
 
 完整的调用样例请参考更多样例。
 
-| 123456 | AscendC::TPipepipe;AscendC::TQue<AscendC::TPosition::VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize 通过Host侧tiling参数获取AscendC::LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC::Exp<half,15,false>(dstLocal,srcLocal,sharedTmpBuffer,512); |
-| --- | --- |
+| 123456 | AscendC:TPipepipe;AscendC:TQue<AscendC:TPosition:VECCALC,1>tmpQue;pipe.InitBuffer(tmpQue,1,bufferSize);// bufferSize通过Host侧tiling参数获取AscendC:LocalTensor<uint8_t>sharedTmpBuffer=tmpQue.AllocTensor<uint8_t>();// 输入tensor长度为1024, 算子输入的数据类型为half, 实际计算个数为512AscendC:Exp<half,15,false>(dstLocal,srcLocal,sharedTmpBuffer,512); |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

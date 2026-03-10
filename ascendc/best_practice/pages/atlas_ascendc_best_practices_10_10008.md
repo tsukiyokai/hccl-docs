@@ -1,6 +1,7 @@
 # Matmul高阶API使能纯Cube模式-Matmul性能调优案例-优秀实践-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_best_practices_10_10008
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10008.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_best_practices_10_10008.html
 ---
 
 # Matmul高阶API使能纯Cube模式
@@ -13,10 +14,10 @@
 
 - 使能纯Cube模式的适用场景非融合算子，只有矩阵计算的场景。即相较于MIX模式（包含矩阵计算和矢量计算），没有矢量计算的场景。本案例的算子规格如下：
 
-| 输入 | Shape | Data type | Format |
-| --- | --- | --- | --- |
-| a | 128, 64 | float16 | ND |
-| b | 64, 30720 | float16 | ND |
+| 输入 | Shape     | Data type | Format |
+| ---- | --------- | --------- | ------ |
+| a    | 128, 64   | float16   | ND     |
+| b    | 64, 30720 | float16   | ND     |
 
 当前案例使用的AI处理器共24个核，每个核中包含1个AIC核和2个AIV核。
 
@@ -38,12 +39,12 @@ Tiling参数如下：
 
 #### 设计优化方案
 
-默认MIX模式下，用户在AIV侧发起消息，通过消息通信框架中转消息后，在AIC侧执行Matmul计算。基于这样的流程，用户使用Matmul高阶API编写算子代码时，可以使用REGIST_MATMUL_OBJ宏，无需区分AIV和AIC，但也因这套消息处理机制导致产生了额外的性能开销，如图1 默认MIX模式的Matmul流程示意图所示。
+默认MIX模式下，用户在AIV侧发起消息，通过消息通信框架中转消息后，在AIC侧执行Matmul计算。基于这样的流程，用户使用Matmul高阶API编写算子代码时，可以使用REGIST_MATMUL_OBJ宏，无需区分AIV和AIC，但也因这套消息处理机制导致产生了额外的性能开销，如图1默认MIX模式的Matmul流程示意图所示。
 
 实现默认MIX模式的具体步骤如下：
 
-1. Kernel侧，定义Matmul对象。1234567#include"lib/matmul_intf.h"usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,AType>;usingB_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BType>;usingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,CType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BiasType>;AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_NORM>matmulObj;
-1. Host侧，Matmul多核Tiling对象调用SetDim接口设置参与运算的核数。1234autoascendcPlatform=platform_ascendc::PlatformAscendCManager::GetInstance();matmul_tiling::MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);int32_tblockDim=ascendcPlatform->GetCoreNumAiv();// MIX模式使用GetCoreNumAiv获取AI处理器可用的核数。cubeTiling.SetDim(blockDim);
+1. Kernel侧，定义Matmul对象。1234567#include"lib/matmul_intf.h"usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,AType>;usingB_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BType>;usingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,CType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BiasType>;AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_NORM>matmulObj;
+1. Host侧，Matmul多核Tiling对象调用SetDim接口设置参与运算的核数。1234autoascendcPlatform=platform_ascendc:PlatformAscendCManager:GetInstance();matmul_tiling:MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);int32_tblockDim=ascendcPlatform->GetCoreNumAiv();// MIX模式使用GetCoreNumAiv获取AI处理器可用的核数。cubeTiling.SetDim(blockDim);
 1. 调用核函数，参考核函数定义和调用，设置核函数的blockDim参数配置。1matmul_custom_do(ascendcPlatform->GetCoreNumAic(),stream,x1,x2,bias,y,workspaceDevice,tilingDevice);// MIX模式下，启动时，按照AIV和AIC组合启动，blockDim用于设置启动多少个AI Core。
 
 在没有矢量计算的算子场景下，可以跳过消息通信框架的机制，使能纯Cube模式完成Matmul计算，减少消息通信的性能开销，提升算子性能。
@@ -52,10 +53,10 @@ Tiling参数如下：
 
 Matmul API使能纯Cube模式的完整样例请参考Matmul API性能优化样例。使能纯Cube模式的主要步骤如下：
 
-1. Kernel侧，在定义Matmul对象的代码中，包含matmul_intf.h头文件前设置ASCENDC_CUBE_ONLY宏。12345678#define ASCENDC_CUBE_ONLY// 在#include "lib/matmul_intf.h"前，设置ASCENDC_CUBE_ONLY宏#include"lib/matmul_intf.h"usingA_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,AType>;usingB_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BType>;usingC_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,CType>;usingBIAS_TYPE=AscendC::MatmulType<AscendC::TPosition::GM,CubeFormat::ND,BiasType>;AscendC::Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_NORM>matmulObj;
-1. Host侧，Matmul多核Tiling对象调用SetDim接口设置参与运算的核数。1234autoascendcPlatform=platform_ascendc::PlatformAscendCManager::GetInstance();matmul_tiling::MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);int32_tblockDim=ascendcPlatform->GetCoreNumAic();// 纯Cube模式使用GetCoreNumAic接口获取AI处理器可用的核数。cubeTiling.SetDim(blockDim);
+1. Kernel侧，在定义Matmul对象的代码中，包含matmul_intf.h头文件前设置ASCENDC_CUBE_ONLY宏。12345678#define ASCENDC_CUBE_ONLY// 在#include "lib/matmul_intf.h"前，设置ASCENDC_CUBE_ONLY宏#include"lib/matmul_intf.h"usingA_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,AType>;usingB_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BType>;usingC_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,CType>;usingBIAS_TYPE=AscendC:MatmulType<AscendC:TPosition:GM,CubeFormat:ND,BiasType>;AscendC:Matmul<A_TYPE,B_TYPE,C_TYPE,BIAS_TYPE,CFG_NORM>matmulObj;
+1. Host侧，Matmul多核Tiling对象调用SetDim接口设置参与运算的核数。1234autoascendcPlatform=platform_ascendc:PlatformAscendCManager:GetInstance();matmul_tiling:MultiCoreMatmulTilingcubeTiling(*ascendcPlatform);int32_tblockDim=ascendcPlatform->GetCoreNumAic();// 纯Cube模式使用GetCoreNumAic接口获取AI处理器可用的核数。cubeTiling.SetDim(blockDim);
 1. 调用核函数，参考核函数定义和调用，设置核函数的blockDim参数配置。1matmul_custom_do(ascendcPlatform->GetCoreNumAic(),stream,x1,x2,bias,y,workspaceDevice,tilingDevice);// 仅包含Cube计算的算子，blockDim用于设置启动多少个AIC。
-1. Kernel侧，核函数实现中增加AIV侧返回分支。123456789extern"C"__global____aicore__voidmatmul_custom(GM_ADDRa,GM_ADDRb,GM_ADDRbias,GM_ADDRc,GM_ADDRworkspace,GM_ADDRtilingGm){if(g_coreType==AscendC::AIV){// 纯Cube模式，AIV侧直接returnreturn;}...// 其他代码}
+1. Kernel侧，核函数实现中增加AIV侧返回分支。123456789extern"C"__global____aicore__voidmatmul_custom(GM_ADDRa,GM_ADDRb,GM_ADDRbias,GM_ADDRc,GM_ADDRworkspace,GM_ADDRtilingGm){if(g_coreType==AscendC:AIV){// 纯Cube模式，AIV侧直接returnreturn;}...// 其他代码}
 
 #### 验证优化方案性能收益
 

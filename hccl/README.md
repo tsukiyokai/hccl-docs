@@ -33,7 +33,7 @@
 | Ascend C高阶API | 17     | apiref/ascendcopapi/          |
 | 其他            | 2      | （故障处理 + 迁移工具）       |
 
-详细URL索引见中间产物： `docs-dig/hccl/url-index.md`
+详细URL索引见中间产物：`docs-dig/hccl/url-index.md`
 
 ## 已知限制
 

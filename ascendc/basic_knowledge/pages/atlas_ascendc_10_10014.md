@@ -1,6 +1,7 @@
 # 多核非对齐切分-特性场景-矩阵编程（高阶API）-SIMD算子实现-算子实践参考-Ascend C算子开发-算子开发-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlas_ascendc_10_10014
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10014.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/opdevg/Ascendcopdevg/atlas_ascendc_10_10014.html
 ---
 
 # 多核非对齐切分
@@ -25,5 +26,5 @@
 
 Matmul多核非对齐场景的完整样例请参考Matmul多核非对齐切分算子样例。该场景的关键代码示例如下。
 
-| 123456789 | // 处理尾块inttailM=tiling.M-mCoreIndex*tiling.singleCoreM;tailM=tailM<tiling.singleCoreM?tailM:tiling.singleCoreM;inttailN=tiling.N-nCoreIndex*tiling.singleCoreN;tailN=tailN<tiling.singleCoreN?tailN:tiling.singleCoreN;// 当tailM < singleCoreM 或 tailN < singleCoreN时被认为需要处理尾块，此时可以调用SetTail接口进行设置if(tailM<tiling.singleCoreM||tailN<tiling.singleCoreN){matmulObj.SetTail(tailM,tailN);} |
-| --- | --- |
+| 123456789 | // 处理尾块inttailM=tiling.M-mCoreIndex*tiling.singleCoreM;tailM=tailM<tiling.singleCoreM?tailM:tiling.singleCoreM;inttailN=tiling.N-nCoreIndex*tiling.singleCoreN;tailN=tailN<tiling.singleCoreN?tailN:tiling.singleCoreN;// 当tailM < singleCoreM或tailN < singleCoreN时被认为需要处理尾块，此时可以调用SetTail接口进行设置if(tailM<tiling.singleCoreM |     | tailN<tiling.singleCoreN){matmulObj.SetTail(tailM,tailN);} |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | ---------------------------------------------------------- |

@@ -1,20 +1,21 @@
 # IterateAll-Conv3D Kernel侧接口-Conv3D-卷积计算-高阶API-Ascend C算子开发接口-API-CANN社区版8.5.0开发文档-昇腾社区
+
 **页面ID:** atlasascendc_api_07_10077
-**来源:** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10077.html
+**来源：** https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/850/API/ascendcopapi/atlasascendc_api_07_10077.html
 ---
 
 # IterateAll
 
 #### 产品支持情况
 
-| 产品 | 是否支持 |
-| --- | --- |
-| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √ |
-| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √ |
-| Atlas 200I/500 A2 推理产品 | x |
-| Atlas 推理系列产品AI Core | x |
-| Atlas 推理系列产品Vector Core | x |
-| Atlas 训练系列产品 | x |
+| 产品                                        | 是否支持 |
+| ------------------------------------------- | -------- |
+| Atlas A3 训练系列产品/Atlas A3 推理系列产品 | √        |
+| Atlas A2 训练系列产品/Atlas A2 推理系列产品 | √        |
+| Atlas 200I/500 A2 推理产品                  | x        |
+| Atlas推理系列产品AI Core                    | x        |
+| Atlas推理系列产品Vector Core                | x        |
+| Atlas训练系列产品                           | x        |
 
 #### 功能说明
 
@@ -24,15 +25,15 @@
 
 #### 函数原型
 
-| 1 | __aicore__inlinevoidIterateAll(constAscendC::GlobalTensor<OutputT>&output,boolenPartialSum=false) |
-| --- | --- |
+| 1   | __aicore__inlinevoidIterateAll(constAscendC:GlobalTensor<OutputT>&output,boolenPartialSum=false) |
+| --- | ------------------------------------------------------------------------------------------------ |
 
 #### 参数说明
 
-| 参数名 | 输入/输出 | 描述 |
-| --- | --- | --- |
-| output | 输入 | Output在GM上的地址。类型为GlobalTensor。结果矩阵Output支持的数据类型为：half、bfloat16_t。 |
-| enPartialSum | 输入 | 预留参数。 |
+| 参数名       | 输入/输出 | 描述                                                                                       |
+| ------------ | --------- | ------------------------------------------------------------------------------------------ |
+| output       | 输入      | Output在GM上的地址。类型为GlobalTensor。结果矩阵Output支持的数据类型为：half、bfloat16_t。 |
+| enPartialSum | 输入      | 预留参数。                                                                                 |
 
 #### 返回值说明
 
@@ -46,4 +47,4 @@
 #### 调用示例
 
 | 12345678910111213 | TPipepipe;conv3dApi.Init(&tiling);conv3dApi.SetWeight(weightGm);if(biasFlag){conv3dApi.SetBias(biasGm);}conv3dApi.SetInputStartPosition(diIdxStart,mIdxStart);conv3dApi.SetSingleOutputShape(singleCoreCout,singleCoreDout,singleCoreM);for(uint64_tbatchIter=0;batchIter<singleCoreBatch;++batchIter){conv3dApi.SetInput(inputGm[batchIter*inputOneBatchSize]);conv3dApi.IterateAll(outputGm[batchIter*outputOneBatchSize]);conv3dApi.End();} |
-| --- | --- |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
