@@ -2,11 +2,11 @@
 
 TU Delft + JetBrains联合实验室，2023年启动，隶属ICAI (Innovation Center for Artificial Intelligence)。
 
-来源: https://se.ewi.tudelft.nl/ai4se
+来源： https://se.ewi.tudelft.nl/ai4se
 
 ## 研究方向
 
-5个Track，各配备PhD学生:
+5个Track，各配备PhD学生：
 
 1. Testing and Evaluation of LLMs and SWE Agents — 生成代码的测试与验证
 2. LLM Adaptation for Coding Tasks — LLM在编码任务上的适配
@@ -16,7 +16,7 @@ TU Delft + JetBrains联合实验室，2023年启动，隶属ICAI (Innovation Cen
 
 ## 核心团队
 
-TU Delft侧:
+TU Delft侧：
 - Arie van Deursen (Scientific Co-Director)
 - Annibale Panichella (Scientific Co-Director)
 - Maliheh Izadi (Scientific Manager)
@@ -24,7 +24,7 @@ TU Delft侧:
 - Gosia Migut (Track 5 Lead)
 - Mitchell Olsthoorn (Student Coordinator / Researcher)
 
-JetBrains侧:
+JetBrains侧：
 - Vladimir Kovalenko (Industry Director)
 - Pouria Derakhshanfar (Industry Manager)
 - Sergey Titov (Track 2 Lead)
@@ -33,7 +33,7 @@ JetBrains侧:
 - Egor Bogomolov (PhD, Track 2)
 - Egor Klimov (Track 4 Lead / PhD)
 
-PhD学生:
+PhD学生：
 - Ali Asgari (Track 1)
 - Daniele Cipollone (Track 2, 2024.10-)
 - Ziyou Li (Track 3, 2024.12-)
@@ -43,6 +43,6 @@ PhD学生:
 
 ## 文件说明
 
-- `publications.md` — 全部论文列表(26篇, 2024-2026)
-- `people.md` — 完整人员名录(45人)
-- `news.md` — 实验室动态(15条)
+- `publications.md` — 全部论文列表（26篇，2024-2026）
+- `people.md` — 完整人员名录（45人）
+- `news.md` — 实验室动态（15条）
